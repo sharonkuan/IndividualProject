@@ -1,0 +1,20 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="modal-header">
+            <h1>{{controller.event.eventType}}</h1>
+            <hr />
+            <h3>{{controller.event.eventTitle}}</h3>
+            <h5>{{controller.event.eventDate}}</h5>
+        </div>
+        <div class="modal-body">
+            <h4>Are you sure you want to delete this event?</h4>
+           <ul ng-repeat="error in controller.validationErrors">
+               <li>{{error}}</li>
+           </ul>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-block btn-warning" ng-click="controller.deleteEvent()" value="Delete" />
+            <input type="button" class="btn btn-block btn-success" ng-click="controller.close()" value="Close" />
+        </div>
+    </div>
+</div>

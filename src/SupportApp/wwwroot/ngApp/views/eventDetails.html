@@ -1,0 +1,74 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <h2>{{controller.event.eventTitle}}</h2>
+        <h4>{{controller.event.details}}</h4>
+    </div>
+    <div class="col-md-2">
+        <h5>Is voluteers required:  {{controller.event.isVolunteerRequired}}</h5>
+        <h5>Number of volunteers wished: {{controller.event.preferredNumberOfExpectedVolunteer}}</h5>
+        <p>Page viewed: {{controller.event.views}} times</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Event Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+            </tr>
+            <tr>
+                <td>{{controller.event.eventDate|date: "longDate"}}</td>
+                <td>{{controller.event.startHour}}:{{controller.event.startMinutes}} {{controller.event.startTimeIsAmPm}}</td>
+                <td>{{controller.event.endHour}}:{{controller.event.endMinutes}} {{controller.event.endTimeIsAmPm}}</td>
+                <td>
+                    <table>
+                        <tr ng-repeat="location in controller.event.locations">
+                            <td>
+                                * {{location.nameOfLocation}} <br />
+                                {{location.address}} <br />
+                                {{location.city}} {{location.zip}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <h3>Comments</h3>
+        <table class="table table-striped">
+            <tr ng-repeat="comment in controller.event.comments">
+                <td>* {{comment.message}}</td>
+                <td><font size="1">Date: {{comment.dateCreated|date: "shortDate"}}</font></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <form id="commentForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="button" value="Thumbs Up [{{controller.event.upVote}}]" ng-click="controller.voteEvent(1)" />
+                    <input type="button" value="Thumbs Down [{{controller.event.downVote}}]" ng-click="controller.voteEvent(0)" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <textarea rows="5" cols="12" class="form-control" ng-model="controller.eventComment.message" placeholder="add your comment..." ></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="button" ng-click="controller.saveComment()" class="btn btn-primary btn-block" value="Add Comment" />
+                    <input type="button" ng-click="controller.cancel()" class="btn btn-default btn-block" value="Cancel" />
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-6">
+               <ul>
+                   <li ng-repeat="error in controller.validationErrors">{{error}}</li>
+               </ul>
+            </div>
+        </div>
+    </div>
+</div>
