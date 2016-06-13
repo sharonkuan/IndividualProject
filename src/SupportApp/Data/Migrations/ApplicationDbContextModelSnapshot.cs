@@ -214,11 +214,11 @@ namespace SupportApp.data.migrations
 
                     b.Property<DateTime>("EventDate");
 
-                    b.Property<string>("EventTitle");
+                    b.Property<string>("EventTitle")
+                        .IsRequired();
 
-                    b.Property<string>("EventType");
-
-                    b.Property<bool>("IsCompleted");
+                    b.Property<string>("EventType")
+                        .IsRequired();
 
                     b.Property<bool>("IsPrivate");
 

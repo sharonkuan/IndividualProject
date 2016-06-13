@@ -17,11 +17,12 @@
         }
 
         showDeleteDialog(eventId) {
+            //debugger;
             this.$uibModal.open({
                 templateUrl: '/ngApp/views/eventDeleteDialog.html',
                 controller: SupportApp.Controllers.EventDeleteDialogController,
                 controllerAs: 'controller',
-                resolve: {  //from moviesList sends
+                resolve: {  
                     eventIdFrom: () => eventId
                 },
                 size: 'sm'

@@ -32,8 +32,6 @@ namespace SupportApp.Models
         public int EndMinutes { get; set; }
         public string EndTimeIsAmPm { get; set; }
         public DateTime DateCreated { get; set; }
-        public bool IsCompleted { get; set; }
-
         public bool IsPrivate { get; set; }
         public bool IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
         public int PreferredNumberOfExpectedVolunteer { get; set; }

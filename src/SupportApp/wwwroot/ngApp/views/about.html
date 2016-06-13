@@ -1,4 +1,8 @@
-<h2>About</h2>
-<p>
-    {{controller.message}}
-</p>
+<h2>About We Connect You Here...</h2>
+<div style="height: 305px">
+    <uib-carousel active="controller.active" interval="controller.myInterval" no-wrap="controller.noWrapSlides">
+        <uib-slide ng-repeat="slide in controller.slides track by slide.id" index="slide.id">
+            <img ng-src="{{slide.image}}" style="margin:auto;">
+        </uib-slide>
+    </uib-carousel>
+</div>

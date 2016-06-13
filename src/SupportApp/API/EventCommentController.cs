@@ -50,5 +50,25 @@ namespace SupportApp.API
 
             return Ok();
         }
+
+        //// DELETE api/values/5
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    var selectedEventComments = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).Select(e => e.Comments).ToList();
+
+        //    if (id == 0 || selectedEventComments == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    foreach (Comment comment in selectedEventComments)
+        //    {
+        //        _db.Comments.Remove(comment);
+        //    };
+
+        //    _db.SaveChanges();
+        //    return Ok();
+        //}
     }
 }

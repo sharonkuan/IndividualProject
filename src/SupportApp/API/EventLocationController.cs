@@ -33,5 +33,25 @@ namespace SupportApp.API
             _db.SaveChanges();
             return Ok();
         }
+
+        //// DELETE api/values/5
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    var selectedEventLocations = _db.Events.Where(e => e.Id == id).Include(e => e.Locations).Select(e => e.Locations).ToList();
+
+        //    if (id == 0 || selectedEventLocations == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    foreach (Location location in selectedEventLocations)
+        //    {
+        //        _db.Locations.Remove(location);
+        //    };
+
+        //    _db.SaveChanges();
+        //    return Ok();
+        //}
     }
 }

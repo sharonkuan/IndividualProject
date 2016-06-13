@@ -8,7 +8,7 @@ using SupportApp.Data;
 namespace SupportApp.data.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160612021820_addedTables")]
+    [Migration("20160613051820_addedTables")]
     partial class addedTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -215,11 +215,11 @@ namespace SupportApp.data.migrations
 
                     b.Property<DateTime>("EventDate");
 
-                    b.Property<string>("EventTitle");
+                    b.Property<string>("EventTitle")
+                        .IsRequired();
 
-                    b.Property<string>("EventType");
-
-                    b.Property<bool>("IsCompleted");
+                    b.Property<string>("EventType")
+                        .IsRequired();
 
                     b.Property<bool>("IsPrivate");
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SupportApp.Data;
 using SupportApp.ViewModels.Event;
 using Microsoft.EntityFrameworkCore;
+using SupportApp.Models;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,11 +26,6 @@ namespace SupportApp.API
         [HttpGet]
         public IActionResult Get()
         {
-            //var movies = _db.Movies.Select(m => new MoviesViewModel
-            //{
-            //    Title = m.Title,
-            //    Actors = m.MovieActors.Select(ma => ma.Actor).ToList()
-            //});
             var events = _db.Events.Select(e => new EventsViewModel
             {
                 Id = e.Id,
@@ -44,7 +40,6 @@ namespace SupportApp.API
                 EndMinutes = e.EndMinutes,
                 EndTimeIsAmPm = e.EndTimeIsAmPm,
                 DateCreated = e.DateCreated,
-                IsCompleted = e.IsCompleted,
                 IsPrivate = e.IsPrivate,
                 IsVolunteerRequired = e.IsVolunteerRequired,
                 PreferredNumberOfExpectedVolunteer = e.PreferredNumberOfExpectedVolunteer,
@@ -59,12 +54,39 @@ namespace SupportApp.API
             return Ok(events);
         }
 
-
-
         // GET api/values/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            ////    get database query to grab the event
+            //    var sglEvent = _db.Events.FirstOrDefault(e => e.Id == id);
+            //sglEvent.Views++;
+            //    _db.SaveChanges();
+
+            //    var singleEvent = new EventsViewModel
+            //    {
+            //        Id = sglEvent.Id,
+            //        EventType = sglEvent.EventType,
+            //        EventTitle = sglEvent.EventTitle,
+            //        Details = sglEvent.Details,
+            //        EventDate = sglEvent.EventDate,
+            //        StartHour = sglEvent.StartHour,
+            //        StartMinutes = sglEvent.StartMinutes,
+            //        StartTimeIsAmPm = sglEvent.StartTimeIsAmPm,
+            //        EndHour = sglEvent.EndHour,
+            //        EndMinutes = sglEvent.EndMinutes,
+            //        EndTimeIsAmPm = sglEvent.EndTimeIsAmPm,
+            //        DateCreated = sglEvent.DateCreated,
+            //        IsPrivate = sglEvent.IsPrivate,
+            //        IsVolunteerRequired = sglEvent.IsVolunteerRequired,
+            //        PreferredNumberOfExpectedVolunteer = sglEvent.PreferredNumberOfExpectedVolunteer,
+            //        UpVote = sglEvent.UpVote,
+            //        DownVote = sglEvent.DownVote,
+            //        Views = sglEvent.Views,
+            //        Volunteers = sglEvent.EventUsers.Select(eu => eu.Member).ToList(),
+            //        Comments = sglEvent.Comments.Select(c => c).ToList(),
+            //        Locations = sglEvent.Locations.Select(el => el).ToList()
+            //    };
             var singleEvent = _db.Events.Where(e => e.Id == id).Select(e => new EventsViewModel
             {
                 Id = e.Id,
@@ -79,7 +101,6 @@ namespace SupportApp.API
                 EndMinutes = e.EndMinutes,
                 EndTimeIsAmPm = e.EndTimeIsAmPm,
                 DateCreated = e.DateCreated,
-                IsCompleted = e.IsCompleted,
                 IsPrivate = e.IsPrivate,
                 IsVolunteerRequired = e.IsVolunteerRequired,
                 PreferredNumberOfExpectedVolunteer = e.PreferredNumberOfExpectedVolunteer,
@@ -91,17 +112,41 @@ namespace SupportApp.API
                 Locations = e.Locations.Select(el => el).ToList()
             }).FirstOrDefault();
 
-            singleEvent.Views++;
-
-            _db.SaveChanges();
-
             return Ok(singleEvent);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]Event addedEvent)
         {
+            if (addedEvent.Id == 0)
+            {
+                addedEvent.DateCreated = DateTime.UtcNow;
+                _db.Events.Add(addedEvent);
+                _db.SaveChanges();
+            }
+            else
+            {
+                var eventToEdit = _db.Events.FirstOrDefault(e => e.Id == addedEvent.Id);
+                eventToEdit.EventType = addedEvent.EventType;
+                eventToEdit.EventTitle = addedEvent.EventTitle;
+                eventToEdit.Details = addedEvent.Details;
+                eventToEdit.EventDate = addedEvent.EventDate;
+                eventToEdit.StartHour = addedEvent.StartHour;
+                eventToEdit.StartMinutes = addedEvent.StartMinutes;
+                eventToEdit.StartTimeIsAmPm = addedEvent.StartTimeIsAmPm;
+                eventToEdit.EndHour = addedEvent.EndHour;
+                eventToEdit.EndMinutes = addedEvent.EndMinutes;
+                eventToEdit.EndTimeIsAmPm = addedEvent.EndTimeIsAmPm;
+                eventToEdit.DateCreated = DateTime.UtcNow;
+                eventToEdit.IsPrivate = addedEvent.IsPrivate;
+                eventToEdit.IsVolunteerRequired = addedEvent.IsVolunteerRequired;
+                eventToEdit.PreferredNumberOfExpectedVolunteer = addedEvent.PreferredNumberOfExpectedVolunteer;
+
+                _db.SaveChanges();
+            }
+
+            return Ok(addedEvent);
         }
 
         // PUT api/values/5
@@ -126,7 +171,23 @@ namespace SupportApp.API
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var singleEvent = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).Include(e=>e.Locations).FirstOrDefault();
+            var singleEvent = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
+            //var singleEvent = _db.Events.Where(e => e.Id == id).Include(e => new
+            //{
+            //    Comments = e.Comments.Select(c => c).ToList(),
+            //    Locations = e.Locations.Select(el => el).ToList()
+            //}).FirstOrDefault();
+
+            if (id == 0 || singleEvent == null)
+            {
+                return BadRequest();
+            }
+
+            //foreach (var item in singleEvent.Comments)
+            //{
+            //    _db.Comments.Remove(item);
+            //}
+
             _db.Events.Remove(singleEvent);
             _db.SaveChanges();
             return Ok();

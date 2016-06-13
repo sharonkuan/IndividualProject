@@ -5,8 +5,8 @@
         public eventToDelete;
         public validationErrors;
 
-        constructor(private eventServices: SupportApp.Services.EventServices,
-            private eventIdFrom,
+        constructor(private eventIdFrom,
+            private eventServices: SupportApp.Services.EventServices,
             private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance) {
 
             this.getEvent();
@@ -14,19 +14,22 @@
 
         getEvent() {
 
-            this.eventToDelete = this.eventServices.getSingleEvent(this.eventIdFrom);           
+            this.eventToDelete = this.eventServices.getSingleEvent(this.eventIdFrom);
+            debugger;
         }
 
         deleteEvent() {
-            this.eventServices.deleteEvent(this.eventToDelete).then(() => {
+            this.eventServices.deleteEvent(this.eventToDelete.id).then(() => {
                 this.$uibModalInstance.close();
+                this.eventServices.getAllEvents();
             }).catch((error) => {
+                let validationErrors = [];
                 for (let prop in error.data) {
-                    let propError = error.data(prop);
-                    this.validationErrors = this.validationErrors.concat(propError);
+                    let propErrors = error.data[prop];
+                    validationErrors = validationErrors.concat(propErrors);
                 }
-
-                })
+                this.validationErrors = validationErrors;
+            })
         }
 
         close() {

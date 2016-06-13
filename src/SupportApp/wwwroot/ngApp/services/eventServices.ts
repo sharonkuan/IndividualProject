@@ -50,6 +50,9 @@
         }
 
         deleteEvent(eventId) {
+            //debugger;
+            //this.eventCommentResources.remove({ id: eventId }).$promise;
+            //this.eventLocationResources.remove({ id: eventId }).$promise;
             return this.eventsResources.remove({ id: eventId }).$promise;
         }
     }

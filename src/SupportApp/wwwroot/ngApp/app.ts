@@ -49,6 +49,18 @@ namespace SupportApp {
                 controller: SupportApp.Controllers.EventsDetailController,
                 controllerAs: "controller"
             })
+            .state("eventCreate", {
+                url: "/event/create",
+                templateUrl: "/ngApp/views/eventCreate.html",
+                controller: SupportApp.Controllers.EventCreateController,
+                controllerAs: "controller"
+            })
+            .state("eventEdit", {
+                url: "/event/edit/:id",
+                templateUrl: "/ngApp/views/eventEdit.html",
+                controller: SupportApp.Controllers.EventEditController,
+                controllerAs: "controller"
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: '/ngApp/views/about.html',
