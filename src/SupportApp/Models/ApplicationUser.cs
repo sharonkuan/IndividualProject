@@ -13,15 +13,14 @@ namespace SupportApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PrimaryPhone { get; set; }
+        public bool IsProvider { get; set; }  //is yes, then member is a provider, else can be a member
+        public bool WillingToVolunteer { get; set; }  //ifmembers willing to volunteer
 
+        //tracks the events and volunteers for the events
         public ICollection<EventUser> EventUsers { get; set; }
-        //public ICollection<MemberVolunteer> MemberVolunteers { get; set; }
-        //add an ICollection<ApplicationUser> ConnectedMembers for volunteer and members
-
-        //need an identifier as type of user: members or volunteers
-
-        //need an identifier public bool IsVolunteerApprovedByMember { get; set; }
-
-
+        //connects the volunteers and members
+        //this helps identify if members and volunteers are connected
+        public ICollection<MemberVolunteer> MemberVolunteers { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 }

@@ -12,28 +12,24 @@ namespace SupportApp.ViewModels.Event
         public string EventType { get; set; } 
         public string EventTitle { get; set; }
         public string Details { get; set; }
-        public DateTime EventDate { get; set; }
-        public int StartHour { get; set; }
-        public int StartMinutes { get; set; }
-        public string StartTimeIsAmPm { get; set; }
-        public int EndHour { get; set; }
-        public int EndMinutes { get; set; }
-        public string EndTimeIsAmPm { get; set; }
+        public DateTime EventStartDate { get; set; }
+        public DateTime EventEndDate { get; set; }
         public DateTime DateCreated { get; set; }
-        public bool IsCompleted { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsComplete { get; set; }
 
         public bool IsPrivate { get; set; }
-        public bool IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
+        public string IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
         public int PreferredNumberOfExpectedVolunteer { get; set; }
 
         public int UpVote { get; set; }
         public int DownVote { get; set; }
         public int Views { get; set; }
 
-
-
         public List<ApplicationUser> Volunteers { get; set; } 
-        public List<Comment> Comments { get; set; }   
-        public List<Location> Locations { get; set; }  
+        public ICollection<Comment> Comments { get; set; }   
+        public ICollection<Location> Locations { get; set; }
+
+        public bool CanEdit { get; set; }
     }
 }

@@ -3,6 +3,7 @@
 /// <reference path="lib/angular/angular.js" />
 /// <reference path="lib/angular-animate/angular-animate.js" />
 /// <reference path="lib/angular-bootstrap/ui-bootstrap-tpls.js" />
+/// <reference path="lib/angular-filter/dist/angular-filter.js" />
 /// <reference path="lib/angular-resource/angular-resource.js" />
 /// <reference path="lib/angular-touch/angular-touch.js" />
 /// <reference path="lib/angular-ui-router/release/angular-ui-router.js" />

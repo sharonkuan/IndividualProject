@@ -17,7 +17,9 @@
             this.initialize();        }
 
         getEvent() {
-            this.event = this.eventServices.getSingleEvent(this.eventId);
+            this.eventServices.getSingleEvent(this.eventId).then((data) => {
+                this.event = data;
+            });
         }
 
         saveComment() {
@@ -39,8 +41,11 @@
 
         //this accepts the value set by the ng-click button value to pass to API controller 
         voteEvent(voteType) {
-            this.eventServices.voteEvent(this.eventId, voteType).then(() => {
-                this.getEvent();
+            this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
+                //this.getEvent();
+                debugger;
+                this.event = data;
+                
             });
         }
 

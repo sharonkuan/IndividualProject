@@ -30,12 +30,40 @@ namespace SupportApp.Data
                     Email = "Stephen.Walther@CoderCamps.com",
                     FirstName = "Stephen",
                     LastName = "Walter",
-                    PrimaryPhone = "111-222-3333"
+                    PrimaryPhone = "111-222-3333",
+                    IsProvider = false,
+                    WillingToVolunteer = true,
+                    Events = new List<Event>
+                    {
+
+
+                    }
                 };
                 await userManager.CreateAsync(stephen, "Secret123!");
 
                 // add claims
                 await userManager.AddClaimAsync(stephen, new Claim("IsAdmin", "true"));
+            }
+
+            // Ensure Sharon (IsAdmin)
+            var sharon = await userManager.FindByNameAsync("Sharon.Kuan@CoderCamps.com");
+            if (sharon == null)
+            {
+                // create user
+                sharon = new ApplicationUser
+                {
+                    UserName = "Sharon.Kuan@CoderCamps.com",
+                    Email = "Sharon.Kuan@CoderCamps.com",
+                    FirstName = "Sharon",
+                    LastName = "Kuan",
+                    PrimaryPhone = "888-888-8888",
+                    IsProvider = true,
+                    WillingToVolunteer = true
+                };
+                await userManager.CreateAsync(sharon, "Secret123!");
+
+                // add claims
+                await userManager.AddClaimAsync(sharon, new Claim("IsAdmin", "true"));
             }
 
             // Ensure Mike (not IsAdmin)
@@ -49,9 +77,28 @@ namespace SupportApp.Data
                     Email = "Mike@CoderCamps.com",
                     FirstName = "Mike",
                     LastName = "Johnson",
-                    PrimaryPhone = "222-333-4444"
+                    PrimaryPhone = "222-333-4444",
+                    IsProvider = true,
+                    WillingToVolunteer = true
                 };
                 await userManager.CreateAsync(mike, "Secret123!");
+            }
+
+            var tom = await userManager.FindByNameAsync("Tom@CoderCamps.com");
+            if (tom == null)
+            {
+                // create user
+                tom = new ApplicationUser
+                {
+                    UserName = "Tom@CoderCamps.com",
+                    Email = "Tom@CoderCamps.com",
+                    FirstName = "Tom",
+                    LastName = "William",
+                    PrimaryPhone = "444-555-6666",
+                    IsProvider = false,
+                    WillingToVolunteer = false
+                };
+                await userManager.CreateAsync(tom, "Secret123!");
             }
             db.SaveChanges();
 
@@ -68,16 +115,13 @@ namespace SupportApp.Data
                      EventType = "Visiting Nursing Homes",
                      EventTitle = "Bring happiness to the elders",
                      Details = "Please make sure that you are accepted by these nursing homes to participate. We will meet at Nursing Home 1 at the start time. We will spend about an hour there to keep them company and end the day by accompany them to their lunch room.",
-                     EventDate = new DateTime(2016, 5, 29).ToUniversalTime(),
-                     StartHour = 10,
-                     StartMinutes = 45,
-                     StartTimeIsAmPm = "am",
-                     EndHour = 12,
-                     EndMinutes = 0,
-                     EndTimeIsAmPm = "pm",
+                     EventStartDate = new DateTime(2016, 5, 29, 10, 45, 00).ToUniversalTime(),
+                   EventEndDate = new DateTime(2016,5,29,12,00, 00).ToUniversalTime(),
                      DateCreated = new DateTime(2016, 5, 1).ToUniversalTime(),
+                     IsActive = true,
+                     IsComplete = true,
                      IsPrivate = false,
-                     IsVolunteerRequired = true,
+                     IsVolunteerRequired = "Yes",
                      PreferredNumberOfExpectedVolunteer = 8,
                      Locations = new List<Location> {
                          new Location {
@@ -101,16 +145,13 @@ namespace SupportApp.Data
                      EventType = "Visiting Nursing Homes",
                      EventTitle = "Deliver gifts to the elders",
                      Details = "Please make sure that you are accepted by these nursing homes to participate. We will meet at Joanne Fabric located in Bellevue Cross Road     mall at the start time. We will bring the gifts     donated by members to the nursing homes",
-                     EventDate = new DateTime(2016, 11, 19).ToUniversalTime(),
-                     StartHour = 10,
-                     StartMinutes = 30,
-                     StartTimeIsAmPm = "am",
-                     EndHour = 12,
-                     EndMinutes = 30,
-                     EndTimeIsAmPm = "pm",
+                     EventStartDate = new DateTime(2016, 11, 19, 10, 30,00).ToUniversalTime(),
+                   EventEndDate = new DateTime(2016,11,19,12,30,00).ToUniversalTime(),
                      DateCreated = new DateTime(2016, 5, 29).ToUniversalTime(),
+                     IsActive = true,
+                     IsComplete = false,
                      IsPrivate = false,
-                     IsVolunteerRequired = true,
+                     IsVolunteerRequired = "Yes",
                      PreferredNumberOfExpectedVolunteer = 5,
                      Locations = new List<Location> {
                          new Location {
@@ -139,16 +180,13 @@ namespace SupportApp.Data
                      EventType = "Sales",
                      EventTitle = "Garage Sale at a member's home",
                      Details = "We are helping an elder member clean up their unused items.",
-                      EventDate = new DateTime(2016, 8, 27).ToUniversalTime(),
-                     StartHour = 10,
-                     StartMinutes = 30,
-                     StartTimeIsAmPm = "am",
-                     EndHour = 12,
-                     EndMinutes = 30,
-                     EndTimeIsAmPm = "pm",
+                      EventStartDate = new DateTime(2016, 8, 27, 10,30,00).ToUniversalTime(),
+                      EventEndDate = new DateTime(2016, 8,27,12,30,00).ToUniversalTime(),
                      DateCreated = DateTime.UtcNow,
+                     IsActive = true,
+                     IsComplete = false,
                      IsPrivate = false,
-                     IsVolunteerRequired = true,
+                     IsVolunteerRequired = "Maybe",
                      PreferredNumberOfExpectedVolunteer = 2,
                      Locations = new List<Location> {
                         new Location {
@@ -169,16 +207,13 @@ namespace SupportApp.Data
                      EventType = "Sales",
                      EventTitle = "Big Sales at Redmond Library Parking Lot",
                      Details = "Members have the opportunity to sell their handmade items",
-                      EventDate = new DateTime(2016, 9, 24).ToUniversalTime(),
-                     StartHour = 10,
-                     StartMinutes = 0,
-                     StartTimeIsAmPm = "am",
-                     EndHour = 2,
-                     EndMinutes = 0,
-                     EndTimeIsAmPm = "pm",
+                      EventStartDate = new DateTime(2016, 9, 24, 10, 00, 00).ToUniversalTime(),
+                      EventEndDate = new DateTime(2016, 9, 24, 14, 00, 00).ToUniversalTime(),
                      DateCreated = DateTime.UtcNow,
+                     IsActive = true,
+                     IsComplete = false,
                      IsPrivate = false,
-                     IsVolunteerRequired = true,
+                     IsVolunteerRequired = "Yes",
                      PreferredNumberOfExpectedVolunteer = 10,
                      Locations = new List<Location> {
                         new Location {

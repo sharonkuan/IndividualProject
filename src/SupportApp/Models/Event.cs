@@ -19,21 +19,15 @@ namespace SupportApp.Models
         [Required(ErrorMessage = "Event title is required")]
         public string EventTitle { get; set; }
         public string Details { get; set; }
-        [Required(ErrorMessage = "Event date is required")]
-        public DateTime EventDate { get; set; }
-        [Range(0, 12,ErrorMessage ="Must be 0 to 12 hours")]
-        public int StartHour { get; set; }
-        [Range(0, 12, ErrorMessage = "Must be 0 to 60 minutes")]
-        public int StartMinutes { get; set; }
-        public string StartTimeIsAmPm { get; set; }
-        [Range(0, 12, ErrorMessage = "Must be 0 to 12 hours")]
-        public int EndHour { get; set; }
-        [Range(0, 12, ErrorMessage = "Must be 0 to 60 minutes")]
-        public int EndMinutes { get; set; }
-        public string EndTimeIsAmPm { get; set; }
+        [Required(ErrorMessage = "Event start date is required")]
+        public DateTime EventStartDate { get; set; }
+        [Required(ErrorMessage = "Event end date is required")]
+        public DateTime EventEndDate { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsComplete { get; set; }
         public bool IsPrivate { get; set; }
-        public bool IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
+        public string IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
         public int PreferredNumberOfExpectedVolunteer { get; set; }
         //public ICollection<MemberVolunteer> MemberVolunteers { get; set; }
 

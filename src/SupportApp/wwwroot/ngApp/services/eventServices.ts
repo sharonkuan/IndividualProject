@@ -20,12 +20,12 @@
 
         getAllEvents() {
 
-            return this.eventsResources.query();
+            return this.eventsResources.query().$promise;
         }
 
         getSingleEvent(eventId) {
 
-            return this.eventsResources.get({ id: eventId });
+            return this.eventsResources.get({ id: eventId }).$promise;
         }
 
         voteEvent(eventId, voteValue) {

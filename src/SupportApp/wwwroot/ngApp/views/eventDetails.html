@@ -10,18 +10,18 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
         <table class="table table-bordered table-striped">
             <tr>
-                <th>Event Date</th>
+                <th>Event Start Date</th>
                 <th>Start Time</th>
-                <th>End Time</th>
+                <th>End Date</th>
                 <th>Location</th>
             </tr>
             <tr>
-                <td>{{controller.event.eventDate|date: "fullDate"}}</td>
-                <td>{{controller.event.startHour}}:{{controller.event.startMinutes}} {{controller.event.startTimeIsAmPm}}</td>
-                <td>{{controller.event.endHour}}:{{controller.event.endMinutes}} {{controller.event.endTimeIsAmPm}}</td>
+                <td>{{controller.event.eventStartDate|date: "fullDate"}}</td>
+                <td>{{controller.event.eventStartDate| date:'hh:mm:ss a'}}</td>
+                <td>{{controller.event.eventEndDate|date:"shortDate"}} <br />{{controller.event.eventEndDate|date:'hh:mm:ss a'}}</td>
                 <td>
                     <table>
                         <tr ng-repeat="location in controller.event.locations">
@@ -43,7 +43,7 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <form id="commentForm">
             <div class="row">
                 <div class="col-md-6">

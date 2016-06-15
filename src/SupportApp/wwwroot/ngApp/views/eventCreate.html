@@ -17,33 +17,15 @@
                 <textarea name="details" class="form-control" rows="3" ng-model="controller.eventToCreate.details" placeholder="Enter event details"></textarea>
             </div>
             <div class="form-group">
-                <label>Event Date</label>
-                <input type="date" name="eventDate" class="form-control" ng-model="controller.eventToCreate.eventDate" placeholder="Date format: 2016/01/31" required />
-                <span ng-show="eventForm.eventDate.$touched && eventForm.eventDate.$error.required" class="error">Event Date is required</span>
+                <label>Event Start Date Time</label>
+                <input type="datetime-local" name="eventStartDate" class="form-control" ng-model="controller.eventToCreate.eventStartDate" placeholder="Date format: 2016/01/31 07:30:00" required />
+                <span ng-show="eventForm.eventStartDate.$touched && eventForm.eventStartDate.$error.required" class="error">Event Start Date Time is required</span>
             </div>
             <div class="form-group">
-                <label>Event Start Time</label>
+                <label>End Date Time</label>
                 <br />
-                <input type="number" name="startHour" min="0" max="12" width=2 ng-model="controller.eventToCreate.startHour" required />:<input type="number" name="startMinutes" min="0" max="60" width=2 ng-model="controller.eventToCreate.startMinutes" required />
-                <select name="startTimeIsAmPm" ng-model="controller.eventToCreate.startTimeIsAmPm">
-                    <option value="AM" ng-selected="true">AM</option>
-                    <option value="PM">PM</option>
-                </select>
-                <span ng-show="eventForm.startHour.$touched && eventForm.startHour.$error.required" class="error">Event Start Hour is required</span>
-                <span ng-show="eventForm.startMinutes.$touched && eventForm.startMinutes.$error.required" class="error">Event Start Minutes is required</span>
-                <span ng-show="eventForm.startTimeIsAmPm.$touched && eventForm.startTimeIsAmPm.$error.required" class="error">AM or PM is required</span>
-            </div>
-            <div class="form-group">
-                <label>Event End Time</label>
-                <br />
-                <input type="number" name="endHour" min="0" max="12" width=2 ng-model="controller.eventToCreate.endHour" required />:<input type="number" name="endMinutes" min="0" max="60" width=2 ng-model="controller.eventToCreate.endMinutes" required />
-                <select name="endTimeIsAmPm" ng-model="controller.eventToCreate.endTimeIsAmPm">
-                    <option value="AM">AM</option>
-                    <option value="PM" ng-selected="true">PM</option>
-                </select>
-                <span ng-show="eventForm.endHour.$touched && eventForm.endHour.$error.required" class="error">Event End Hour is required</span>
-                <span ng-show="eventForm.endMinutes.$touched && eventForm.endMinutes.$error.required" class="error">Event End Minutes is required</span>
-                <span ng-show="eventForm.edTimeIsAmPm.$touched && eventForm.endTimeIsAmPm.$error.required" class="error">AM or PM is required</span>
+                <input type="datetime-local" name="eventEndDate" min="0" max="12" width=2 ng-model="controller.eventToCreate.eventEndDate" placeholder="Date format: 2016/01/31 14:30:00" required />
+                <span ng-show="eventForm.eventEndDate.$touched && eventForm.eventEndDate.$error.required" class="error">Event End Date and Time is required</span>
             </div>
             <div class="form-group">
                 Is it a private event?
@@ -62,18 +44,23 @@
                 Is volunteer required?
                 <label>
                     <input type="radio" name="isVolunteerRequired"
-                           value="true" ng-model="controller.eventToCreate.isVolunteerRequired" />
+                           value="Yes" ng-model="controller.eventToCreate.isVolunteerRequired" />
                     Yes
                 </label>
                 <label>
                     <input type="radio" name="isVolunteerRequired"
-                           value="false" ng-model="controller.eventToCreate.isVolunteerRequired" ng-checked="true" />
+                           value="No" ng-model="controller.eventToCreate.isVolunteerRequired" />
                     No
+                </label>
+                <label>
+                    <input type="radio" name="isVolunteerRequired"
+                           value="Maybe" ng-model="controller.eventToCreate.isVolunteerRequired" ng-checked="true" />
+                    Maybe
                 </label>
             </div>
             <div class="form-group">
                 <label>Number of preferred volunteers</label>
-                <input type="text" name="preferredNumberOfExpectedVolunteer" min="0" max="20" value="0" width="2" class="form-control" ng-model="controller.eventToCreate.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
+                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" value="0" width="2" class="form-control" ng-model="controller.eventToCreate.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
             </div>
             <div>
                 <a href="/event/locationCreate">Add location</a>

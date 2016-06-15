@@ -13,6 +13,7 @@ using Newtonsoft.Json.Serialization;
 using SupportApp.Data;
 using SupportApp.Models;
 using SupportApp.Services;
+using SupportApp.Repositories;
 
 namespace SupportApp
 {
@@ -40,6 +41,9 @@ namespace SupportApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IGenericRepository, GenericRepository>();
+            services.AddScoped<IEventService, EventService>();
+
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

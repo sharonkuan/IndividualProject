@@ -9,7 +9,7 @@
             <div class="col-md-4">
                 <label>Filter by: Event City</label><br />
                 <select ng-model="controller.selectedEventLocation">
-                    <option ng-repeat="event in controller.events" value={{event.locations.id}}>{{event.location.city}}</option>
+                    <option ng-repeat="location in controller.eventLocations | unique: 'city'" value={{locations.id}}>{{location.city}}</option>
                 </select>
             </div>
         </div>
@@ -28,18 +28,16 @@
                     <tr ng-repeat="event in controller.events">
                         <td>{{event.eventType}}</td>
                         <td><a href="/event/details/{{event.id}}">{{event.eventTitle}}</a></td>
-                        <td>{{event.eventDate | date: "longDate"}}</td>
-                        <td>
-                            <strong>Starts at</strong>: {{event.startHour}}:{{event.startMinutes}} {{event.startTimeIsAmPm}} <br />
-                            <strong>Ends at</strong>: {{event.endHour}}:{{event.endMinutes}} {{event.endTimeIsAmPm}} <br />
-</td>
-                        <td>
-                            <ul ng-repeat="location in event.locations">
+                        <td>{{event.eventStartDate | date: "longDate"}}</td>
+                        <td>{{event.eventStartDate | date:'hh:mm:ss a'}}</td>
+                        <td> 
+                            <!-- Tried with | unique:  -->
+                            <ul ng-repeat="location in event.locations | unique: 'city'">
                                 {{location.city}}
                             </ul>
                         </td>
                         <td>
-                            <a href="/event/edit/{{event.id}}">Edit</a>  |  
+                            <a href="/event/edit/{{event.id}}">Edit</a>  |
                             <a href="#" ng-click="controller.showDeleteDialog(event.id)">Delete</a>
                         </td>
                     </tr>

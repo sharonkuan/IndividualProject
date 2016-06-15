@@ -20,6 +20,39 @@
 
     <form ng-submit="controller.register()">
         <div>
+            <label>First Name:</label>
+            <input ng-model="controller.registerUser.firstName" />
+        </div>
+        <div>
+            <label>Last Name:</label>
+            <input ng-model="controller.registerUser.lastName" />
+        </div>
+        <div>
+            <label>Primary Phone:</label>
+            <input ng-model="controller.registerUser.primaryPhone" />
+        </div>
+        <div>
+            <label>Is Provider:</label>
+            <select ng-model="controller.registerUser.isProvider">
+                <option value="?" selected="selected"></option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+        <div>
+            <label>Willing to volunteer?</label>
+            <label>
+                <input type="radio" name="willingToVolunteer"
+                       value="true" ng-model="controller.registerUser.willingToVolunteer" />
+                Yes
+            </label>
+            <label>
+                <input type="radio" name="willingToVolunteer"
+                       value="false" ng-model="controller.registerUser.willingToVolunteer" ng-checked="true" />
+                No
+            </label>
+        </div>
+        <div>
             <label>Email:</label>
             <input ng-model="controller.registerUser.email" />
         </div>

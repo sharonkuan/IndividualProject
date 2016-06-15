@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SupportApp.data.migrations
 {
-    public partial class addedTables : Migration
+    public partial class initialTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +47,7 @@ namespace SupportApp.data.migrations
                     Email = table.Column<string>(nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
+                    IsProvider = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
@@ -58,7 +59,8 @@ namespace SupportApp.data.migrations
                     PrimaryPhone = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(nullable: true)
+                    UserName = table.Column<string>(nullable: true),
+                    WillingToVolunteer = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,18 +76,15 @@ namespace SupportApp.data.migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Details = table.Column<string>(nullable: true),
                     DownVote = table.Column<int>(nullable: false),
-                    EndHour = table.Column<int>(nullable: false),
-                    EndMinutes = table.Column<int>(nullable: false),
-                    EndTimeIsAmPm = table.Column<string>(nullable: true),
-                    EventDate = table.Column<DateTime>(nullable: false),
+                    EventEndDate = table.Column<DateTime>(nullable: false),
+                    EventStartDate = table.Column<DateTime>(nullable: false),
                     EventTitle = table.Column<string>(nullable: false),
                     EventType = table.Column<string>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsComplete = table.Column<bool>(nullable: false),
                     IsPrivate = table.Column<bool>(nullable: false),
-                    IsVolunteerRequired = table.Column<bool>(nullable: false),
+                    IsVolunteerRequired = table.Column<string>(nullable: true),
                     PreferredNumberOfExpectedVolunteer = table.Column<int>(nullable: false),
-                    StartHour = table.Column<int>(nullable: false),
-                    StartMinutes = table.Column<int>(nullable: false),
-                    StartTimeIsAmPm = table.Column<string>(nullable: true),
                     UpVote = table.Column<int>(nullable: false),
                     Views = table.Column<int>(nullable: false)
                 },
@@ -188,6 +187,7 @@ namespace SupportApp.data.migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EventId = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     Message = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -234,6 +234,7 @@ namespace SupportApp.data.migrations
                     Address = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     NameOfLocation = table.Column<string>(nullable: true),
                     Zip = table.Column<string>(nullable: true)
                 },

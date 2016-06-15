@@ -10,6 +10,7 @@ namespace SupportApp.Models
     /// </summary>
     public class MemberVolunteer
     {
+        //no IsActive table is required in the join tables
         public ApplicationUser Member { get; set; }
         public string MemberId { get; set; }
 

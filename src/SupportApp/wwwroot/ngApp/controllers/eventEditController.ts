@@ -16,7 +16,10 @@
 
         getEvent() {
 
-            this.eventToEdit = this.eventServices.getSingleEvent(this.eventId);
+            this.eventServices.getSingleEvent(this.eventId).then((data) => {
+                this.eventToEdit = data;
+                //this.checkPrivate();
+            });
         }
 
         editEvent() {
@@ -34,6 +37,37 @@
 
         cancel() {
             this.$state.go("events");
+        }
+
+        checkPrivate() {
+            debugger;
+            if (this.eventToEdit.isPrivate == true) {
+                let elem = <HTMLInputElement>document.getElementById("isPrivate");
+                elem.checked = true;
+            }
+            else {
+                let elem = <HTMLInputElement>document.getElementById("isNotPrivate");
+                elem.checked = true;
+            }
+        }
+
+        checkVolunteerRequired() {
+            debugger;
+            if (this.eventToEdit.isVolunteerRequired == "Yes") {
+                let elem = <HTMLInputElement>document.getElementById("isVolunteerRequired");
+                elem.checked = true;
+            }
+            else if (this.eventToEdit.isVolunteerRequired == "No")
+            {
+                let elem = <HTMLInputElement>document.getElementById("isVolunteerNotRequired");
+                elem.checked = true;
+            }
+            else if (this.eventToEdit.isVolunteerRequired == "Maybe")
+            {
+                let elem = <HTMLInputElement>document.getElementById("isVolunteerMaybeRequired");
+                elem.checked = true;
+            }
+            
         }
     }
 }

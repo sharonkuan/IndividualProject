@@ -8,6 +8,13 @@ namespace SupportApp.ViewModels.Account
 {
     public class RegisterViewModel
     {
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PrimaryPhone { get; set; }
+        public bool IsProvider { get; set; }
+        public bool WillingToVolunteer { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

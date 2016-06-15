@@ -139,6 +139,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<bool>("IsProvider");
+
                     b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
@@ -166,6 +168,8 @@ namespace SupportApp.data.migrations
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
+                    b.Property<bool>("WillingToVolunteer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -185,6 +189,8 @@ namespace SupportApp.data.migrations
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<int?>("EventId");
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<string>("Message");
 
@@ -206,13 +212,9 @@ namespace SupportApp.data.migrations
 
                     b.Property<int>("DownVote");
 
-                    b.Property<int>("EndHour");
+                    b.Property<DateTime>("EventEndDate");
 
-                    b.Property<int>("EndMinutes");
-
-                    b.Property<string>("EndTimeIsAmPm");
-
-                    b.Property<DateTime>("EventDate");
+                    b.Property<DateTime>("EventStartDate");
 
                     b.Property<string>("EventTitle")
                         .IsRequired();
@@ -220,17 +222,15 @@ namespace SupportApp.data.migrations
                     b.Property<string>("EventType")
                         .IsRequired();
 
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsComplete");
+
                     b.Property<bool>("IsPrivate");
 
-                    b.Property<bool>("IsVolunteerRequired");
+                    b.Property<string>("IsVolunteerRequired");
 
                     b.Property<int>("PreferredNumberOfExpectedVolunteer");
-
-                    b.Property<int>("StartHour");
-
-                    b.Property<int>("StartMinutes");
-
-                    b.Property<string>("StartTimeIsAmPm");
 
                     b.Property<int>("UpVote");
 
@@ -266,6 +266,8 @@ namespace SupportApp.data.migrations
                     b.Property<string>("City");
 
                     b.Property<int?>("EventId");
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<string>("NameOfLocation");
 
