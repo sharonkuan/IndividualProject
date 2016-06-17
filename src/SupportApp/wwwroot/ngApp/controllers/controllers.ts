@@ -1,10 +1,5 @@
 namespace SupportApp.Controllers {
 
-    export class HomeController {
-        public message = 'Hello from the home page!';
-    }
-
-
     export class SecretController {
         public secrets;
 

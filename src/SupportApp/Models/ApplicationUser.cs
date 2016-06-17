@@ -18,7 +18,7 @@ namespace SupportApp.Models
 
         //tracks the events and volunteers for the events
         public ICollection<EventUser> EventUsers { get; set; }
-        //connects the volunteers and members
+        //ToDO: connects the volunteers and members
         //this helps identify if members and volunteers are connected
         public ICollection<MemberVolunteer> MemberVolunteers { get; set; }
         public ICollection<Event> Events { get; set; }

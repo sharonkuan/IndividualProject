@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using SupportApp.Data;
-using SupportApp.ViewModels.Event;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using SupportApp.Models;
 using SupportApp.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,43 +12,109 @@ namespace SupportApp.API
     public class EventController : Controller
     {
         private IEventService _service;
-        private ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public EventController(IEventService service, UserManager<ApplicationUser> userManager )
+        public EventController(IEventService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
             _userManager = userManager;
         }
 
-        // GET: api/events/search
+        //// GET: api/events/search
+        //[HttpGet("Search")]
+        //[Authorize]
+        //public IActionResult Search()
+        //{
+        //    var events = _service.GetAllEvents();
+
+        //    return Ok(events);
+        //}
+
+        #region -----------------GET ALL EVENTS ---------------
+        /// <summary>
+        /// This returns all events 
+        /// </summary>
+        /// <returns></returns>
+        // GET: api/event/getallevents
         [HttpGet]
+        [Route("getallevents")]
+        [Authorize(Policy = "AdminOnly")]
+        public IActionResult GetAllEvents()
+        {
+            var userId = _userManager.GetUserId(User);
+            bool hasClaim = User.HasClaim("IsAdmin", "true");
+            var events = _service.GetAllEvents(hasClaim, userId);
+            return Ok(events);
+        }
+
+        // GET: api/event/getuserevents
+        [HttpGet]
+        [Route("getuserevents")]
         [Authorize]
-        public IActionResult Search()
+        public IActionResult GetUserEvents()
         {
-            var userId = _userManager.GetUserId(this.User);
-            
-            var events = _service.GetEvents();
-
+            var userId = _userManager.GetUserId(User);
+            var events = _service.GetUserEvents(userId);
             return Ok(events);
         }
 
-        // GET: api/values
+        //when user is not login, comes here
+        //if user is login, also comes here
+        // GET: api/event/getactiveevents
         [HttpGet]
-        public IActionResult Get()
+        [Route("getactiveevents")]
+        public IActionResult GetActiveEvents()
         {
-            var events = _service.GetEvents(); 
-
+            var events = _service.GetActiveEvents();
             return Ok(events);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet]
+        [Route("gethistoryevents")]
+        public IActionResult GetHistoryEvents()
         {
-            var singleEvent = _service.GetEvent(id);
+            var events = _service.GetHistoryEvents();
+            return Ok(events);
+        }
+        #endregion
+
+        #region -----------------GET SINGLE EVENT ---------------
+
+        // GET api/event/getuserevent/5
+        [HttpGet]
+        [Route("getuserevent/{id}")]
+        [Authorize]
+        public IActionResult GetUserEventDetails(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            bool hasClaim = User.HasClaim("IsAdmin", "true");
+            var singleEvent = _service.GetUserEventDetails(userId, hasClaim, id);
             return Ok(singleEvent);
         }
+
+        // GET api/event/getactiveevent/5
+        [HttpGet]
+        [Route("getactiveevent/{id}")]
+        public IActionResult GetActiveEventDetails(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            //var singleEvent = _service.GetActiveEventDetails(id);
+            var singleEvent = _service.GetActiveEventDetails(userId, id);
+            return Ok(singleEvent);
+        }
+
+        [HttpGet]
+        [Route("gethistoryevent/{id}")]
+        public IActionResult GetHistoryEventDetails(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            //var singleEvent = _service.GetActiveEventDetails(id);
+            var singleEvent = _service.GetHistoryEventDetails(userId, id);
+            return Ok(singleEvent);
+        }
+        #endregion
+
+        #region------------POST, PUT, and DELETE--------------------
 
         // POST api/values
         [HttpPost]
@@ -80,5 +139,6 @@ namespace SupportApp.API
         {
             return Ok();
         }
+        #endregion
     }
 }

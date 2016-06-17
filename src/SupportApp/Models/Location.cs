@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace SupportApp.Models
 {
-    public class Location
+    public class Location : AuditObj
     {
         public int Id { get; set; }
         public string NameOfLocation { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string Zip { get; set; }
-        public bool IsActive { get; set; }
+        
     }
 }

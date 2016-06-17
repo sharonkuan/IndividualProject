@@ -186,6 +186,8 @@ namespace SupportApp.data.migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<int?>("EventId");
@@ -205,6 +207,8 @@ namespace SupportApp.data.migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
 
                     b.Property<DateTime>("DateCreated");
 
@@ -238,6 +242,8 @@ namespace SupportApp.data.migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Events");
                 });
 
@@ -264,6 +270,8 @@ namespace SupportApp.data.migrations
                     b.Property<string>("Address");
 
                     b.Property<string>("City");
+
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<int?>("EventId");
 
@@ -322,6 +330,13 @@ namespace SupportApp.data.migrations
                     b.HasOne("SupportApp.Models.Event")
                         .WithMany()
                         .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("SupportApp.Models.Event", b =>
+                {
+                    b.HasOne("SupportApp.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("SupportApp.Models.EventUser", b =>

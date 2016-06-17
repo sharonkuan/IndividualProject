@@ -10,14 +10,17 @@
     <div class="container">
         <h1><img src="~/images/logo.png" width="50" height="50" /><img src="~/images/logo1.png" width="350" height="50" /></h1>
         <div class="row">
-            <div class="col-md-1" style="background-color: lightgreen">
+            <div class="col-md-1" style="background-color: lightgreen" width="25" height="50">
                 <a href="/">Home</a>
             </div>
             <div class="col-md-1" style="background-color: lightyellow">
                 <a href="/about">About</a>
             </div>
             <div class="col-md-1" style="background-color: lightblue">
-                <a href="/events">Events</a>
+                <a href="/myEvents">My Events</a>
+            </div>
+            <div class="col-md-1" style="background-color: lightgreen">
+                <a href="/adminEvents">Admin Events</a>
             </div>
             <div class="col-md-1" style="background-color: yellow">
                 <a href="/secret">Secret</a>
@@ -50,8 +53,14 @@
     <script src="~/ngapp/services/services.js"></script>
     <script src="~/ngApp/services/eventServices.js"></script>
     <script src="~/ngapp/controllers/controllers.js"></script>
-    <script src="~/ngApp/controllers/eventsController.js"></script>
-    <script src="~/ngApp/controllers/eventsDetailController.js"></script>
+    <script src="~/ngApp/controllers/homeController.js"></script>
+    <script src="~/ngApp/controllers/historyEventsController.js"></script>
+    <script src="~/ngApp/controllers/myEventsController.js"></script>
+    <script src="~/ngApp/controllers/adminEventsController.js"></script>
+    <script src="~/ngApp/controllers/activeEventDetailController.js"></script>
+    <script src="~/ngApp/controllers/userEventDetailController.js"></script>
+    <script src="~/ngApp/controllers/historyEventDetailController.js"></script>
+
     <script src="~/ngApp/controllers/eventCreateController.js"></script>
     <script src="~/ngApp/controllers/eventEditController.js"></script>
     <script src="~/ngApp/controllers/eventDeleteDialogController.js"></script>

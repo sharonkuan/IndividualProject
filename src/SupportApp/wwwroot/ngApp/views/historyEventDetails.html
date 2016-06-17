@@ -1,0 +1,45 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <h1>History Event Details</h1>
+        <hr />
+        <a href="/historyEvents"><strong><em>Back to history events page...</em></strong></a>
+        <h2>{{controller.event.eventTitle}}</h2>
+        <h4>{{controller.event.details}}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Event Start Date</th>
+                <th>Start Time</th>
+                <th>End Date</th>
+                <th>Location</th>
+                <th>Completed?</th>
+            </tr>
+            <tr>
+                <td>{{controller.event.eventStartDate|date: "fullDate"}}</td>
+                <td>{{controller.event.eventStartDate| date:'hh:mm:ss a'}}</td>
+                <td>{{controller.event.eventEndDate|date:"shortDate"}} <br />{{controller.event.eventEndDate|date:'hh:mm:ss a'}}</td>
+                <td>
+                    <table>
+                        <tr ng-repeat="location in controller.event.locations">
+                            <td>
+                                * {{location.city}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>{{controller.event.isComplete}}</td>
+            </tr>
+        </table>
+        <h3>Comments</h3>
+        <table class="table table-striped">
+            <tr ng-repeat="comment in controller.event.comments">
+                <td>* {{comment.message}}</td>
+                <td><font size="1">Date: {{comment.dateCreated|date: "shortDate"}}</font></td>
+                <td><font size="1">Added By: {{comment.applicationUserId}}</font></td>
+            </tr>
+        </table>
+    </div>
+</div>

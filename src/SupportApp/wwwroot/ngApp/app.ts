@@ -37,16 +37,46 @@ namespace SupportApp {
                 controller: SupportApp.Controllers.ExternalRegisterController,
                 controllerAs: 'controller'
             })
-            .state("events", {
-                url: "/events",
-                templateUrl: "/ngApp/views/events.html",
-                controller: SupportApp.Controllers.EventsController,
+            .state("historyEvents", {
+                url: "/historyEvents",
+                templateUrl: "/ngApp/views/historyEvents.html",
+                controller: SupportApp.Controllers.HistoryEventsController,
                 controllerAs: "controller"
             })
-            .state("eventDetails", {
-                url: "/event/details/:id",
-                templateUrl: "/ngApp/views/eventDetails.html",
-                controller: SupportApp.Controllers.EventsDetailController,
+            .state("myEvents", {
+                url: "/myEvents",
+                templateUrl: "/ngApp/views/myEvents.html",
+                controller: SupportApp.Controllers.MyEventsController,
+                controllerAs: "controller"
+            })
+            .state("adminEvents", {
+                url: "/adminEvents",
+                templateUrl: "/ngApp/views/adminEvents.html",
+                controller: SupportApp.Controllers.AdminEventsController,
+                controllerAs: "controller"
+            })
+            .state("activeEventDetails", {
+                url: "/event/activeEventDetails/:id",
+                templateUrl: "/ngApp/views/activeEventDetails.html",
+                controller: SupportApp.Controllers.ActiveEventDetailController,
+                controllerAs: "controller"
+            })
+            .state("historyEventDetails", {
+                url: "/event/historyEventDetails/:id",
+                templateUrl: "/ngApp/views/historyEventDetails.html",
+                controller: SupportApp.Controllers.HistoryEventDetailController,
+                controllerAs: "controller"
+            })
+            .state("userEventDetails", {
+                url: "/event/userEventDetails/:id",
+                templateUrl: "/ngApp/views/userEventDetails.html",
+                controller: SupportApp.Controllers.UserEventDetailController,
+                controllerAs: "controller"
+            })
+            .state("adminEventDetails", {
+                url: "/event/adminEventDetails/:id",
+                templateUrl: "/ngApp/views/userEventDetails.html",
+                controller: SupportApp.Controllers.UserEventDetailController,
                 controllerAs: "controller"
             })
             .state("eventCreate", {

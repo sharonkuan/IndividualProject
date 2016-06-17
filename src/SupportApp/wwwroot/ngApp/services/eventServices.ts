@@ -12,20 +12,81 @@
                 vote: {
                     method: "PUT",
                     url: "/api/event/:id"
+                },
+                getActiveEvents: {
+                    method: 'GET',
+                    url: '/api/event/getactiveevents',
+                    isArray: false
+                },
+
+                getHistoryEvents: {
+                    method: 'GET',
+                    url: '/api/event/gethistoryevents',
+                    isArray: false
+                },
+                getUserEvents: {
+                    method: 'GET',
+                    url: '/api/event/getuserevents',
+                    isArray: false
+                },
+                getAllEvents: {
+                    method: 'GET',
+                    url: '/api/event/getallevents',
+                    isArray: false
+                }
+                ,
+                //event detail
+                getActiveEventDetails: {
+                    method: 'GET',
+                    url: '/api/event/getactiveevent/:id'
+                },
+                getHistoryEventDetails: {
+                    method: 'GET',
+                    url: '/api/event/gethistoryevent/:id'
+                },
+                getUserEventDetails: {
+                    method: 'GET',
+                    url: '/api/event/getuserevent/:id'
                 }
             });
             this.eventCommentResources = $resource("/api/eventComment/:id");
             this.eventLocationResources = $resource("/api/eventLocation/:id");
         }
 
-        getAllEvents() {
-
-            return this.eventsResources.query().$promise;
+        //this is for regular users
+        //current it is not available to view until user logs in so that users can register volunteer
+        getActiveEvents() {
+            debugger;
+            return this.eventsResources.getActiveEvents().$promise;
         }
 
-        getSingleEvent(eventId) {
+        getHistoryEvents() {
+            debugger;
+            return this.eventsResources.getHistoryEvents().$promise;
+        }
 
-            return this.eventsResources.get({ id: eventId }).$promise;
+        getUserEvents() {
+
+            return this.eventsResources.getUserEvents().$promise;
+        }
+        //this is for admin
+        getAllEvents() {
+
+            return this.eventsResources.getAllEvents().$promise;
+        }
+
+        getUserEventDetails(eventId) {
+            debugger;
+            return this.eventsResources.getUserEventDetails({ id: eventId }).$promise;
+        }
+
+        //this does not do any filter at all
+        getActiveEventDetails(eventId) {
+            return this.eventsResources.getActiveEventDetails({ id: eventId }).$promise;
+        }
+        
+        getHistoryEventDetails(eventId) {
+            return this.eventsResources.getHistoryEventDetails({ id: eventId }).$promise;
         }
 
         voteEvent(eventId, voteValue) {

@@ -1,16 +1,9 @@
-<div style="height: 205px">
-    <uib-carousel active="controller.active" interval="controller.myInterval" no-wrap="controller.noWrapSlides">
-        <uib-slide ng-repeat="slide in controller.slides track by slide.id" index="slide.id">
-            <img ng-src="{{slide.image}}" style="margin:auto;">
-        </uib-slide>
-    </uib-carousel>
-</div>
-<div class="row">
+﻿<div class="row">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-8">
-                <h1>Upcoming Events</h1>
-                <a href="/historyEvents"><strong><em>See Past Events Histories...</em></strong></a>
+                <h1>Upcoming Events - My Events Page</h1>
+                <a href="/products/add"><strong><em>See Past Events Histories...</em></strong></a>
             </div>
             <br />
             <div class="col-md-4">
@@ -29,18 +22,23 @@
                         <th>Event Date</th>
                         <th>Hours</th>
                         <th>Locations</th>
+                        <th></th>
                     </tr>
                     <!-- does not filter by the category link -->
                     <tr ng-repeat="event in controller.events">
                         <td>{{event.eventType}}</td>
-                        <td><a href="/event/activeEventDetails/{{event.id}}">{{event.eventTitle}}</a></td>
+                        <td><a href="/event/userEventDetails/{{event.id}}">{{event.eventTitle}}</a></td>
                         <td>{{event.eventStartDate | date: "longDate"}}</td>
                         <td>{{event.eventStartDate | date:'hh:mm:ss a'}}</td>
-                        <td>
+                        <td> 
                             <!-- Tried with | unique:  -->
                             <ul ng-repeat="location in event.locations | unique: 'city'">
                                 {{location.city}}
                             </ul>
+                        </td>
+                        <td>
+                            <a href="/event/edit/{{event.id}}">Edit</a>  |
+                            <a href="#" ng-click="controller.showDeleteDialog(event.id)">Delete</a>
                         </td>
                     </tr>
                 </table>
@@ -48,6 +46,4 @@
         </div>
     </div>
 </div>
-
-
 

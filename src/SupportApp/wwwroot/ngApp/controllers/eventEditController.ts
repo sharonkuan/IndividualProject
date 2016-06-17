@@ -16,7 +16,7 @@
 
         getEvent() {
 
-            this.eventServices.getSingleEvent(this.eventId).then((data) => {
+            this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.eventToEdit = data;
                 //this.checkPrivate();
             });

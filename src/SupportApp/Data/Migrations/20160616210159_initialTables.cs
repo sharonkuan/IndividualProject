@@ -68,32 +68,6 @@ namespace SupportApp.data.migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    Details = table.Column<string>(nullable: true),
-                    DownVote = table.Column<int>(nullable: false),
-                    EventEndDate = table.Column<DateTime>(nullable: false),
-                    EventStartDate = table.Column<DateTime>(nullable: false),
-                    EventTitle = table.Column<string>(nullable: false),
-                    EventType = table.Column<string>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsComplete = table.Column<bool>(nullable: false),
-                    IsPrivate = table.Column<bool>(nullable: false),
-                    IsVolunteerRequired = table.Column<string>(nullable: true),
-                    PreferredNumberOfExpectedVolunteer = table.Column<int>(nullable: false),
-                    UpVote = table.Column<int>(nullable: false),
-                    Views = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -180,11 +154,45 @@ namespace SupportApp.data.migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApplicationUserId = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    Details = table.Column<string>(nullable: true),
+                    DownVote = table.Column<int>(nullable: false),
+                    EventEndDate = table.Column<DateTime>(nullable: false),
+                    EventStartDate = table.Column<DateTime>(nullable: false),
+                    EventTitle = table.Column<string>(nullable: false),
+                    EventType = table.Column<string>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsComplete = table.Column<bool>(nullable: false),
+                    IsPrivate = table.Column<bool>(nullable: false),
+                    IsVolunteerRequired = table.Column<string>(nullable: true),
+                    PreferredNumberOfExpectedVolunteer = table.Column<int>(nullable: false),
+                    UpVote = table.Column<int>(nullable: false),
+                    Views = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApplicationUserId = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EventId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
@@ -233,6 +241,7 @@ namespace SupportApp.data.migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
                     EventId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     NameOfLocation = table.Column<string>(nullable: true),
@@ -295,6 +304,11 @@ namespace SupportApp.data.migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Events_ApplicationUserId",
+                table: "Events",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EventUsers_EventId",
                 table: "EventUsers",
                 column: "EventId");
@@ -340,10 +354,10 @@ namespace SupportApp.data.migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "AspNetUsers");
         }
     }
 }

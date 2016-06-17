@@ -1,6 +1,6 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class EventsController {
+    export class AdminEventsController {
 
         public events;
         private selectedEventLocation;
@@ -11,16 +11,18 @@
 
             this.getAllEvents();
             debugger;
-            
         }
 
         getAllEvents() {
-
+            debugger;
+            //put all events in viewmodel came back as object
             this.eventServices.getAllEvents().then((data) => {
-                this.events = data;
+                this.events = data.events;
                 this.eventLocations = this.extractingEventNestedArray();
             });
         }
+
+
 
         showDeleteDialog(eventId) {
             //debugger;

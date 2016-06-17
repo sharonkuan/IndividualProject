@@ -12,7 +12,7 @@ namespace SupportApp.Models
     {
         //no IsActive table is required in the join tables
         public ApplicationUser Member { get; set; }
-        public string MemberId { get; set; }
+        public string ApplicationUserId { get; set; }
 
         public ApplicationUser Volunteer { get; set; }
         public string VolunteerId { get; set; }

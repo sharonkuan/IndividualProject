@@ -2,8 +2,8 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-8">
-                <h1>Upcoming Events</h1>
-                <a href="/products/add"><strong><em>See Past Events Histories...</em></strong></a>
+                <h1>History Events</h1>
+                <a href="/"><strong><em>See upcoming events...</em></strong></a>
             </div>
             <br />
             <div class="col-md-4">
@@ -22,23 +22,18 @@
                         <th>Event Date</th>
                         <th>Hours</th>
                         <th>Locations</th>
-                        <th></th>
                     </tr>
                     <!-- does not filter by the category link -->
                     <tr ng-repeat="event in controller.events">
                         <td>{{event.eventType}}</td>
-                        <td><a href="/event/details/{{event.id}}">{{event.eventTitle}}</a></td>
+                        <td><a href="/event/historyEventDetails/{{event.id}}">{{event.eventTitle}}</a></td>
                         <td>{{event.eventStartDate | date: "longDate"}}</td>
                         <td>{{event.eventStartDate | date:'hh:mm:ss a'}}</td>
-                        <td> 
+                        <td>
                             <!-- Tried with | unique:  -->
                             <ul ng-repeat="location in event.locations | unique: 'city'">
                                 {{location.city}}
                             </ul>
-                        </td>
-                        <td>
-                            <a href="/event/edit/{{event.id}}">Edit</a>  |
-                            <a href="#" ng-click="controller.showDeleteDialog(event.id)">Delete</a>
                         </td>
                     </tr>
                 </table>
@@ -46,4 +41,3 @@
         </div>
     </div>
 </div>
-

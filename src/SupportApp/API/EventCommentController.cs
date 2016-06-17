@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using SupportApp.Data;
 using SupportApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using SupportApp.Services;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,17 +16,19 @@ namespace SupportApp.API
     [Route("api/[controller]")]
     public class EventCommentController : Controller
     {
-        private ApplicationDbContext _db;
+        private IEventCommentsService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EventCommentController(ApplicationDbContext db)
+        public EventCommentController(IEventCommentsService service, UserManager<ApplicationUser> userManager)
         {
-            this._db = db;
+            this._service = service;
+            this._userManager = userManager;
         }
 
         [HttpPost("{id}")]
         public IActionResult Post(int id, [FromBody]Comment comment)
         {
-            var selectedEvent = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).FirstOrDefault();
+            //var selectedEvent = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).FirstOrDefault();
             if (comment == null || String.IsNullOrWhiteSpace(comment.Message))
             {
                 ModelState.AddModelError("", "Comment is required.");
@@ -35,19 +39,13 @@ namespace SupportApp.API
                 return BadRequest(this.ModelState);
             }
 
-            if (comment.Id == 0)
+            var userId = _userManager.GetUserId(User);
+
+            if (userId != null && comment.Id == 0)
             {
-                comment.DateCreated = DateTime.UtcNow;
-                selectedEvent.Comments.Add(comment);
+                _service.SaveEventComment(id, userId, comment);
             }
-            //else
-            //{
-            //    var commentToEdit = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).Select(c=> c.Id == comment.Id).FirstOrDefault();
-            //     comment.Message
-            //}
-
-            _db.SaveChanges();
-
+       
             return Ok();
         }
 

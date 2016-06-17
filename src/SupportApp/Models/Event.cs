@@ -9,7 +9,7 @@ namespace SupportApp.Models
     /// <summary>
     /// Base elements of an event, tracks IsPrivate, IsVolunteerRequired,PreferredNumberOfExpectedVolunteer. Has one to many relationshiop between Locations and Comments. It has many to many relationship to users (volunteers)
     /// </summary>
-    public class Event
+    public class Event: AuditObj
     {
         //this can be events created by the admin
         //and can be used to create by members for private request
@@ -23,8 +23,8 @@ namespace SupportApp.Models
         public DateTime EventStartDate { get; set; }
         [Required(ErrorMessage = "Event end date is required")]
         public DateTime EventEndDate { get; set; }
-        public DateTime DateCreated { get; set; }
-        public bool IsActive { get; set; }
+ //     public DateTime DateCreated { get; set; }
+ //     public bool IsActive { get; set; }
         public bool IsComplete { get; set; }
         public bool IsPrivate { get; set; }
         public string IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
@@ -37,6 +37,10 @@ namespace SupportApp.Models
 
         public ICollection<Location> Locations { get; set; }  //one to many locations
         public ICollection<Comment> Comments { get; set; }   //one to many comments for an event
+        //TODO: Currently, it will only create public events and allows volunteers to sign in
         public ICollection<EventUser> EventUsers { get; set; }  //volunteers registered for many events
+
+        public string ApplicationUserId { get; set; }
+
     }
 }

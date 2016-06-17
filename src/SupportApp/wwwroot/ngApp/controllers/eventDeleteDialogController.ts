@@ -14,7 +14,7 @@
 
         getEvent() {
 
-            this.eventToDelete = this.eventServices.getSingleEvent(this.eventIdFrom);
+            this.eventToDelete = this.eventServices.getUserEventDetails(this.eventIdFrom);
             debugger;
         }
 
