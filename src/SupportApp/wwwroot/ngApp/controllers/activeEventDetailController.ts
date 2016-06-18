@@ -2,11 +2,11 @@
 
     export class ActiveEventDetailController {
 
-        public event;
-        private eventId;
+        public event;  //from view
         public eventComment;
-        public canEdit;
+        public canEdit; //from server
         public validationErrors;
+        private eventId;  //local extract
 
 
         constructor(private eventServices: SupportApp.Services.EventServices,
@@ -15,14 +15,15 @@
 
             this.eventId = $stateParams["id"];
             this.getEvent();
+            this.initialize();
         }
 
         getEvent() {
             //debugger;
-            this.eventServices.getActiveEventDetails(this.eventId).then((data) => {
+            this.eventServices.getEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
-                console.log(data);
+                //console.log(data);
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -33,13 +34,31 @@
             });
         }
 
+        ////wont work (not used)
+        ////unable to reload the page and show the new comment, trie getEvent and other ways
+        //reloadEventDetailsPage() {
+        //    //debugger;
+        //    this.eventServices.reloadEventDetailsPage(this.eventId).then((data) => {
+        //        this.event = data.event;
+        //        this.canEdit = data.canEdit;
+        //        //console.log(data);
+        //    }).catch((err) => {
+        //        let validationErrors = [];
+        //        for (let prop in err.data) {
+        //            let propErrors = err.data[prop];
+        //            validationErrors = validationErrors.concat(propErrors);
+        //        }
+        //        this.validationErrors = validationErrors;
+        //    });
+        //}
+
+        //worked
         saveComment() {
-            this.eventServices.saveEventComment(this.eventId, this.eventComment).then(() => {
-                let element: any = <HTMLTextAreaElement>document.getElementById("commentForm");
-                element.reset();
-                this.eventComment = "";
-                this.validationErrors = null;
-                this.getEvent();  //include the latest comments added
+            this.eventServices.saveEventComment(this.eventId, this.eventComment).then((data) => {
+                //console.log("data: " + data);
+                this.event = data;
+                debugger;
+                this.clearCommentForm();
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -48,30 +67,30 @@
                 }
                 this.validationErrors = validationErrors;
             });
+
         }
 
-        //this accepts the value set by the ng-click button value to pass to API controller 
         voteEvent(voteType) {
             this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
-                //this.getEvent();
                 debugger;
                 this.event = data;
-
             });
         }
 
         cancel() {
-            this.$state.go("myEvents");
+            this.$state.go("home");
         }
 
         initialize() {
             this.eventComment = {};
             this.eventComment.message = "";
         }
+
+        clearCommentForm() {
+            let element: any = <HTMLTextAreaElement>document.getElementById("commentForm");
+            element.reset();
+            this.eventComment = "";
+            this.validationErrors = null;
+        }
     }
 }
-
-//    angular.module("SupportApp").controller("activeEventDetailController", function ($rootScope, $scope, $filter) {
-//        var filterdatetime = $filter('datetmUTC')($scope.date);
-//    });
-//} 

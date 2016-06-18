@@ -30,12 +30,16 @@
         }
 
         saveComment() {
-            this.eventServices.saveEventComment(this.eventId, this.eventComment).then(() => {
+            debugger;
+            this.eventServices.saveEventComment(this.eventId, this.eventComment).then((data) => {
+                this.eventComment = data;
+                debugger;
+                console.log(this.eventComment);
                 let element: any = <HTMLTextAreaElement>document.getElementById("commentForm");
                 element.reset();
                 this.eventComment = "";
                 this.validationErrors = null;
-                this.getEvent();  //include the latest comments added
+                //this.getEvent();  //include the latest comments added
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -57,6 +61,7 @@
         }
 
         cancel() {
+            debugger;
             this.$state.go("myEvents");
         }
 

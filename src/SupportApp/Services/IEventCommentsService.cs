@@ -5,6 +5,7 @@ namespace SupportApp.Services
 {
     public interface IEventCommentsService
     {
-        EventCommentViewModel SaveEventComment(int id, string userId, Comment comment);
+        Event SaveEventComment(int id, string userId, Comment comment);
+        //EventDetailsViewModel ReloadEventDetailsPage(string userId, int id);
     }
 }

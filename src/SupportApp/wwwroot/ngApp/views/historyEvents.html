@@ -1,16 +1,23 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h1>History Events</h1>
                 <a href="/"><strong><em>See upcoming events...</em></strong></a>
             </div>
-            <br />
             <div class="col-md-4">
+                <h4>Viewing {{controller.selectedEventLocation}} </h4>
+                <ul>
+                    <li ng-repeat="error in controller.validationErrors">{{error}}</li>
+                </ul>
+            </div>
+            <div class="col-md-2">
                 <label>Filter by: Event City</label><br />
-                <select ng-model="controller.selectedEventLocation">
-                    <option ng-repeat="location in controller.eventLocations | unique: 'city'" value={{locations.id}}>{{location.city}}</option>
+                <select ng-model="controller.selectedEventLocation"
+                        ng-change="controller.searchEventsByCity()">
+                    <option ng-repeat="location in controller.eventLocations | unique: 'city'" ng-selected="controller.selectedEventLocation == location.city" value="{{location.city}}">{{location.city}}</option>
                 </select>
+                <input type="button" ng-click="controller.getActiveEvents()" value="All" />
             </div>
         </div>
         <div class="row">

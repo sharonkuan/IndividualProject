@@ -8,6 +8,7 @@ using SupportApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SupportApp.Services;
+using SupportApp.ViewModels.Connection;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,11 +26,22 @@ namespace SupportApp.API
             this._userManager = userManager;
         }
 
+        //// GET api/eventcomment/reloadeventdetailspage/5
+        //[HttpGet]
+        //[Route("reloadeventdetailspage/{id}")]
+        //public IActionResult ReloadEventDetailsPage(int id)
+        //{
+        //    var userId = _userManager.GetUserId(User);
+        //    var singleEvent = _service.ReloadEventDetailsPage(userId, id);
+        //    return Ok(singleEvent);
+        //}
+
         [HttpPost("{id}")]
         public IActionResult Post(int id, [FromBody]Comment comment)
         {
-            //var selectedEvent = _db.Events.Where(e => e.Id == id).Include(e => e.Comments).FirstOrDefault();
-            if (comment == null || String.IsNullOrWhiteSpace(comment.Message))
+            var addedCommentEvent = new Event();
+            
+            if (comment == null || String.IsNullOrWhiteSpace(comment.ToString()))
             {
                 ModelState.AddModelError("", "Comment is required.");
             }
@@ -43,10 +55,10 @@ namespace SupportApp.API
 
             if (userId != null && comment.Id == 0)
             {
-                _service.SaveEventComment(id, userId, comment);
+                addedCommentEvent = _service.SaveEventComment(id, userId, comment);
             }
        
-            return Ok();
+            return Ok(addedCommentEvent);
         }
 
         //// DELETE api/values/5

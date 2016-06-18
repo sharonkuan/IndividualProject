@@ -20,19 +20,35 @@ namespace SupportApp.Services
             this._repo = repo;
         }
 
-        public EventCommentViewModel SaveEventComment(int id, string userId, Comment comment)
-        {
-            var eventCommentToSave = new EventCommentViewModel();
-            var selectedEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).FirstOrDefault();
+        //public EventDetailsViewModel ReloadEventDetailsPage(string userId, int id)
+        //{
+        //    var vm = new EventDetailsViewModel();
+        //    var sglEvent = _repo.Query<Event>().Include(e => e.Locations).Include(e => e.Comments).FirstOrDefault(e => e.Id == id);
 
-            eventCommentToSave.Comment.DateCreated = DateTime.UtcNow;
+        //    if (userId != null)
+        //    {
+        //        vm.CanEdit = true;
+        //    }
+        //    else
+        //    {
+        //        vm.CanEdit = false;
+        //    }
+        //    vm.Event = sglEvent;
+        //    return vm;  //usereventdetails
+        //}
+
+
+        public Event SaveEventComment(int id, string userId, Comment comment)
+        {
+            var selectedEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e=>e.Locations).FirstOrDefault();
+
+            comment.DateCreated = DateTime.UtcNow;
             comment.ApplicationUserId = userId;
             comment.IsActive = true;
             selectedEvent.Comments.Add(comment);
-
             _repo.SaveChanges();
 
-            return eventCommentToSave;
+            return selectedEvent;
         }
     }
 }

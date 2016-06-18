@@ -13,12 +13,16 @@
                     method: "PUT",
                     url: "/api/event/:id"
                 },
+                search: {
+                    method: 'GET',
+                    url: '/api/event/search/:city',
+                    isArray: true
+                },
                 getActiveEvents: {
                     method: 'GET',
                     url: '/api/event/getactiveevents',
                     isArray: false
                 },
-
                 getHistoryEvents: {
                     method: 'GET',
                     url: '/api/event/gethistoryevents',
@@ -36,25 +40,26 @@
                 }
                 ,
                 //event detail
-                getActiveEventDetails: {
+                getEventDetails: {
                     method: 'GET',
-                    url: '/api/event/getactiveevent/:id'
-                },
-                getHistoryEventDetails: {
-                    method: 'GET',
-                    url: '/api/event/gethistoryevent/:id'
+                    url: '/api/event/geteventdetails/:id'
                 },
                 getUserEventDetails: {
                     method: 'GET',
                     url: '/api/event/getuserevent/:id'
                 }
             });
-            this.eventCommentResources = $resource("/api/eventComment/:id");
+            this.eventCommentResources = $resource("/api/eventComment/:id", null, {
+                reloadEventDetailsPage: {
+                    method: 'GET',
+                    url: '/api/eventcomment/reloadeventdetailspage/:id'
+                }
+            });
             this.eventLocationResources = $resource("/api/eventLocation/:id");
         }
 
-        //this is for regular users
-        //current it is not available to view until user logs in so that users can register volunteer
+       
+
         getActiveEvents() {
             debugger;
             return this.eventsResources.getActiveEvents().$promise;
@@ -81,16 +86,30 @@
         }
 
         //this does not do any filter at all
-        getActiveEventDetails(eventId) {
-            return this.eventsResources.getActiveEventDetails({ id: eventId }).$promise;
+        getEventDetails(eventId) {
+            return this.eventsResources.getEventDetails({ id: eventId }).$promise;
         }
-        
-        getHistoryEventDetails(eventId) {
-            return this.eventsResources.getHistoryEventDetails({ id: eventId }).$promise;
+
+        //this is for regular users
+        //current it is not available to view until user logs in so that users can register volunteer
+        searchByCity(city) {
+            return this.eventsResources.search({ city: city }).$promise;
+        }
+
+        ////after saving an event, reload all events without adding a view count
+        //reloadEventDetailsPage(eventId) {
+        //    debugger;
+        //    return this.eventCommentResources.reloadEventDetailsPage({ id: eventId});
+        //}
+
+        //save a single event comment
+        saveEventComment(eventId, commentToSave) {
+            debugger;
+            return this.eventCommentResources.save({ id: eventId }, commentToSave).$promise;
         }
 
         voteEvent(eventId, voteValue) {
-            //alert(questionId);
+            debugger;
             return this.eventsResources.vote({ id: eventId }, voteValue).$promise;
         }
 
@@ -99,15 +118,9 @@
             return this.eventsResources.save(event).$promise;
         }
 
-        //save a single event comment
+        //save an event location
         saveEventLocation(eventId, locationToSave) {
             return this.eventLocationResources.save({ id: eventId }, locationToSave).$promise;
-        }
-
-        //save a single event comment
-        saveEventComment(eventId, commentToSave) {
-            debugger;
-            return this.eventCommentResources.save({ id: eventId }, commentToSave).$promise;
         }
 
         deleteEvent(eventId) {

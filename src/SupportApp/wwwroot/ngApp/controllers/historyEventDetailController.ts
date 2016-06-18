@@ -18,7 +18,7 @@
 
         getHistoryEvent() {
             //debugger;
-            this.eventServices.getHistoryEventDetails(this.eventId).then((data) => {
+            this.eventServices.getEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
                 console.log(data);
@@ -33,7 +33,7 @@
         }
     }
 
-    angular.module("SupportApp").controller("activeEventDetailController", function ($rootScope, $scope, $filter) {
-        var filterdatetime = $filter('datetmUTC')($scope.date);
-    });
+    //angular.module("SupportApp").controller("activeEventDetailController", function ($rootScope, $scope, $filter) {
+    //    var filterdatetime = $filter('datetmUTC')($scope.date);
+    //});
 } 

@@ -21,7 +21,44 @@ namespace SupportApp.Services
         }
 
         /// <summary>
-        /// anyone can see the events when it's not login
+        /// This filter the home page results by city selected by the viewer
+        /// </summary>
+        /// <param name="city"></param>
+        /// <returns></returns>
+        public List<Event> GetActiveEventsByCity(string city)
+        {
+            var vm = new EventsViewModel();
+            var filteredEventsList = new List<Event>();
+            vm.Events = _repo.Query<Event>().Include(e => e.Comments).Include(e => e.Locations).OrderBy(e => e.EventStartDate).ToList();
+            vm.Events = vm.Events.Where(e => e.IsActive == true).ToList();
+            vm.Events = vm.Events.Where(e => e.EventStartDate > DateTime.UtcNow).ToList();
+            vm.CanEdit = false;
+            if (city == "All" || city == "")
+            {
+                foreach (var singleEvent in vm.Events)
+                {
+                    filteredEventsList.Add(singleEvent);
+                }
+            }
+            else
+            {
+                foreach (var singleEvent in vm.Events)
+                {
+                    foreach (var location in singleEvent.Locations)
+                    {
+                        if (location.City == city)
+                        {
+                            filteredEventsList.Add(singleEvent);
+                            break;
+                        }
+                    }
+                }
+            }
+            return filteredEventsList;
+        }
+
+        /// <summary>
+        /// Home page - anyone can see the events when it's not login
         /// </summary>
         /// <returns></returns>
         public EventsViewModel GetActiveEvents()
@@ -36,7 +73,7 @@ namespace SupportApp.Services
         }
 
         /// <summary>
-        /// anyone can see the events when it's not login
+        /// Home paeg - anyone can see the events when it's not login
         /// </summary>
         /// <returns></returns>
         public EventsViewModel GetHistoryEvents()
@@ -61,14 +98,14 @@ namespace SupportApp.Services
             var vm = new EventsViewModel();
 
             vm.Events = _repo.Query<Event>().Where(e => e.ApplicationUserId == id).Include(e => e.Comments).Include(e => e.Locations).OrderBy(e => e.EventStartDate).ToList();
-
+            vm.Events = vm.Events.Where(e => e.IsActive == true).ToList();
             vm.CanEdit = true;
 
             return vm;
         }
 
         /// <summary>
-        /// returning one vm of list for Admin and if not admin, return only the active events to general viewers
+        /// Admin page returning one vm of list for Admin and if not admin, return only the active events to general viewers
         /// </summary>
         /// <returns></returns>
         public EventsViewModel GetAllEvents(bool hasClaim, string id)
@@ -93,10 +130,8 @@ namespace SupportApp.Services
             return vm;
         }
 
-
-
         /// <summary>
-        /// get the single event
+        /// Members login, can check if this user can edit the single event, this can be used for CRUD
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -128,11 +163,17 @@ namespace SupportApp.Services
             return vm;  //usereventdetails
         }
 
-        public EventDetailsViewModel GetActiveEventDetails(string userId,int id)
+        /// <summary>
+        /// Home apge - Event details, when user is a member, they can add comments
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public EventDetailsViewModel GetEventDetails(string userId, int id)
         {
             var vm = new EventDetailsViewModel();
             var eventSelected = _repo.Query<Event>().Include(e => e.Locations).Include(e => e.Comments).FirstOrDefault(e => e.Id == id);
-           
+
             if (userId != null)
             {
                 vm.CanEdit = true;
@@ -149,52 +190,21 @@ namespace SupportApp.Services
             return vm;  //activeeventdetails
         }
 
-        public EventDetailsViewModel GetHistoryEventDetails(string userId, int id)
-        {
-            var vm = new EventDetailsViewModel();
-            var eventSelected = _repo.Query<Event>().Include(e => e.Locations).Include(e => e.Comments).FirstOrDefault(e => e.Id == id);
-
-            if (userId != null)
-            {
-                vm.CanEdit = true;
-            }
-            else
-            {
-
-                vm.CanEdit = false;
-            }
-
-            vm.Event = eventSelected;
-            eventSelected.Views++;
-            _repo.SaveChanges();
-            return vm;
-        }
-
-        //get events by city
-        public List<Event> GetEventByCity(string city)
-        {
-            List<Event> events = new List<Event>();
-            var allEvents = _repo.Query<Event>().Include(e => e.Locations).ToList();
-
-            foreach (var sglEvent in allEvents)
-            {
-                foreach (var item in sglEvent.Locations)
-                {
-                    if (item.City == city)
-                    {
-                        events.Add(sglEvent);
-                    }
-                }
-            }
-            return events;
-        }
-
-
-        public Event SaveEvent(Event addedEvent)
+        /// <summary>
+        /// Save a event including its list of locations
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="addedEvent"></param>
+        /// <returns></returns>
+        public Event SaveEvent(string userId, Event addedEvent)
         {
             if (addedEvent.Id == 0)
             {
                 addedEvent.DateCreated = DateTime.UtcNow;
+                addedEvent.IsActive = true;
+                addedEvent.IsComplete = false;
+                addedEvent.Views = 0;
+                addedEvent.ApplicationUserId = userId;
                 _repo.Add<Event>(addedEvent);
             }
             else
@@ -216,50 +226,116 @@ namespace SupportApp.Services
             return addedEvent;
         }
 
-        public void DeleteEvent(int id)
+        /// <summary>
+        /// Checks user credential before doing a soft delete on the events and its location and comments
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="hasClaim"></param>
+        /// <param name="id"></param>
+        public void DeleteEvent(string userId, bool hasClaim, int id)
         {
-            var sglEvent = _repo.Query<Event>().FirstOrDefault(e => e.Id == id);
-
             var volunteers = _repo.Query<EventUser>().Where(eu => eu.EventId == id).Select(e => e.Member).ToList();
 
             var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
 
+            if (hasClaim)
+            {
+                SoftDeleteEvet(singleEvent);
+                #region moved to a function
+                ////soft Delete the related comments
+                //foreach (var comment in singleEvent.Comments)
+                //{
+                //    var eventComment = _repo.Query<Comment>().FirstOrDefault(c => c.Id == comment.Id);
+                //    eventComment.IsActive = false;
+                //    //_repo.Delete<Comment>(eventComment);
+                //    _repo.Update<Comment>(eventComment);
+                //}
 
-            //Delete the related comments
+                ////soft Delete the related locations
+                //foreach (var location in singleEvent.Locations)
+                //{
+                //    var eventLocation = _repo.Query<Location>().FirstOrDefault(c => c.Id == location.Id);
+                //    eventLocation.IsActive = false;
+                //    //_repo.Delete<Location>(eventLocation);
+                //    _repo.Update<Location>(eventLocation);
+                //}
+
+                ////soft delete the event
+                ////_repo.Delete<Event>(singleEvent);
+                //singleEvent.IsActive = false;
+                //_repo.Update<Event>(singleEvent);
+                #endregion
+            }
+            else if (singleEvent.ApplicationUserId == userId)
+            {
+                SoftDeleteEvet(singleEvent);
+                #region moved to a function
+                ////soft Delete the related comments
+                //foreach (var comment in singleEvent.Comments)
+                //{
+                //    var eventComment = _repo.Query<Comment>().FirstOrDefault(c => c.Id == comment.Id);
+                //    eventComment.IsActive = false;
+                //    _repo.Update<Comment>(eventComment);
+                //}
+
+                ////soft Delete the related locations
+                //foreach (var location in singleEvent.Locations)
+                //{
+                //    var eventLocation = _repo.Query<Location>().FirstOrDefault(c => c.Id == location.Id);
+                //    eventLocation.IsActive = false;
+                //    _repo.Update<Location>(eventLocation);
+                //}
+
+                ////soft delete the event
+                //singleEvent.IsActive = false;
+                //_repo.Update<Event>(singleEvent);
+                #endregion
+            }
+        }
+
+        /// <summary>
+        /// function to do the soft delete of an event (event, locations, and comments models)
+        /// </summary>
+        /// <param name="singleEvent"></param>
+        public void SoftDeleteEvet(Event singleEvent)
+        {
+            //soft Delete the related comments
             foreach (var comment in singleEvent.Comments)
             {
                 var eventComment = _repo.Query<Comment>().FirstOrDefault(c => c.Id == comment.Id);
-                _repo.Delete<Comment>(eventComment);
+                eventComment.IsActive = false;
+                _repo.Update<Comment>(eventComment);
             }
 
-            //Delete the related locations
+            //soft Delete the related locations
             foreach (var location in singleEvent.Locations)
             {
                 var eventLocation = _repo.Query<Location>().FirstOrDefault(c => c.Id == location.Id);
-                _repo.Delete<Location>(eventLocation);
+                eventLocation.IsActive = false;
+                _repo.Update<Location>(eventLocation);
             }
 
-            //delete the event
-            _repo.Delete<Event>(singleEvent);
-
-            ////delete the join table record
-            //    var joinTableEventRecord = _repo.Query<EventUser>().Where(eu=>eu.EventId == id).ToList);
-            //    _repo.Delete<EventUser>(volunteer);
+            //soft delete the event
+            singleEvent.IsActive = false;
+            _repo.Update<Event>(singleEvent);
         }
 
-        public Event UpdateVotes(int id, int voteType)
+        public Event UpdateVotes(string userId, int id, int voteType)
         {
             //voteType is thumbs up or down 1 = up, 0 = down
-            var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).FirstOrDefault();
-            if (voteType == 1)
-            {
-                singleEvent.UpVote++;
-            }
-            else if (voteType == 0)
-            {
-                singleEvent.DownVote++;
-            }
+            var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
 
+            if (userId != null)
+            {
+                if (voteType == 1)
+                {
+                    singleEvent.UpVote++;
+                }
+                else if (voteType == 0)
+                {
+                    singleEvent.DownVote++;
+                }
+            }
             _repo.Update(singleEvent);
             return singleEvent;
         }

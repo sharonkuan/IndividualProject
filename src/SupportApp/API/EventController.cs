@@ -20,15 +20,7 @@ namespace SupportApp.API
             _userManager = userManager;
         }
 
-        //// GET: api/events/search
-        //[HttpGet("Search")]
-        //[Authorize]
-        //public IActionResult Search()
-        //{
-        //    var events = _service.GetAllEvents();
-
-        //    return Ok(events);
-        //}
+     
 
         #region -----------------GET ALL EVENTS ---------------
         /// <summary>
@@ -92,26 +84,33 @@ namespace SupportApp.API
             return Ok(singleEvent);
         }
 
-        // GET api/event/getactiveevent/5
+        // GET: api/event/search/"seattle"
         [HttpGet]
-        [Route("getactiveevent/{id}")]
-        public IActionResult GetActiveEventDetails(int id)
+        [Route("search/{city}")]
+        public IActionResult GetSearch(string city)
+        {
+            var events = _service.GetActiveEventsByCity(city);
+            return Ok(events);
+        }
+
+        // GET api/event/geteventdetails/5
+        [HttpGet]
+        [Route("geteventdetails/{id}")]
+        public IActionResult GetEventDetails(int id)
         {
             var userId = _userManager.GetUserId(User);
-            //var singleEvent = _service.GetActiveEventDetails(id);
-            var singleEvent = _service.GetActiveEventDetails(userId, id);
+            var singleEvent = _service.GetEventDetails(userId, id);
             return Ok(singleEvent);
         }
 
-        [HttpGet]
-        [Route("gethistoryevent/{id}")]
-        public IActionResult GetHistoryEventDetails(int id)
-        {
-            var userId = _userManager.GetUserId(User);
-            //var singleEvent = _service.GetActiveEventDetails(id);
-            var singleEvent = _service.GetHistoryEventDetails(userId, id);
-            return Ok(singleEvent);
-        }
+        //[HttpGet]
+        //[Route("gethistoryevent/{id}")]
+        //public IActionResult GetHistoryEventDetails(int id)
+        //{
+        //    var userId = _userManager.GetUserId(User);
+        //    var singleEvent = _service.GetHistoryEventDetails(userId, id);
+        //    return Ok(singleEvent);
+        //}
         #endregion
 
         #region------------POST, PUT, and DELETE--------------------
@@ -120,23 +119,30 @@ namespace SupportApp.API
         [HttpPost]
         public IActionResult Post([FromBody]Event addedEvent)
         {
-            _service.SaveEvent(addedEvent);
+            var userId = _userManager.GetUserId(User);
+            _service.SaveEvent(userId, addedEvent);
             return Ok(addedEvent);
         }
 
-        // PUT api/values/5
+        // PUT api/event/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]int voteType)
         {
+            var userId = _userManager.GetUserId(User);
             //voteType is thumbs up or down 1 = up, 0 = down
-            var sglEvent = _service.UpdateVotes(id, voteType);
+            var sglEvent = _service.UpdateVotes(userId, id, voteType);
             return Ok(sglEvent);
         }
 
-        // DELETE api/values/5
+        // DELETE api/event/5
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
+            var userId = _userManager.GetUserId(User);
+            bool hasClaim = User.HasClaim("IsAdmin", "true");
+            _service.DeleteEvent(userId, hasClaim, id);
+
             return Ok();
         }
         #endregion
