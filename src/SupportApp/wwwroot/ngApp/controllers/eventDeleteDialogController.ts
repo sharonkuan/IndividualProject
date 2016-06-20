@@ -19,9 +19,10 @@
         }
 
         deleteEvent() {
+            debugger;
             this.eventServices.deleteEvent(this.eventToDelete.id).then(() => {
                 this.$uibModalInstance.close();
-                this.eventServices.getAllEvents();
+                //this.eventServices.getAllEvents();
             }).catch((error) => {
                 let validationErrors = [];
                 for (let prop in error.data) {

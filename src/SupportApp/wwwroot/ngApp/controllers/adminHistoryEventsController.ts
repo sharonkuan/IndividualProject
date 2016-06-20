@@ -1,6 +1,6 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class AdminEventsController {
+    export class AdminHistoryEventsController {
 
         public events;
         private selectedEventLocation;
@@ -19,7 +19,7 @@
         getAllEvents() {
             debugger;
             //put all events in viewmodel came back as object
-            this.eventServices.getAllEvents().then((data) => {
+            this.eventServices.getAllHistoryEvents().then((data) => {
                 this.events = data.events;
                 this.selectedEventLocation = "All";
                 this.canEdit = data.canEdit;
@@ -38,7 +38,7 @@
         searchEventsByCity() {
             debugger;
             console.log(this.selectedEventLocation);
-            this.eventServices.searchAllEvents(this.selectedEventLocation).then((data) => {
+            this.eventServices.searchAllHistoryEvents(this.selectedEventLocation).then((data) => {
                 this.events = data;
             }).catch((err) => {
                 let validationErrors = [];
@@ -49,7 +49,6 @@
                 this.validationErrors = validationErrors;
             });
         }
-
 
         showDeleteDialog(eventId) {
             //debugger;

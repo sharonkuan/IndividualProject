@@ -18,6 +18,31 @@
                     url: '/api/event/search/:city',
                     isArray: true
                 },
+                searchActiveHistoryEvents: {
+                    method: 'GET',
+                    url: '/api/event/searchactivehistoryevents/:city',
+                    isArray: true
+                },
+                searchMyActiveEvents: {
+                    method: 'GET',
+                    url: '/api/event/searchmyactiveevents/:city',
+                    isArray: true
+                },
+                searchMyActiveHistoryEvents: {
+                    method: 'GET',
+                    url: '/api/event/searchmyactivehistoryevents/:city',
+                    isArray: true
+                },
+                searchAllEvents: {
+                    method: 'GET',
+                    url: '/api/event/searchallevents/:city',
+                    isArray: true
+                },
+                searchAllHistoryEvents: {
+                    method: 'GET',
+                    url: '/api/event/searchallhistoryevents/:city',
+                    isArray: true
+                },
                 getActiveEvents: {
                     method: 'GET',
                     url: '/api/event/getactiveevents',
@@ -33,12 +58,21 @@
                     url: '/api/event/getuserevents',
                     isArray: false
                 },
+                getUserHistoryEvents: {
+                    method: 'GET',
+                    url: '/api/event/getuserhistoryevents',
+                    isArray: false
+                },
                 getAllEvents: {
                     method: 'GET',
                     url: '/api/event/getallevents',
                     isArray: false
-                }
-                ,
+                },
+                getAllHistoryEvents: {
+                    method: 'GET',
+                    url: '/api/event/getallhistoryevents',
+                    isArray: false
+                },
                 //event detail
                 getEventDetails: {
                     method: 'GET',
@@ -46,19 +80,16 @@
                 },
                 getUserEventDetails: {
                     method: 'GET',
-                    url: '/api/event/getuserevent/:id'
-                }
-            });
-            this.eventCommentResources = $resource("/api/eventComment/:id", null, {
-                reloadEventDetailsPage: {
+                    url: '/api/event/getusereventdetails/:id'
+                },
+                getAdminEventDetails: {
                     method: 'GET',
-                    url: '/api/eventcomment/reloadeventdetailspage/:id'
+                    url: '/api/event/getadmineventdetails/:id'
                 }
             });
+            this.eventCommentResources = $resource("/api/eventComment/:id");
             this.eventLocationResources = $resource("/api/eventLocation/:id");
         }
-
-       
 
         getActiveEvents() {
             debugger;
@@ -69,20 +100,25 @@
             debugger;
             return this.eventsResources.getHistoryEvents().$promise;
         }
-
+       
         getUserEvents() {
 
             return this.eventsResources.getUserEvents().$promise;
         }
+
+        getUserHistoryEvents() {
+            debugger;
+            return this.eventsResources.getUserHistoryEvents().$promise;
+        }
+
         //this is for admin
         getAllEvents() {
 
             return this.eventsResources.getAllEvents().$promise;
         }
 
-        getUserEventDetails(eventId) {
-            debugger;
-            return this.eventsResources.getUserEventDetails({ id: eventId }).$promise;
+        getAllHistoryEvents() {
+            return this.eventsResources.getAllHistoryEvents().$promise;
         }
 
         //this does not do any filter at all
@@ -90,17 +126,39 @@
             return this.eventsResources.getEventDetails({ id: eventId }).$promise;
         }
 
-        //this is for regular users
-        //current it is not available to view until user logs in so that users can register volunteer
+        getUserEventDetails(eventId) {
+            debugger;
+            return this.eventsResources.getUserEventDetails({ id: eventId }).$promise;
+        }
+
+        getAdminEventDetails(eventId) {
+            debugger;
+            return this.eventsResources.getAdminEventDetails({ id: eventId }).$promise;
+        }
+
         searchByCity(city) {
             return this.eventsResources.search({ city: city }).$promise;
         }
 
-        ////after saving an event, reload all events without adding a view count
-        //reloadEventDetailsPage(eventId) {
-        //    debugger;
-        //    return this.eventCommentResources.reloadEventDetailsPage({ id: eventId});
-        //}
+        searchActiveHistoryEventsByCity(city) {
+            return this.eventsResources.searchActiveHistoryEvents({ city: city }).$promise;
+        }
+
+        searchMyActiveEvents(city) {
+            return this.eventsResources.searchMyActiveEvents({ city: city }).$promise;
+        }
+
+        searchMyActiveHistoryEvents(city) {
+            return this.eventsResources.searchMyActiveHistoryEvents({ city: city }).$promise;
+        }
+
+        searchAllEvents(city) {
+            return this.eventsResources.searchAllEvents({ city: city }).$promise;
+        }
+
+        searchAllHistoryEvents(city) {
+            return this.eventsResources.searchAllHistoryEvents({ city: city }).$promise;
+        }
 
         //save a single event comment
         saveEventComment(eventId, commentToSave) {
@@ -114,7 +172,7 @@
         }
 
         saveEvent(event) {
-
+            debugger;
             return this.eventsResources.save(event).$promise;
         }
 
@@ -124,7 +182,7 @@
         }
 
         deleteEvent(eventId) {
-            //debugger;
+            debugger;
             //this.eventCommentResources.remove({ id: eventId }).$promise;
             //this.eventLocationResources.remove({ id: eventId }).$promise;
             return this.eventsResources.remove({ id: eventId }).$promise;

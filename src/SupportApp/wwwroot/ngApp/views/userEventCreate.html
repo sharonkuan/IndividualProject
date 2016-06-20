@@ -1,42 +1,43 @@
 ﻿<div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <h1>Create Event</h1>
+        <a href="/myEvents"><strong><em>Back to My Events...</em></strong></a>
         <form novalidate ng-submit="controller.saveEvent()" name="eventForm">
             <div class="form-group">
                 <label>Event Type</label>
-                <input type="text" name="eventType" class="form-control" ng-model="controller.eventToCreate.eventType" placeholder="Event type" required />
+                <input type="text" name="eventType" class="form-control" ng-model="controller.eventToCreate.event.eventType" placeholder="Event type" required />
                 <span ng-show="eventForm.eventType.$touched && eventForm.eventType.$error.required" class="error">Event type is required.</span>
             </div>
             <div class="form-group">
                 <label>Event Title</label>
-                <input type="text" name="eventTitle" class="form-control" ng-model="controller.eventToCreate.eventTitle" placeholder="Event title" required />
+                <input type="text" name="eventTitle" class="form-control" ng-model="controller.eventToCreate.event.eventTitle" placeholder="Event title" required />
                 <span ng-show="eventForm.eventTitle.$touched && eventForm.eventTitle.$error.required" class="error">Event Title is required</span>
             </div>
             <div class="form-group">
                 <label>Details</label>
-                <textarea name="details" class="form-control" rows="3" ng-model="controller.eventToCreate.details" placeholder="Enter event details"></textarea>
+                <textarea name="details" class="form-control" rows="3" ng-model="controller.eventToCreate.event.details" placeholder="Enter event details"></textarea>
             </div>
             <div class="form-group">
-                <label>Event Start Date Time</label>
-                <input type="datetime-local" name="eventStartDate" class="form-control" ng-model="controller.eventToCreate.eventStartDate" placeholder="Date format: 2016/01/31 07:30:00" required />
+                <label>Event Start Date Time, e.g. 01/31/2016 10:30 AM</label>
+                <input type="datetime-local" name="eventStartDate" class="form-control" ng-model="controller.eventToCreate.event.eventStartDate" placeholder="Date format: 2016/01/31 10:30 AM" required />
                 <span ng-show="eventForm.eventStartDate.$touched && eventForm.eventStartDate.$error.required" class="error">Event Start Date Time is required</span>
             </div>
             <div class="form-group">
-                <label>End Date Time</label>
+                <label>End Date Time, e.g. 01/31/2016 02:30 PM</label>
                 <br />
-                <input type="datetime-local" name="eventEndDate" min="0" max="12" width=2 ng-model="controller.eventToCreate.eventEndDate" placeholder="Date format: 2016/01/31 14:30:00" required />
+                <input type="datetime-local" name="eventEndDate" min="0" max="12" width=2 ng-model="controller.eventToCreate.event.eventEndDate" placeholder="Date format: 2016/01/31 02:30 PM" required />
                 <span ng-show="eventForm.eventEndDate.$touched && eventForm.eventEndDate.$error.required" class="error">Event End Date and Time is required</span>
             </div>
             <div class="form-group">
                 Is it a private event?
                 <label>
                     <input type="radio" name="isPrivate"
-                           value="true" ng-model="controller.eventToCreate.isPrivate" />
+                           value="true" ng-model="controller.eventToCreate.event.isPrivate" />
                     Yes
                 </label>
                 <label>
                     <input type="radio" name="isPrivate"
-                           value="false" ng-model="controller.eventToCreate.isPrivate" ng-checked="true" />
+                           value="false" ng-model="controller.eventToCreate.event.isPrivate" ng-checked="true" />
                     No
                 </label>
             </div>
@@ -44,35 +45,37 @@
                 Is volunteer required?
                 <label>
                     <input type="radio" name="isVolunteerRequired"
-                           value="Yes" ng-model="controller.eventToCreate.isVolunteerRequired" />
+                           value="Yes" ng-model="controller.eventToCreate.event.isVolunteerRequired" />
                     Yes
                 </label>
                 <label>
                     <input type="radio" name="isVolunteerRequired"
-                           value="No" ng-model="controller.eventToCreate.isVolunteerRequired" />
+                           value="No" ng-model="controller.eventToCreate.event.isVolunteerRequired" />
                     No
                 </label>
                 <label>
                     <input type="radio" name="isVolunteerRequired"
-                           value="Maybe" ng-model="controller.eventToCreate.isVolunteerRequired" ng-checked="true" />
+                           value="Maybe" ng-model="controller.eventToCreate.event.isVolunteerRequired" ng-checked="true" />
                     Maybe
                 </label>
             </div>
             <div class="form-group">
                 <label>Number of preferred volunteers</label>
-                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" value="0" width="2" class="form-control" ng-model="controller.eventToCreate.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
-            </div>
-            <div>
-                <a href="/event/locationCreate">Add location</a>
+                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" value="0" width="2" class="form-control" ng-model="controller.eventToCreate.event.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-block btn-success" value="Create" ng-disabled="eventForm.$invalid" />
-                <input type="button" ng-click="controller.cancel()" class="btn btn-block btn-primary" value="Cancel" />
+                Event Completed?
+                <label>
+                    <input type="radio" name="isComplete"
+                           value="true" ng-model="controller.eventToCreate.event.isComplete" />
+                    Yes
+                </label>
+                <label>
+                    <input type="radio" name="isComplete"
+                           value="false" ng-model="controller.eventToCreate.event.isComplete" ng-checked="true" />
+                    No
+                </label>
             </div>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <form novalidate ng-submit="controller.createLocation()" name="eventLocationForm">
             <div class="form-group">
                 <label>Name of Location</label>
                 <input type="text" name="nameOfLocation" class="form-control" ng-model="controller.eventToCreate.location.nameOfLocation" placeholder="Name of the location" required />
@@ -91,23 +94,9 @@
                 <input type="text" name="zip" class="form-control" ng-model="controller.eventToCreate.location.zip" placeholder="Location zip" />
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-block btn-success" value="Add" ng-disabled="eventLocationForm.$invalid" />
+                <input type="submit" class="btn btn-block btn-success" value="Create" />
                 <input type="button" ng-click="controller.cancel()" class="btn btn-block btn-primary" value="Cancel" />
             </div>
         </form>
-        <table>
-            <tr>
-                <th>Location Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>Zip</th>
-            </tr>
-            <tr>
-                <td>{{}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
     </div>
 </div>

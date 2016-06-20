@@ -1,7 +1,6 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class UserEventDetailController {
-
+    export class AdminHistoryEventDetailController {
         public event;
         public eventComment; //passed from view 
         private eventId;
@@ -29,17 +28,13 @@
             });
         }
 
+        //worked
         saveComment() {
-            debugger;
             this.eventServices.saveEventComment(this.eventId, this.eventComment).then((data) => {
-                this.eventComment = data;
+                //console.log("data: " + data);
+                this.event = data;
                 debugger;
-                console.log(this.eventComment);
-                let element: any = <HTMLTextAreaElement>document.getElementById("commentForm");
-                element.reset();
-                this.eventComment = "";
-                this.validationErrors = null;
-                //this.getEvent();  //include the latest comments added
+                this.clearCommentForm();
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -50,28 +45,35 @@
             });
         }
 
-        //this accepts the value set by the ng-click button value to pass to API controller 
         voteEvent(voteType) {
             this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
-                //this.getEvent();
                 debugger;
                 this.event = data;
-
+            }).catch((err) => {
+                let validationErrors = [];
+                for (let prop in err.data) {
+                    let propErrors = err.data[prop];
+                    validationErrors = validationErrors.concat(propErrors);
+                }
+                this.validationErrors = validationErrors;
             });
         }
 
         cancel() {
             debugger;
-            this.$state.go("myEvents");
+            this.$state.go("adminHistoryEvents");
         }
 
         initialize() {
             this.eventComment = {};
             this.eventComment.message = "";
         }
+
+        clearCommentForm() {
+            let element: any = <HTMLTextAreaElement>document.getElementById("commentForm");
+            element.reset();
+            this.eventComment = "";
+            this.validationErrors = null;
+        }
     }
 }
-    //angular.module("SupportApp").controller("eventsDetailController", function ($rootScope, $scope, $filter) {
-    //    var filterdatetime = $filter('datetmUTC')($scope.date);
-    //});
-

@@ -20,34 +20,42 @@ namespace SupportApp.Services
             this._repo = repo;
         }
 
-        //public EventDetailsViewModel ReloadEventDetailsPage(string userId, int id)
-        //{
-        //    var vm = new EventDetailsViewModel();
-        //    var sglEvent = _repo.Query<Event>().Include(e => e.Locations).Include(e => e.Comments).FirstOrDefault(e => e.Id == id);
+        public Event convertDatesFromUtcToLocalTime(Event sglEvent)
+        {
+            sglEvent.EventStartDate = sglEvent.EventStartDate.ToLocalTime();
+            sglEvent.EventEndDate = sglEvent.EventEndDate.ToLocalTime();
+            sglEvent.DateCreated = sglEvent.DateCreated.ToLocalTime();
 
-        //    if (userId != null)
-        //    {
-        //        vm.CanEdit = true;
-        //    }
-        //    else
-        //    {
-        //        vm.CanEdit = false;
-        //    }
-        //    vm.Event = sglEvent;
-        //    return vm;  //usereventdetails
-        //}
+            return sglEvent;
+        }
 
+        public Event DisplayUserFirstName(Event sglEvent)
+        {
+            var userId = sglEvent.ApplicationUserId;
+            var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
+            sglEvent.ApplicationUserId = userFirstName;
+
+            foreach (var comment in sglEvent.Comments)
+            {
+                var commentWriterId = comment.ApplicationUserId;
+                var commentWriterFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == commentWriterId).Select(au => au.FirstName).FirstOrDefault();
+                comment.ApplicationUserId = commentWriterFirstName;
+            }
+
+            return sglEvent;
+        }
 
         public Event SaveEventComment(int id, string userId, Comment comment)
         {
-            var selectedEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e=>e.Locations).FirstOrDefault();
+            var selectedEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
 
             comment.DateCreated = DateTime.UtcNow;
             comment.ApplicationUserId = userId;
             comment.IsActive = true;
             selectedEvent.Comments.Add(comment);
             _repo.SaveChanges();
-
+            selectedEvent = convertDatesFromUtcToLocalTime(selectedEvent);
+            selectedEvent = DisplayUserFirstName(selectedEvent);
             return selectedEvent;
         }
     }

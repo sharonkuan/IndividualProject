@@ -1,29 +1,26 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class ActiveEventDetailController {
+    export class EventAddressController {
 
         public event;  //from view
-        public eventComment;
+        public eventLocation;
         public canEdit; //from server
         public validationErrors;
         private eventId;  //local extract
 
-
         constructor(private eventServices: SupportApp.Services.EventServices,
             $stateParams: angular.ui.IStateParamsService,
             private $state: angular.ui.IStateService) {
-
             this.eventId = $stateParams["id"];
-            this.getEvent();
             this.initialize();
         }
 
-        getEvent() {
-            //debugger;
-            this.eventServices.getEventDetails(this.eventId).then((data) => {
+        getMyEvent() {
+            debugger;
+            this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
-                //console.log(data);
+                console.log(data);
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -34,9 +31,8 @@
             });
         }
 
-        //worked
-        saveComment() {
-            this.eventServices.saveEventComment(this.eventId, this.eventComment).then((data) => {
+        saveAddedEventLocation() {
+            this.eventServices.saveEventComment(this.eventId, this.eventLocation).then((data) => {
                 //console.log("data: " + data);
                 this.event = data;
                 debugger;
@@ -51,33 +47,19 @@
             });
         }
 
-        voteEvent(voteType) {
-            this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
-                debugger;
-                this.event = data;
-            }).catch((err) => {
-                let validationErrors = [];
-                for (let prop in err.data) {
-                    let propErrors = err.data[prop];
-                    validationErrors = validationErrors.concat(propErrors);
-                }
-                this.validationErrors = validationErrors;
-            });
-        }
-
         cancel() {
-            this.$state.go("home");
+            this.$state.go("adminEvents");
         }
 
         initialize() {
-            this.eventComment = {};
-            this.eventComment.message = "";
+            this.eventLocation = {};
+            this.eventLocation.message = "";
         }
 
         clearCommentForm() {
             let element: any = <HTMLTextAreaElement>document.getElementById("commentForm");
             element.reset();
-            this.eventComment = "";
+            this.eventLocation = "";
             this.validationErrors = null;
         }
     }

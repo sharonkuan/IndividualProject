@@ -36,7 +36,7 @@
     </div>
     <hr />
     <div class="container">
-    <ui-view></ui-view>
+        <ui-view></ui-view>
     </div>
 
     <!-- Library Files -->
@@ -45,7 +45,7 @@
     <script src="~/lib/angular-animate/angular-animate.js"></script>
     <script src="~/lib/angular-touch/angular-touch.js"></script>
     <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>    
+    <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="~/lib/angular-filter/dist/angular-filter.min.js"></script>
 
     <!-- App Files-->
@@ -53,17 +53,28 @@
     <script src="~/ngapp/services/services.js"></script>
     <script src="~/ngApp/services/eventServices.js"></script>
     <script src="~/ngapp/controllers/controllers.js"></script>
+    @* Home page controlelrs *@
     <script src="~/ngApp/controllers/homeController.js"></script>
     <script src="~/ngApp/controllers/historyEventsController.js"></script>
-    <script src="~/ngApp/controllers/myEventsController.js"></script>
-    <script src="~/ngApp/controllers/adminEventsController.js"></script>
     <script src="~/ngApp/controllers/activeEventDetailController.js"></script>
-    <script src="~/ngApp/controllers/userEventDetailController.js"></script>
     <script src="~/ngApp/controllers/historyEventDetailController.js"></script>
+    @* My Event page controlelrs *@
+    <script src="~/ngApp/controllers/myEventsController.js"></script>
+    <script src="~/ngApp/controllers/myHistoryEventsController.js"></script>
+    <script src="~/ngApp/controllers/myEventDetailController.js"></script>
+    <script src="~/ngApp/controllers/myHistoryEventDetailController.js"></script>
+    @* Admin Event page controllers *@
+    <script src="~/ngApp/controllers/adminEventsController.js"></script>
+    <script src="~/ngApp/controllers/adminHistoryEventsController.js"></script>
+    <script src="~/ngApp/controllers/adminEventDetailController.js"></script>
+    <script src="~/ngApp/controllers/adminHistoryEventDetailController.js"></script>
 
-    <script src="~/ngApp/controllers/eventCreateController.js"></script>
-    <script src="~/ngApp/controllers/eventEditController.js"></script>
+    <script src="~/ngApp/controllers/userEventCreateController.js"></script>
     <script src="~/ngApp/controllers/eventDeleteDialogController.js"></script>
+
+    <script src="~/ngApp/controllers/eventAddressController.js"></script>
+    <script src="~/ngApp/controllers/eventEditController.js"></script>
+    
 
     <!-- Security -->
     <script src="~/ngapp/controllers/accountcontroller.js"></script>

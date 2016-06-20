@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SupportApp.ViewModels.Connection
 {
-    public class EventDetailsViewModel
+    public class EventLocationViewModel
     {
         public Event Event { get; set; }
+        public Location Location { get; set; }
         public bool CanEdit { get; set; }
         public bool HasClaim { get; set; }
     }

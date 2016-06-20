@@ -23,8 +23,6 @@ namespace SupportApp.Models
         public DateTime EventStartDate { get; set; }
         [Required(ErrorMessage = "Event end date is required")]
         public DateTime EventEndDate { get; set; }
- //     public DateTime DateCreated { get; set; }
- //     public bool IsActive { get; set; }
         public bool IsComplete { get; set; }
         public bool IsPrivate { get; set; }
         public string IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 

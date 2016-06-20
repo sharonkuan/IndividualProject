@@ -1,16 +1,24 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-8">
-                <h1>Upcoming Events - My Events Page</h1>
-                <a href="/products/add"><strong><em>See Past Events Histories...</em></strong></a>
+            <div class="col-md-6">
+                <h2>My Events</h2>
+                <a href="/myHistoryEvents"><strong><em>See My Past Events Histories...</em></strong></a>
             </div>
-            <br />
             <div class="col-md-4">
+                <h4>Viewing {{controller.selectedEventLocation}} </h4>
+                <ul>
+                    <li ng-repeat="error in controller.validationErrors">{{error}}</li>
+                </ul>
+                <a href="/userEvent/create" ng-show="controller.canEdit==true"><strong><em>Create new event</em></strong></a>
+            </div>
+            <div class="col-md-2">
                 <label>Filter by: Event City</label><br />
-                <select ng-model="controller.selectedEventLocation">
-                    <option ng-repeat="location in controller.eventLocations | unique: 'city'" value={{locations.id}}>{{location.city}}</option>
+                <select ng-model="controller.selectedEventLocation"
+                        ng-change="controller.searchEventsByCity()">
+                    <option ng-repeat="location in controller.eventLocations | unique: 'city'" ng-selected="controller.selectedEventLocation == location.city" value="{{location.city}}">{{location.city}}</option>
                 </select>
+                <input type="button" ng-click="controller.getMyEvents()" value="All" />
             </div>
         </div>
         <div class="row">
@@ -24,10 +32,9 @@
                         <th>Locations</th>
                         <th></th>
                     </tr>
-                    <!-- does not filter by the category link -->
                     <tr ng-repeat="event in controller.events">
                         <td>{{event.eventType}}</td>
-                        <td><a href="/event/userEventDetails/{{event.id}}">{{event.eventTitle}}</a></td>
+                        <td><a href="/event/myEventDetails/{{event.id}}">{{event.eventTitle}}</a></td>
                         <td>{{event.eventStartDate | date: "longDate"}}</td>
                         <td>{{event.eventStartDate | date:'hh:mm:ss a'}}</td>
                         <td> 

@@ -34,7 +34,6 @@
             console.log(this.selectedEventLocation);
             this.eventServices.searchByCity(this.selectedEventLocation).then((data) => {
                 this.events = data;
-                //debugger;
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {

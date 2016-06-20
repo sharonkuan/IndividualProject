@@ -26,16 +26,6 @@ namespace SupportApp.API
             this._userManager = userManager;
         }
 
-        //// GET api/eventcomment/reloadeventdetailspage/5
-        //[HttpGet]
-        //[Route("reloadeventdetailspage/{id}")]
-        //public IActionResult ReloadEventDetailsPage(int id)
-        //{
-        //    var userId = _userManager.GetUserId(User);
-        //    var singleEvent = _service.ReloadEventDetailsPage(userId, id);
-        //    return Ok(singleEvent);
-        //}
-
         [HttpPost("{id}")]
         public IActionResult Post(int id, [FromBody]Comment comment)
         {

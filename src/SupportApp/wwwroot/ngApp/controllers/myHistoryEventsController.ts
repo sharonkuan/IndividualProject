@@ -1,44 +1,38 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class AdminEventsController {
+    export class MyHistoryEventsController {
 
         public events;
         private selectedEventLocation;
         public eventLocations;
-        public validationErrors;
         public canEdit;
         public hasClaim;
+        public validationErrors;
 
         constructor(private eventServices: SupportApp.Services.EventServices,
             private $uibModal: ng.ui.bootstrap.IModalService) {
 
-            this.getAllEvents();
+            this.getUserHistoryEvents();
             debugger;
         }
 
-        getAllEvents() {
+        getUserHistoryEvents() {
             debugger;
-            //put all events in viewmodel came back as object
-            this.eventServices.getAllEvents().then((data) => {
+            this.eventServices.getUserHistoryEvents().then((data) => {
+                console.log(data);
+                debugger;
                 this.events = data.events;
                 this.selectedEventLocation = "All";
                 this.canEdit = data.canEdit;
                 this.hasClaim = data.hasClaim;
                 this.eventLocations = this.extractingEventNestedArray();
-            }).catch((err) => {
-                let validationErrors = [];
-                for (let prop in err.data) {
-                    let propErrors = err.data[prop];
-                    validationErrors = validationErrors.concat(propErrors);
-                }
-                this.validationErrors = validationErrors;
             });
         }
 
         searchEventsByCity() {
             debugger;
             console.log(this.selectedEventLocation);
-            this.eventServices.searchAllEvents(this.selectedEventLocation).then((data) => {
+            this.eventServices.searchMyActiveHistoryEvents(this.selectedEventLocation).then((data) => {
                 this.events = data;
             }).catch((err) => {
                 let validationErrors = [];
@@ -47,20 +41,6 @@
                     validationErrors = validationErrors.concat(propErrors);
                 }
                 this.validationErrors = validationErrors;
-            });
-        }
-
-
-        showDeleteDialog(eventId) {
-            //debugger;
-            this.$uibModal.open({
-                templateUrl: '/ngApp/views/eventDeleteDialog.html',
-                controller: SupportApp.Controllers.EventDeleteDialogController,
-                controllerAs: 'controller',
-                resolve: {
-                    eventIdFrom: () => eventId
-                },
-                size: 'sm'
             });
         }
 

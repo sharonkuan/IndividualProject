@@ -19,5 +19,6 @@ namespace SupportApp.ViewModels.Connection
         //public ICollection<Location> Locations { get; set; }
 
         public bool CanEdit { get; set; }
+        public bool HasClaim { get; set; }
     }
 }

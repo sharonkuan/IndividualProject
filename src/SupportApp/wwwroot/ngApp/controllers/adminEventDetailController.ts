@@ -1,12 +1,12 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class ActiveEventDetailController {
+    export class AdminEventDetailController {
 
-        public event;  //from view
-        public eventComment;
-        public canEdit; //from server
+        public event;
+        public eventComment; //passed from view 
+        private eventId;
+        public canEdit;
         public validationErrors;
-        private eventId;  //local extract
 
 
         constructor(private eventServices: SupportApp.Services.EventServices,
@@ -19,18 +19,13 @@
         }
 
         getEvent() {
-            //debugger;
-            this.eventServices.getEventDetails(this.eventId).then((data) => {
+            debugger;
+            this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
-                //console.log(data);
-            }).catch((err) => {
-                let validationErrors = [];
-                for (let prop in err.data) {
-                    let propErrors = err.data[prop];
-                    validationErrors = validationErrors.concat(propErrors);
-                }
-                this.validationErrors = validationErrors;
+                console.log(data);
+            }).catch(() => {
+                console.log("failed");
             });
         }
 
@@ -66,7 +61,8 @@
         }
 
         cancel() {
-            this.$state.go("home");
+            debugger;
+            this.$state.go("adminEvents");
         }
 
         initialize() {

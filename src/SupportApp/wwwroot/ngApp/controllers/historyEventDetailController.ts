@@ -7,7 +7,6 @@
         public canEdit;
         public validationErrors;
 
-
         constructor(private eventServices: SupportApp.Services.EventServices,
             $stateParams: angular.ui.IStateParamsService,
             private $state: angular.ui.IStateService) {
@@ -32,8 +31,4 @@
             });
         }
     }
-
-    //angular.module("SupportApp").controller("activeEventDetailController", function ($rootScope, $scope, $filter) {
-    //    var filterdatetime = $filter('datetmUTC')($scope.date);
-    //});
 } 

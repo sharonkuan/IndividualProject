@@ -1,12 +1,12 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class ActiveEventDetailController {
+    export class MyHistoryEventDetailController {
 
-        public event;  //from view
-        public eventComment;
-        public canEdit; //from server
+        public event;
+        public eventComment; //passed from view 
+        private eventId;
+        public canEdit;
         public validationErrors;
-        private eventId;  //local extract
 
 
         constructor(private eventServices: SupportApp.Services.EventServices,
@@ -19,11 +19,11 @@
         }
 
         getEvent() {
-            //debugger;
-            this.eventServices.getEventDetails(this.eventId).then((data) => {
+            debugger;
+            this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
-                //console.log(data);
+                console.log(data);
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -51,6 +51,7 @@
             });
         }
 
+        //this accepts the value set by the ng-click button value to pass to API controller 
         voteEvent(voteType) {
             this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
                 debugger;
@@ -66,7 +67,8 @@
         }
 
         cancel() {
-            this.$state.go("home");
+            debugger;
+            this.$state.go("myHistoryEvents");
         }
 
         initialize() {
