@@ -44,6 +44,7 @@ namespace SupportApp
             services.AddScoped<IGenericRepository, GenericRepository>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEventCommentsService, EventCommentsService>();
+            services.AddScoped<IEventLocationService, EventLocationService>();
 
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>

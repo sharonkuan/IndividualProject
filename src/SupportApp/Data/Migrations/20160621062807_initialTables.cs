@@ -170,7 +170,7 @@ namespace SupportApp.data.migrations
                     IsActive = table.Column<bool>(nullable: false),
                     IsComplete = table.Column<bool>(nullable: false),
                     IsPrivate = table.Column<bool>(nullable: false),
-                    IsVolunteerRequired = table.Column<string>(nullable: true),
+                    IsVolunteerRequired = table.Column<string>(nullable: false),
                     PreferredNumberOfExpectedVolunteer = table.Column<int>(nullable: false),
                     UpVote = table.Column<int>(nullable: false),
                     Views = table.Column<int>(nullable: false)
@@ -245,6 +245,7 @@ namespace SupportApp.data.migrations
                     EventId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     NameOfLocation = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
                     Zip = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

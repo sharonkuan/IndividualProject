@@ -11,6 +11,12 @@ namespace SupportApp.Services {
             this.$window.sessionStorage.setItem('claims', JSON.stringify(userInfo.claims));
         }
 
+        public getUserInfo() {
+            debugger;
+            var userInfo = this.$window.sessionStorage.getItem("claims");
+            return JSON.parse(userInfo);
+        }
+
         public getUserName() {
             return this.$window.sessionStorage.getItem('userName');
         }

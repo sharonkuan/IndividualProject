@@ -58,13 +58,13 @@
                 controller: SupportApp.Controllers.EventDeleteDialogController,
                 controllerAs: 'controller',
                 resolve: {
-                    eventIdFrom: () => eventId
+                    eventIdFrom: () => eventId  //this eventId is passed from the form
                 },
                 size: 'sm'
             });
         }
 
-        //worked, this one extracts only the locations from all events
+        //worked, this one extracts only the locations of all available events
         extractingEventNestedArray() {
 
             var objArray = [];

@@ -2,6 +2,9 @@ namespace SupportApp.Controllers {
 
     export class AccountController {
         public externalLogins;
+        public userClaim;
+        public isUser;
+        private userName;
 
         public getUserName() {
             return this.accountService.getUserName();
@@ -15,9 +18,21 @@ namespace SupportApp.Controllers {
             return this.accountService.isLoggedIn();
         }
 
+        public ifMember() {
+            debugger;
+            this.userName = this.accountService.getUserName();
+            if (this.userName != "" || this.userName != null) {
+                this.isUser = true;
+            }
+            console.log(this.isUser);
+            console.log(this.userName);
+        }
+
         public logout() {
             this.accountService.logout();
             this.$location.path('/');
+            this.userClaim = "";
+            this.isUser = "";
         }
 
         public getExternalLogins() {
@@ -28,6 +43,9 @@ namespace SupportApp.Controllers {
             this.getExternalLogins().then((results) => {
                 this.externalLogins = results;
             });
+            debugger;
+            this.userClaim = this.accountService.getUserInfo();
+            this.ifMember();
         }
     }
 
@@ -40,10 +58,11 @@ namespace SupportApp.Controllers {
 
         public login() {
             this.accountService.login(this.loginUser).then(() => {
+                location.reload();
                 this.$location.path('/');
             }).catch((results) => {
                 this.validationMessages = results;
-            });
+                });
         }
 
         constructor(private accountService: SupportApp.Services.AccountService, private $location: ng.ILocationService) { }

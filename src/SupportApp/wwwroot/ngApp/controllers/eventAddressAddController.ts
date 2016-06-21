@@ -1,6 +1,6 @@
 ﻿namespace SupportApp.Controllers {
 
-    export class EventAddressController {
+    export class EventAddressAddController {
 
         public event;  //from view
         public eventLocation;

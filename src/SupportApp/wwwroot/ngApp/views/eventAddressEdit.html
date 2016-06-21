@@ -1,5 +1,5 @@
 ﻿<div class="col-md-6">
-    <h1>Add Event Address</h1>
+    <h1>Edit Event Address</h1>
     <form novalidate ng-submit="controller.saveAddedEventLocation()" name="eventLocationForm">
         <div class="form-group">
             <label>Name of Location</label>
@@ -19,7 +19,7 @@
             <input type="text" name="zip" class="form-control" ng-model="controller.eventLocation.location.zip" placeholder="Location zip" />
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-block btn-success" value="Add" ng-disabled="eventLocationForm.$invalid" />
+            <input type="submit" class="btn btn-block btn-success" value="Save" ng-disabled="eventLocationForm.$invalid" />
             <input type="button" ng-click="controller.cancel()" class="btn btn-block btn-primary" value="Cancel" />
         </div>
     </form>

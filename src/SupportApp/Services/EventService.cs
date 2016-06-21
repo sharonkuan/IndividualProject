@@ -20,7 +20,8 @@ namespace SupportApp.Services
             this._repo = repo;
         }
 
-        #region Home page Search by City - Active events and History events (isActive and isComplete)
+        #region Home page Search by City - Active events and History events (isActive and isComplete only)
+        //===============================   HOME PAGE  ================================================
         /// <summary>
         /// Home page - results by city selected by the viewer 
         /// </summary>
@@ -61,7 +62,7 @@ namespace SupportApp.Services
 
         #endregion
 
-        #region Home Page - canEdit and hasClaim both are false
+        #region My Event Page
 
         //kept the hasClaim - will try if can combine into one html to handle my event and admin event features
         public List<Event> GetMyCurrentEventsByCity(string userId, bool hasClaim, string city)
@@ -87,7 +88,7 @@ namespace SupportApp.Services
 
             vm.Events = _repo.Query<Event>().Where(e => e.ApplicationUserId == userId).Include(e => e.Comments).Include(e => e.Locations).ToList();
             vm.Events = vm.Events.Where(e => e.IsActive == true).ToList();
-            vm.Events = vm.Events.Where(e => e.IsComplete == true).ToList();
+            //vm.Events = vm.Events.Where(e => e.IsComplete == true).ToList();
             vm.Events = vm.Events.Where(e => e.EventStartDate < DateTime.UtcNow).OrderBy(e => e.EventStartDate).ToList();
             vm = convertDatesFromUtcToLocalTime(vm);
             vm.CanEdit = true;
@@ -96,6 +97,9 @@ namespace SupportApp.Services
             filteredEventsList = FilterEventsByCity(vm, city);
             return filteredEventsList;
         }
+        #endregion
+
+        #region Admin page
 
         public List<Event> GetAdminEventsByCity(string userId, bool hasClaim, string city)
         {
@@ -105,7 +109,7 @@ namespace SupportApp.Services
             vm.Events = _repo.Query<Event>().Include(e => e.Comments).Include(e => e.Locations).ToList();
             vm.Events = vm.Events.Where(e => e.EventStartDate > DateTime.UtcNow).OrderBy(e => e.EventStartDate).ToList();
             vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserFirstName(vm);
+            vm = DisplayUserName(vm);
             vm.CanEdit = true;
             vm.HasClaim = hasClaim;
 
@@ -121,7 +125,7 @@ namespace SupportApp.Services
             vm.Events = _repo.Query<Event>().Include(e => e.Comments).Include(e => e.Locations).ToList();
             vm.Events = vm.Events.Where(e => e.EventStartDate < DateTime.UtcNow).OrderBy(e => e.EventStartDate).ToList();
             vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserFirstName(vm);
+            vm = DisplayUserName(vm);
             vm.CanEdit = true;
             vm.HasClaim = hasClaim;
 
@@ -129,24 +133,7 @@ namespace SupportApp.Services
             return filteredEventsList;
         }
 
-
-        public List<Event> FilterEventsByCity(EventsViewModel vm, string city)
-        {
-            var filteredEventsList = new List<Event>();
-
-            foreach (var singleEvent in vm.Events)
-            {
-                foreach (var location in singleEvent.Locations)
-                {
-                    if (location.City == city)
-                    {
-                        filteredEventsList.Add(singleEvent);
-                        break;
-                    }
-                }
-            }
-            return filteredEventsList;
-        }
+        #endregion
 
         /// <summary>
         /// Home page - anyone can see the events when it's not login
@@ -182,7 +169,7 @@ namespace SupportApp.Services
 
             return vm;
         }
-        #endregion
+  
 
         #region My Event and Admin Event - canEdit if userId match the event creator or is an admin, hasClaim based on user's role
         /// <summary>
@@ -210,7 +197,7 @@ namespace SupportApp.Services
 
             vm.Events = _repo.Query<Event>().Where(e => e.ApplicationUserId == id).Include(e => e.Comments).Include(e => e.Locations).ToList();
             vm.Events = vm.Events.Where(e => e.IsActive == true).ToList();
-            vm.Events = vm.Events.Where(e => e.IsComplete == true).ToList();
+            //vm.Events = vm.Events.Where(e => e.IsComplete == true).ToList();
             vm.Events = vm.Events.Where(e => e.EventStartDate < DateTime.UtcNow).OrderBy(e => e.EventStartDate).ToList();
             vm = convertDatesFromUtcToLocalTime(vm);
             vm.CanEdit = true;
@@ -231,7 +218,7 @@ namespace SupportApp.Services
             vm.Events = _repo.Query<Event>().Include(e => e.Comments).Include(e => e.Locations).ToList();
             vm.Events = vm.Events.Where(e => e.EventStartDate > DateTime.UtcNow).OrderBy(e => e.EventStartDate).ToList();
             vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserFirstName(vm);
+            vm = DisplayUserName(vm);
             vm.CanEdit = true;  //no need to save as its contain in the view model
             vm.HasClaim = hasClaim;
 
@@ -245,7 +232,7 @@ namespace SupportApp.Services
             vm.Events = _repo.Query<Event>().Include(e => e.Comments).Include(e => e.Locations).ToList();
             vm.Events = vm.Events.Where(e => e.EventStartDate < DateTime.UtcNow).OrderBy(e => e.EventStartDate).ToList();
             vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserFirstName(vm);
+            vm = DisplayUserName(vm);
             vm.CanEdit = true;  //no need to save as its contain in the view model
             vm.HasClaim = hasClaim;
 
@@ -281,7 +268,7 @@ namespace SupportApp.Services
             eventSelected.Views++;
             _repo.SaveChanges();
             vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserFirstName(vm);
+            vm = DisplayUserName(vm);
             return vm;  //activeeventdetails
         }
 
@@ -321,7 +308,7 @@ namespace SupportApp.Services
             sglEvent.Views++;
             _repo.SaveChanges();
             vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserFirstName(vm);
+            vm = DisplayUserName(vm);
             return vm;  //usereventdetails or for admin
         }
         #endregion
@@ -362,22 +349,27 @@ namespace SupportApp.Services
                 vm.CanEdit = true;
                 vm.HasClaim = hasClaim;
             }
-            //else
-            //{
-            //    var eventToEdit = _repo.Query<Event>().FirstOrDefault(e => e.Id == addedEvent.Id);
-            //    eventToEdit.EventType = addedEvent.EventType;
-            //    eventToEdit.EventTitle = addedEvent.EventTitle;
-            //    eventToEdit.Details = addedEvent.Details;
-            //    eventToEdit.EventStartDate = addedEvent.EventStartDate;
-            //    addedEvent.EventEndDate = addedEvent.EventEndDate;
-            //    eventToEdit.DateCreated = DateTime.UtcNow;
-            //    eventToEdit.IsActive = eventToEdit.IsActive;
-            //    addedEvent.IsComplete = addedEvent.IsComplete;
-            //    eventToEdit.IsPrivate = addedEvent.IsPrivate;
-            //    eventToEdit.IsVolunteerRequired = addedEvent.IsVolunteerRequired; eventToEdit.PreferredNumberOfExpectedVolunteer = addedEvent.PreferredNumberOfExpectedVolunteer;
+            else
+            {
+                var eventToEdit = _repo.Query<Event>().Where(e => e.Id == addedEvent.Event.Id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
+                vm.Event = addedEvent.Event;
+                vm.Event.EventStartDate = vm.Event.EventStartDate.ToUniversalTime();
+                vm.Event.EventEndDate = vm.Event.EventEndDate.ToUniversalTime();
+                vm.Event.DateCreated = DateTime.UtcNow;
+                vm.Event.IsActive = true;
+                vm.Event.IsComplete = false;
+                vm.Event.Views = eventToEdit.Views;
+                vm.Event.ApplicationUserId = userId;
+                //location
+                vm.Location = addedEvent.Location;
+                vm.Location.IsActive = true;
+                vm.Location.DateCreated = DateTime.UtcNow;
 
-            //    _repo.SaveChanges();
-            //}
+                _repo.SaveChanges();
+                vm.CanEdit = true;
+                vm.HasClaim = hasClaim;
+                _repo.SaveChanges();
+            }
             vm = convertDatesFromUtcToLocalTime(vm);
             return vm;
         }
@@ -390,6 +382,7 @@ namespace SupportApp.Services
         /// <param name="id"></param>
         public void DeleteEvent(string userId, bool hasClaim, int id)
         {
+            //TODO
             var volunteers = _repo.Query<EventUser>().Where(eu => eu.EventId == id).Select(e => e.Member).ToList();
 
             var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
@@ -397,56 +390,50 @@ namespace SupportApp.Services
             if (hasClaim)
             {
                 SoftDeleteEvet(singleEvent);
-                #region moved to a function
-                ////soft Delete the related comments
-                //foreach (var comment in singleEvent.Comments)
-                //{
-                //    var eventComment = _repo.Query<Comment>().FirstOrDefault(c => c.Id == comment.Id);
-                //    eventComment.IsActive = false;
-                //    //_repo.Delete<Comment>(eventComment);
-                //    _repo.Update<Comment>(eventComment);
-                //}
-
-                ////soft Delete the related locations
-                //foreach (var location in singleEvent.Locations)
-                //{
-                //    var eventLocation = _repo.Query<Location>().FirstOrDefault(c => c.Id == location.Id);
-                //    eventLocation.IsActive = false;
-                //    //_repo.Delete<Location>(eventLocation);
-                //    _repo.Update<Location>(eventLocation);
-                //}
-
-                ////soft delete the event
-                ////_repo.Delete<Event>(singleEvent);
-                //singleEvent.IsActive = false;
-                //_repo.Update<Event>(singleEvent);
-                #endregion
             }
             else if (singleEvent.ApplicationUserId == userId)
             {
                 SoftDeleteEvet(singleEvent);
-                #region moved to a function
-                ////soft Delete the related comments
-                //foreach (var comment in singleEvent.Comments)
-                //{
-                //    var eventComment = _repo.Query<Comment>().FirstOrDefault(c => c.Id == comment.Id);
-                //    eventComment.IsActive = false;
-                //    _repo.Update<Comment>(eventComment);
-                //}
-
-                ////soft Delete the related locations
-                //foreach (var location in singleEvent.Locations)
-                //{
-                //    var eventLocation = _repo.Query<Location>().FirstOrDefault(c => c.Id == location.Id);
-                //    eventLocation.IsActive = false;
-                //    _repo.Update<Location>(eventLocation);
-                //}
-
-                ////soft delete the event
-                //singleEvent.IsActive = false;
-                //_repo.Update<Event>(singleEvent);
-                #endregion
             }
+        }
+        #endregion
+
+        public List<Event> FilterEventsByCity(EventsViewModel vm, string city)
+        {
+            var filteredEventsList = new List<Event>();
+
+            foreach (var singleEvent in vm.Events)
+            {
+                foreach (var location in singleEvent.Locations)
+                {
+                    if (location.City == city)
+                    {
+                        filteredEventsList.Add(singleEvent);
+                        break;
+                    }
+                }
+            }
+            return filteredEventsList;
+        }
+
+        public Event UpdateVotes(string userId, int id, int voteType)
+        {
+            //voteType is thumbs up or down 1 = up, 0 = down
+            var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
+
+            if (userId != null)
+            {
+                if (voteType == 1)
+                {
+                    singleEvent.UpVote++;
+                }
+                else if (voteType == 0)
+                {
+                    singleEvent.DownVote++;
+                }
+            }
+            _repo.Update(singleEvent);
+            return singleEvent;
         }
 
         /// <summary>
@@ -475,27 +462,6 @@ namespace SupportApp.Services
             singleEvent.IsActive = false;
             singleEvent.IsComplete = false;
             _repo.Update<Event>(singleEvent);
-        }
-        #endregion
-
-        public Event UpdateVotes(string userId, int id, int voteType)
-        {
-            //voteType is thumbs up or down 1 = up, 0 = down
-            var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
-
-            if (userId != null)
-            {
-                if (voteType == 1)
-                {
-                    singleEvent.UpVote++;
-                }
-                else if (voteType == 0)
-                {
-                    singleEvent.DownVote++;
-                }
-            }
-            _repo.Update(singleEvent);
-            return singleEvent;
         }
 
         #region Methods to convert Utc time to Local time for viewing (database still has UTC time)
@@ -530,14 +496,13 @@ namespace SupportApp.Services
         }
         #endregion
 
-        
-        #region Methods to show user's first name and display Yes/No instead of true/false
-        public EventsViewModel DisplayUserFirstName(EventsViewModel vm)
+        #region Methods to show user's name
+        public EventsViewModel DisplayUserName(EventsViewModel vm)
         {
             foreach (var sglEvent in vm.Events)
             {
                 var userId = sglEvent.ApplicationUserId;
-                var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au=>au.FirstName).FirstOrDefault();
+                var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
                 var userLastName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.LastName).FirstOrDefault();
                 sglEvent.ApplicationUserId = userFirstName + " " + userLastName;
 
@@ -552,7 +517,7 @@ namespace SupportApp.Services
             return vm;
         }
 
-        public EventDetailsViewModel DisplayUserFirstName(EventDetailsViewModel sglEventVm)
+        public EventDetailsViewModel DisplayUserName(EventDetailsViewModel sglEventVm)
         {
             var userId = sglEventVm.Event.ApplicationUserId;
             var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
@@ -569,7 +534,7 @@ namespace SupportApp.Services
             return sglEventVm;
         }
 
-        public EventLocationViewModel DisplayUserFirstName(EventLocationViewModel sglEventVm)
+        public EventLocationViewModel DisplayUserName(EventLocationViewModel sglEventVm)
         {
             var userId = sglEventVm.Event.ApplicationUserId;
             var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
@@ -585,6 +550,15 @@ namespace SupportApp.Services
 
             return sglEventVm;
         }
+        #endregion
+
+        #region Methods to show Active/Inactive (deleted/active)
+
+        #endregion
+
+
+        #region Methods to show Yes/No (is Private, is compelte)
+
         #endregion
     }
 }

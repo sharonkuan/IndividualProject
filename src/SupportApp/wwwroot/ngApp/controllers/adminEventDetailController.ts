@@ -24,8 +24,13 @@
                 this.event = data.event;
                 this.canEdit = data.canEdit;
                 console.log(data);
-            }).catch(() => {
-                console.log("failed");
+            }).catch((err) => {
+                let validationErrors = [];
+                for (let prop in err.data) {
+                    let propErrors = err.data[prop];
+                    validationErrors = validationErrors.concat(propErrors);
+                }
+                this.validationErrors = validationErrors;
             });
         }
 

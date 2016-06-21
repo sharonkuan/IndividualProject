@@ -114,9 +114,15 @@ namespace SupportApp {
                 controllerAs: "controller"
             })
             .state("eventAddressAdd", {
-                url: "/event/address/Add",
+                url: "/event/address/add/:id",
                 templateUrl: "/ngApp/views/eventAddressAdd.html",
-                controller: SupportApp.Controllers.EventAddressController,
+                controller: SupportApp.Controllers.EventAddressAddController,
+                controllerAs: "controller"
+            })
+            .state("eventAddressEdit", {
+                url: "/event/address/edit/:id",
+                templateUrl: "/ngApp/views/eventAddressEdit.html",
+                controller: SupportApp.Controllers.EventAddressEditController,
                 controllerAs: "controller"
             })
             .state("eventEdit", {

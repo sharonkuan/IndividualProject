@@ -232,7 +232,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<bool>("IsPrivate");
 
-                    b.Property<string>("IsVolunteerRequired");
+                    b.Property<string>("IsVolunteerRequired")
+                        .IsRequired();
 
                     b.Property<int>("PreferredNumberOfExpectedVolunteer");
 
@@ -278,6 +279,8 @@ namespace SupportApp.data.migrations
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("NameOfLocation");
+
+                    b.Property<string>("State");
 
                     b.Property<string>("Zip");
 

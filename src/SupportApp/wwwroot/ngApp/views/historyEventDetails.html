@@ -25,7 +25,7 @@
                     <table>
                         <tr ng-repeat="location in controller.event.locations">
                             <td>
-                                * {{location.city}}
+                                <span class="glyphicon glyphicon-home"></span> {{location.city}} {{location.state}}
                             </td>
                         </tr>
                     </table>
@@ -36,7 +36,7 @@
         <h3>Comments</h3>
         <table class="table table-striped">
             <tr ng-repeat="comment in controller.event.comments">
-                <td>* {{comment.message}}</td>
+                <td><span class="glyphicon glyphicon-comment"></span> {{comment.message}}</td>
                 <td><font size="1">Date: {{comment.dateCreated|date: "shortDate"}}</font></td>
                 <td><font size="1">Added By: {{comment.applicationUserId}}</font></td>
             </tr>

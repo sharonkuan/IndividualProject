@@ -54,6 +54,7 @@ namespace SupportApp.Data
                             NameOfLocation = "Member B home",
                             Address = "address 2",
                             City = "New Castle",
+                            State = "WA",
                             Zip = "98005", 
                             IsActive = true,
                             DateCreated =DateTime.UtcNow
@@ -109,6 +110,7 @@ namespace SupportApp.Data
                             NameOfLocation = "Nursing home 1",
                             Address = "address 1",
                             City = "Bellevue",
+                            State = "WA",
                             Zip = "98008",
                             IsActive = true,
                             DateCreated =new DateTime(2016, 5, 1).ToUniversalTime()
@@ -144,6 +146,7 @@ namespace SupportApp.Data
                             NameOfLocation = "Nursing home 1",
                             Address = "address 1",
                             City = "Bellevue",
+                            State = "WA",
                             Zip = "98008",
                             IsActive = true,
                             DateCreated =DateTime.UtcNow
@@ -167,6 +170,7 @@ namespace SupportApp.Data
                             NameOfLocation = "Nursing home 1",
                             Address = "address 1",
                             City = "Bellevue",
+                            State = "WA",
                             Zip = "98008",
                             IsActive = true,
                             DateCreated =DateTime.UtcNow
@@ -175,6 +179,7 @@ namespace SupportApp.Data
                             NameOfLocation = "Nursing home 2",
                             Address = "address 2",
                             City = "Bellevue",
+                            State = "WA",
                             Zip = "98008",
                             IsActive = true,
                             DateCreated =DateTime.UtcNow
@@ -232,6 +237,7 @@ namespace SupportApp.Data
                             NameOfLocation = "Redmond Library",
                             Address = "address 3",
                             City = "Redmond",
+                            State = "WA",
                             Zip = "9805p",
                             IsActive = true,
                             DateCreated =DateTime.UtcNow

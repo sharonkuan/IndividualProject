@@ -17,14 +17,18 @@
         getEvent() {
 
             this.eventServices.getUserEventDetails(this.eventId).then((data) => {
-                this.eventToEdit = data;
-                //this.checkPrivate();
+                this.eventToEdit = data.event;
+                this.eventToEdit.eventStartDate = new Date(this.eventToEdit.eventStartDate);
+                this.eventToEdit.isPrivate = getSelection();
+                this.eventToEdit.eventEndDate = new Date(this.eventToEdit.eventEndDate);
             });
         }
 
-        editEvent() {
-            this.eventToEdit = this.eventServices.saveEvent(this.eventToEdit).then(() => {
-                this.$state.go("events");
+        saveEvent() {
+            this.eventServices.saveEvent(this.eventToEdit).then((data) => {
+                console.log("Saved data: " + data);
+                debugger;
+                this.$state.go("myEvents");
             }).catch((error) => {
                 let validationErrors = [];
                 for (let prop in error.data) {

@@ -25,6 +25,7 @@ namespace SupportApp.Models
         public DateTime EventEndDate { get; set; }
         public bool IsComplete { get; set; }
         public bool IsPrivate { get; set; }
+        [Required(ErrorMessage = "Please confirm if volunteer is required")]
         public string IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
         public int PreferredNumberOfExpectedVolunteer { get; set; }
         //public ICollection<MemberVolunteer> MemberVolunteers { get; set; }
@@ -35,7 +36,7 @@ namespace SupportApp.Models
 
         public ICollection<Location> Locations { get; set; }  //one to many locations
         public ICollection<Comment> Comments { get; set; }   //one to many comments for an event
-        //TODO: Currently, it will only create public events and allows volunteers to sign in
+        //TODO: Currently, it will display all events regardless its private or public 
         public ICollection<EventUser> EventUsers { get; set; }  //volunteers registered for many events
 
         public string ApplicationUserId { get; set; }

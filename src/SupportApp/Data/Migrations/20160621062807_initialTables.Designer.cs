@@ -8,7 +8,7 @@ using SupportApp.Data;
 namespace SupportApp.data.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160616210159_initialTables")]
+    [Migration("20160621062807_initialTables")]
     partial class initialTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -233,7 +233,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<bool>("IsPrivate");
 
-                    b.Property<string>("IsVolunteerRequired");
+                    b.Property<string>("IsVolunteerRequired")
+                        .IsRequired();
 
                     b.Property<int>("PreferredNumberOfExpectedVolunteer");
 
@@ -279,6 +280,8 @@ namespace SupportApp.data.migrations
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("NameOfLocation");
+
+                    b.Property<string>("State");
 
                     b.Property<string>("Zip");
 

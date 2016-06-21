@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-2">
                 <label>Filter by: Event City</label><br />
-                <select ng-model="controller.selectedEventLocation"
+                <span class="glyphicon glyphicon-filter"></span> <select ng-model="controller.selectedEventLocation"
                         ng-change="controller.searchEventsByCity()">
                     <option ng-repeat="location in controller.eventLocations | unique: 'city'" ng-selected="controller.selectedEventLocation == location.city" value="{{location.city}}">{{location.city}}</option>
                 </select>

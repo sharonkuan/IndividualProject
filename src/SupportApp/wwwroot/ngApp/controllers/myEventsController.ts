@@ -51,6 +51,19 @@
             });
         }
 
+        showDeleteDialog(eventId) {
+            //debugger;
+            this.$uibModal.open({
+                templateUrl: '/ngApp/views/eventDeleteDialog.html',
+                controller: SupportApp.Controllers.EventDeleteDialogController,
+                controllerAs: 'controller',
+                resolve: {
+                    eventIdFrom: () => eventId  //this eventId is passed from the form
+                },
+                size: 'sm'
+            });
+        }
+
         //worked, this one extracts only the locations from all events
         extractingEventNestedArray() {
 

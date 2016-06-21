@@ -28,51 +28,42 @@
                 <input type="datetime-local" name="eventEndDate" min="0" max="12" width=2 ng-model="controller.eventToCreate.event.eventEndDate" placeholder="Date format: 2016/01/31 02:30 PM" required />
                 <span ng-show="eventForm.eventEndDate.$touched && eventForm.eventEndDate.$error.required" class="error">Event End Date and Time is required</span>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-init="controller.eventToCreate.event.isPrivate=false">
                 Is it a private event?
                 <label>
-                    <input type="radio" name="isPrivate"
-                           value="true" ng-model="controller.eventToCreate.event.isPrivate" />
+                    <input type="radio" name="isPrivate" id="isPrivate-yes"
+                           ng-model="controller.eventToCreate.event.isPrivate" ng-value="true" />
                     Yes
                 </label>
                 <label>
-                    <input type="radio" name="isPrivate"
-                           value="false" ng-model="controller.eventToCreate.event.isPrivate" ng-checked="true" />
+                    <input type="radio" name="isPrivate" id="isPrivate-no"
+                           ng-model="controller.eventToCreate.event.isPrivate" ng-value="false" />
                     No
                 </label>
             </div>
             <div class="form-group">
-                Is volunteer required?
-                <label>
-                    <input type="radio" name="isVolunteerRequired"
-                           value="Yes" ng-model="controller.eventToCreate.event.isVolunteerRequired" />
-                    Yes
-                </label>
-                <label>
-                    <input type="radio" name="isVolunteerRequired"
-                           value="No" ng-model="controller.eventToCreate.event.isVolunteerRequired" />
-                    No
-                </label>
-                <label>
-                    <input type="radio" name="isVolunteerRequired"
-                           value="Maybe" ng-model="controller.eventToCreate.event.isVolunteerRequired" ng-checked="true" />
-                    Maybe
-                </label>
+                <label for="isVolunteerRequired">Is volunteer required?:</label>
+                <select name="isVolunteerRequired" ng-model="controller.eventToCreate.event.isVolunteerRequired" required>
+                    <option id="isVolunteerRequired-yes" value="yes">Yes</option>
+                    <option id="isVolunteerRequired-no" value="no">No</option>
+                    <option id="isVolunteerRequired-maybe" value="maybe">Maybe</option>
+                </select>
+                <span ng-show="eventForm.isVolunteerRequired.$touched && eventForm.isVolunteerRequired.$error.required" class="error">Is volunteer required for this event is required</span>
             </div>
             <div class="form-group">
                 <label>Number of preferred volunteers</label>
-                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" value="0" width="2" class="form-control" ng-model="controller.eventToCreate.event.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
+                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" ng-value="0" width="2" class="form-control" ng-model="controller.eventToCreate.event.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-init="controller.eventToCreate.event.isComplete=false">
                 Event Completed?
                 <label>
-                    <input type="radio" name="isComplete"
-                           value="true" ng-model="controller.eventToCreate.event.isComplete" />
+                    <input type="radio" name="isComplete" id="isComplete-yes"
+                           ng-value="true" ng-model="controller.eventToCreate.event.isComplete" />
                     Yes
                 </label>
                 <label>
-                    <input type="radio" name="isComplete"
-                           value="false" ng-model="controller.eventToCreate.event.isComplete" ng-checked="true" />
+                    <input type="radio" name="isComplete" id="isComplete-no"
+                           ng-model="controller.eventToCreate.event.isComplete" ng-value="false" />
                     No
                 </label>
             </div>
@@ -88,6 +79,10 @@
             <div class="form-group">
                 <label>City</label>
                 <input type="text" name="city" class="form-control" ng-model="controller.eventToCreate.location.city" placeholder="Location city" />
+            </div>
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" name="state" class="form-control" ng-model="controller.eventToCreate.location.state" placeholder="Location state, e.g. WA" />
             </div>
             <div class="form-group">
                 <label>Zip</label>

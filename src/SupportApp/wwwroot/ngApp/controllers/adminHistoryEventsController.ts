@@ -57,7 +57,7 @@
                 controller: SupportApp.Controllers.EventDeleteDialogController,
                 controllerAs: 'controller',
                 resolve: {
-                    eventIdFrom: () => eventId
+                    eventIdFrom: () => eventId  //this eventId is passed from the form
                 },
                 size: 'sm'
             });

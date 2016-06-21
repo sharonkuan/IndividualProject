@@ -10,11 +10,10 @@
             private $uibModal: ng.ui.bootstrap.IModalService) {
 
             this.getActiveEvents();
-            debugger;
         }
 
         getActiveEvents() {
-            debugger;
+            //debugger;
             this.eventServices.getActiveEvents().then((data) => {
                 this.events = data.events;
                 this.selectedEventLocation = "All";
@@ -30,7 +29,7 @@
         }
 
         searchEventsByCity() {
-            debugger;
+            //debugger;
             console.log(this.selectedEventLocation);
             this.eventServices.searchByCity(this.selectedEventLocation).then((data) => {
                 this.events = data;

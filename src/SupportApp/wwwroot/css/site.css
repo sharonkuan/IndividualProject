@@ -1,7 +1,7 @@
 body {
     padding-top: 20px;
     padding-bottom: 20px;
-    background: lightblue;
+    background: #EEE9F1;
 }
 
 /* Wrapping element */
@@ -11,11 +11,36 @@ body {
     padding-right: 15px;
 }
 
+h1,
+h3,
+h4{
+
+  color: #09093B;
+  font-style: italic;
+  font-weight: bolder;
+  font-family: 'Times New Roman', Times, serif
+}
+
+span{
+    color: #4D4DA6;
+}
+
+h2{
+    color: #4D4DA6;
+    font-family: 'Times New Roman', Times, serif
+}
+
+.error{
+    color: red;
+}
+
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
+  
+    max-width: 550px;
 }
 
 /* Carousel */
