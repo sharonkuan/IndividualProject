@@ -48,6 +48,13 @@
         </table>
     </div>
     <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-6">
+                <ul>
+                    <li class="error" ng-repeat="err in controller.validationErrors">{{err}}</li>
+                </ul>
+            </div>
+        </div>
         <form id="commentForm">
             <div class="row">
                 <div class="col-md-6">
@@ -61,22 +68,15 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <textarea rows="5" cols="12" class="form-control" ng-model="controller.eventComment.message" placeholder="add your comment..." ></textarea>
+                    <textarea rows="5" cols="12" class="form-control" ng-model="controller.eventComment.message" placeholder="add your comment..."></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <input type="button" ng-click="controller.saveComment()" class="btn btn-primary btn-block" value="Add Comment" />
-                    <input type="button" ng-click="controller.cancel()" class="btn btn-default btn-block" value="Cancel" />
+                    <input type="button" ng-click="controller.saveComment()" class="btn btn-success btn-block" value="Add Comment" />
+                    <input type="button" ng-click="controller.cancel()" class="btn btn-default btn-block btn-primary" value="Cancel" />
                 </div>
             </div>
         </form>
-        <div class="row">
-            <div class="col-md-6">
-               <ul>
-                   <li ng-repeat="error in controller.validationErrors">{{error}}</li>
-               </ul>
-            </div>
-        </div>
     </div>
 </div>

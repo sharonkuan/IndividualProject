@@ -16,7 +16,7 @@
         }
 
         getMyEvent() {
-            debugger;
+            
             this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
@@ -35,7 +35,7 @@
             this.eventServices.saveEventComment(this.eventId, this.eventLocation).then((data) => {
                 //console.log("data: " + data);
                 this.event = data;
-                debugger;
+                
                 this.clearCommentForm();
             }).catch((err) => {
                 let validationErrors = [];

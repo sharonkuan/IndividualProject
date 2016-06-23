@@ -13,7 +13,7 @@
 <fieldset>
     <legend>Local Registration</legend>
     <ul>
-        <li ng-repeat="message in controller.validationMessages">
+        <li class="error" ng-repeat="message in controller.validationMessages">
             {{message}}
         </li>
     </ul>
@@ -64,7 +64,7 @@
             <label>Confirm Password:</label>
             <input ng-model="controller.registerUser.confirmPassword" />
         </div>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Register" class="btn btn-success btn-block"/>
     </form>
 
 </fieldset>

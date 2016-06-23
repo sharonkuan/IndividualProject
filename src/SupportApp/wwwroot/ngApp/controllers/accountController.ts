@@ -19,7 +19,7 @@ namespace SupportApp.Controllers {
         }
 
         public ifMember() {
-            debugger;
+            //
             this.userName = this.accountService.getUserName();
             if (this.userName != "" || this.userName != null) {
                 this.isUser = true;
@@ -43,7 +43,7 @@ namespace SupportApp.Controllers {
             this.getExternalLogins().then((results) => {
                 this.externalLogins = results;
             });
-            debugger;
+            //
             this.userClaim = this.accountService.getUserInfo();
             this.ifMember();
         }

@@ -2,96 +2,108 @@
     <div class="col-md-12">
         <h1>Create Event</h1>
         <a href="/myEvents"><strong><em>Back to My Events...</em></strong></a>
-        <form novalidate ng-submit="controller.saveEvent()" name="eventForm">
+        <div class="row">
+            <div class="col-md-6">
+                <ul>
+                    <li class="error" ng-repeat="err in controller.validationErrors">{{err}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <form novalidate ng-submit="controller.saveEvent()" name="eventCreateForm">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Event Type</label>
-                <input type="text" name="eventType" class="form-control" ng-model="controller.eventToCreate.event.eventType" placeholder="Event type" required />
-                <span ng-show="eventForm.eventType.$touched && eventForm.eventType.$error.required" class="error">Event type is required.</span>
+                <input type="text" name="eventType" class="form-control" ng-model="controller.eventToCreate.eventType" placeholder="Event type" required />
+                <span ng-show="eventCreateForm.eventType.$touched && eventCreateForm.eventType.$error.required" class="error">Event type is required.</span>
             </div>
             <div class="form-group">
                 <label>Event Title</label>
-                <input type="text" name="eventTitle" class="form-control" ng-model="controller.eventToCreate.event.eventTitle" placeholder="Event title" required />
-                <span ng-show="eventForm.eventTitle.$touched && eventForm.eventTitle.$error.required" class="error">Event Title is required</span>
+                <input type="text" name="eventTitle" class="form-control" ng-model="controller.eventToCreate.eventTitle" placeholder="Event title" required />
+                <span ng-show="eventCreateForm.eventTitle.$touched && eventCreateForm.eventTitle.$error.required" class="error">Event Title is required</span>
             </div>
             <div class="form-group">
                 <label>Details</label>
-                <textarea name="details" class="form-control" rows="3" ng-model="controller.eventToCreate.event.details" placeholder="Enter event details"></textarea>
+                <textarea name="details" class="form-control" rows="3" ng-model="controller.eventToCreate.details" placeholder="Enter event details"></textarea>
             </div>
             <div class="form-group">
                 <label>Event Start Date Time, e.g. 01/31/2016 10:30 AM</label>
-                <input type="datetime-local" name="eventStartDate" class="form-control" ng-model="controller.eventToCreate.event.eventStartDate" placeholder="Date format: 2016/01/31 10:30 AM" required />
-                <span ng-show="eventForm.eventStartDate.$touched && eventForm.eventStartDate.$error.required" class="error">Event Start Date Time is required</span>
+                <input type="datetime-local" name="eventStartDate" class="form-control" ng-model="controller.eventToCreate.eventStartDate" placeholder="Date format: 2016/01/31 10:30 AM" required />
+                <span ng-show="eventCreateForm.eventStartDate.$touched && eventCreateForm.eventStartDate.$error.required" class="error">Event Start Date Time is required</span>
             </div>
             <div class="form-group">
                 <label>End Date Time, e.g. 01/31/2016 02:30 PM</label>
                 <br />
-                <input type="datetime-local" name="eventEndDate" min="0" max="12" width=2 ng-model="controller.eventToCreate.event.eventEndDate" placeholder="Date format: 2016/01/31 02:30 PM" required />
-                <span ng-show="eventForm.eventEndDate.$touched && eventForm.eventEndDate.$error.required" class="error">Event End Date and Time is required</span>
+                <input type="datetime-local" name="eventEndDate" class="form-control" min="0" max="12" width=2 ng-model="controller.eventToCreate.eventEndDate" placeholder="Date format: 2016/01/31 02:30 PM" required />
+                <span ng-show="eventCreateForm.eventEndDate.$touched && eventCreateForm.eventEndDate.$error.required" class="error">Event End Date and Time is required</span>
             </div>
-            <div class="form-group" ng-init="controller.eventToCreate.event.isPrivate=false">
+            <div class="form-group" ng-init="controller.eventToCreate.isPrivate=false">
                 Is it a private event?
                 <label>
                     <input type="radio" name="isPrivate" id="isPrivate-yes"
-                           ng-model="controller.eventToCreate.event.isPrivate" ng-value="true" />
+                           ng-model="controller.eventToCreate.isPrivate" ng-value="true" />
                     Yes
                 </label>
                 <label>
                     <input type="radio" name="isPrivate" id="isPrivate-no"
-                           ng-model="controller.eventToCreate.event.isPrivate" ng-value="false" />
+                           ng-model="controller.eventToCreate.isPrivate" ng-value="false" />
                     No
                 </label>
             </div>
             <div class="form-group">
                 <label for="isVolunteerRequired">Is volunteer required?:</label>
-                <select name="isVolunteerRequired" ng-model="controller.eventToCreate.event.isVolunteerRequired" required>
+                <select name="isVolunteerRequired" class="form-control" ng-model="controller.eventToCreate.isVolunteerRequired" required>
                     <option id="isVolunteerRequired-yes" value="yes">Yes</option>
                     <option id="isVolunteerRequired-no" value="no">No</option>
                     <option id="isVolunteerRequired-maybe" value="maybe">Maybe</option>
                 </select>
-                <span ng-show="eventForm.isVolunteerRequired.$touched && eventForm.isVolunteerRequired.$error.required" class="error">Is volunteer required for this event is required</span>
+                <span ng-show="eventCreateForm.isVolunteerRequired.$touched && eventCreateForm.isVolunteerRequired.$error.required" class="error">Is volunteer required for this event is required</span>
             </div>
             <div class="form-group">
                 <label>Number of preferred volunteers</label>
-                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" ng-value="0" width="2" class="form-control" ng-model="controller.eventToCreate.event.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
+                <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" ng-value="0" width="2" class="form-control" ng-model="controller.eventToCreate.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
             </div>
-            <div class="form-group" ng-init="controller.eventToCreate.event.isComplete=false">
+            <div class="form-group" ng-init="controller.eventToCreate.isComplete=false">
                 Event Completed?
                 <label>
                     <input type="radio" name="isComplete" id="isComplete-yes"
-                           ng-value="true" ng-model="controller.eventToCreate.event.isComplete" />
+                           ng-value="true" ng-model="controller.eventToCreate.isComplete" />
                     Yes
                 </label>
                 <label>
                     <input type="radio" name="isComplete" id="isComplete-no"
-                           ng-model="controller.eventToCreate.event.isComplete" ng-value="false" />
+                           ng-model="controller.eventToCreate.isComplete" ng-value="false" />
                     No
                 </label>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Name of Location</label>
-                <input type="text" name="nameOfLocation" class="form-control" ng-model="controller.eventToCreate.location.nameOfLocation" placeholder="Name of the location" required />
-                <span ng-show="eventLocationForm.nameOfLocation.$touched && eventLocationForm.nameOfLocation.$error.required" class="error">Event location is required.</span>
+                <input type="text" name="nameOfLocation" class="form-control" ng-model="controller.eventToCreate.nameOfLocation" placeholder="Name of the location" required />
+                <span ng-show="eventCreateForm.nameOfLocation.$touched && eventCreateForm.nameOfLocation.$error.required" class="error">Event location is required.</span>
             </div>
             <div class="form-group">
                 <label>Address</label>
-                <input type="text" name="address" class="form-control" ng-model="controller.eventToCreate.location.address" placeholder="Location address" />
+                <input type="text" name="address" class="form-control" ng-model="controller.eventToCreate.address" placeholder="Location address" />
             </div>
             <div class="form-group">
                 <label>City</label>
-                <input type="text" name="city" class="form-control" ng-model="controller.eventToCreate.location.city" placeholder="Location city" />
+                <input type="text" name="city" class="form-control" ng-model="controller.eventToCreate.city" placeholder="Location city" required />
+                <span ng-show="eventCreateForm.city.$touched && eventCreateForm.city.$error.required" class="error">Event city is required.</span>
             </div>
             <div class="form-group">
                 <label>State</label>
-                <input type="text" name="state" class="form-control" ng-model="controller.eventToCreate.location.state" placeholder="Location state, e.g. WA" />
+                <input type="text" name="state" class="form-control" ng-model="controller.eventToCreate.state" placeholder="Location state, e.g. WA" />
             </div>
             <div class="form-group">
                 <label>Zip</label>
-                <input type="text" name="zip" class="form-control" ng-model="controller.eventToCreate.location.zip" placeholder="Location zip" />
+                <input type="text" name="zip" class="form-control" ng-model="controller.eventToCreate.zip" placeholder="Location zip" />
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-block btn-success" value="Create" />
+                <input type="submit" class="btn btn-block btn-success" value="Create" ng-disabled="eventCreateForm.$invalid" />
                 <input type="button" ng-click="controller.cancel()" class="btn btn-block btn-primary" value="Cancel" />
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

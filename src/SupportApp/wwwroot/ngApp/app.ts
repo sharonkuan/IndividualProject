@@ -113,22 +113,22 @@ namespace SupportApp {
                 controller: SupportApp.Controllers.UserEventCreateController,
                 controllerAs: "controller"
             })
+            .state("userEventEdit", {
+                url: "/userEvent/edit/:id",
+                templateUrl: "/ngApp/views/userEventEdit.html",
+                controller: SupportApp.Controllers.UserEventEditController,
+                controllerAs: "controller"
+            })
             .state("eventAddressAdd", {
-                url: "/event/address/add/:id",
+                url: "/eventAddress/add",
                 templateUrl: "/ngApp/views/eventAddressAdd.html",
                 controller: SupportApp.Controllers.EventAddressAddController,
                 controllerAs: "controller"
             })
             .state("eventAddressEdit", {
-                url: "/event/address/edit/:id",
+                url: "/eventAddress/edit/:id",
                 templateUrl: "/ngApp/views/eventAddressEdit.html",
                 controller: SupportApp.Controllers.EventAddressEditController,
-                controllerAs: "controller"
-            })
-            .state("eventEdit", {
-                url: "/event/edit/:id",
-                templateUrl: "/ngApp/views/eventEdit.html",
-                controller: SupportApp.Controllers.EventEditController,
                 controllerAs: "controller"
             })
             .state('about', {

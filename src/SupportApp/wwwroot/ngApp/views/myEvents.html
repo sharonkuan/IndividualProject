@@ -8,7 +8,7 @@
             <div class="col-md-4">
                 <h4>Viewing {{controller.selectedEventLocation}} </h4>
                 <ul>
-                    <li ng-repeat="error in controller.validationErrors">{{error}}</li>
+                    <li class="error" ng-repeat="error in controller.validationErrors">{{error}}</li>
                 </ul>
                 <a href="/userEvent/create" ng-show="controller.canEdit==true"><strong><em>Create new event</em></strong></a>
             </div>
@@ -48,7 +48,7 @@
                         <td>{{event.isActive}}</td>
                         <td>{{event.isComplete}}</td>
                         <td>
-                            <a href="/event/edit/{{event.id}}">Edit</a>  |
+                            <a href="/userEvent/edit/{{event.id}}">Edit</a>  |
                             <a href="#" ng-click="controller.showDeleteDialog(event.id)">Delete</a>
                         </td>
                     </tr>

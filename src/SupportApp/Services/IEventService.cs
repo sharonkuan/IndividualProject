@@ -23,7 +23,7 @@ namespace SupportApp.Services
         EventDetailsViewModel GetEventDetails(string userId, int id);
         EventDetailsViewModel GetUserEventDetails(string userId, bool hasClaim, int id);
 
-        EventLocationViewModel SaveEvent(string userId, bool hasClaim, EventLocationViewModel addedEvent);
+        void SaveEvent(string userId, bool hasClaim, EventLocationViewModel addedEvent);
         Event UpdateVotes(string userId, int id, int voteType);
         void DeleteEvent(string userId, bool hasClaim, int id);
 

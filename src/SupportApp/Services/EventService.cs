@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SupportApp.Services
 {
@@ -169,7 +170,7 @@ namespace SupportApp.Services
 
             return vm;
         }
-  
+
 
         #region My Event and Admin Event - canEdit if userId match the event creator or is an admin, hasClaim based on user's role
         /// <summary>
@@ -324,54 +325,74 @@ namespace SupportApp.Services
         /// <param name="hasClaim"></param>
         /// <param name="addedEvent"></param>
         /// <returns></returns>
-        public EventLocationViewModel SaveEvent(string userId, bool hasClaim, EventLocationViewModel addedEvent)
+        public void SaveEvent(string userId, bool hasClaim, EventLocationViewModel addedEvent)
         {
-            var vm = new EventLocationViewModel();
+            Event eventData;
 
-            if (addedEvent.Event.Id == 0)
+            if (addedEvent.EventId == 0)
             {
-                vm.Event = addedEvent.Event;
-                vm.Event.EventStartDate = vm.Event.EventStartDate.ToUniversalTime();
-                vm.Event.EventEndDate = vm.Event.EventEndDate.ToUniversalTime();
-                vm.Event.DateCreated = DateTime.UtcNow;
-                vm.Event.IsActive = true;
-                vm.Event.IsComplete = false;
-                vm.Event.Views = 0;
-                vm.Event.ApplicationUserId = userId;
-                _repo.Add<Event>(vm.Event);
-                var newEvent = _repo.Query<Event>().Where(e => e.EventTitle == vm.Event.EventTitle).Where(e => e.ApplicationUserId == userId).Where(e => e.DateCreated.Date == vm.Event.DateCreated.Date).Include(e => e.Locations).FirstOrDefault();
+                eventData = new Event
+                {
+                    EventTitle = addedEvent.EventTitle,
+                    EventType = addedEvent.EventType,
+                    Details = addedEvent.Details,
+                    PreferredNumberOfExpectedVolunteer = addedEvent.PreferredNumberOfExpectedVolunteer,
+                    DownVote = 0,
+                    UpVote = 0,
+                    EventStartDate = addedEvent.EventStartDate.ToUniversalTime(),
+                    EventEndDate = addedEvent.EventEndDate.ToUniversalTime(),
+                    IsComplete = addedEvent.IsComplete,
+                    IsPrivate = addedEvent.IsPrivate,
+                    IsVolunteerRequired = addedEvent.IsVolunteerRequired,
+                    Views = 0,
+                    ApplicationUserId = userId,
+                    DateCreated = DateTime.UtcNow,
+                    IsActive = true
+                };
+                _repo.Add(eventData);
+                var newEvent = _repo.Query<Event>().Where(e => e.Id == eventData.Id).Include(e => e.Locations).FirstOrDefault();
                 //adds the location
-                vm.Location = addedEvent.Location;
-                vm.Location.IsActive = true;
-                vm.Location.DateCreated = DateTime.UtcNow;
-                newEvent.Locations.Add(vm.Location);
+                newEvent.Locations.Add(new Location
+                {
+                    NameOfLocation = addedEvent.NameOfLocation,
+                    Address = addedEvent.Address,
+                    City = addedEvent.City,
+                    State = addedEvent.State,
+                    Zip = addedEvent.Zip,
+                    IsActive = true,
+                    DateCreated = DateTime.UtcNow
+                });
+
                 _repo.SaveChanges();
-                vm.CanEdit = true;
-                vm.HasClaim = hasClaim;
             }
             else
             {
-                var eventToEdit = _repo.Query<Event>().Where(e => e.Id == addedEvent.Event.Id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
-                vm.Event = addedEvent.Event;
-                vm.Event.EventStartDate = vm.Event.EventStartDate.ToUniversalTime();
-                vm.Event.EventEndDate = vm.Event.EventEndDate.ToUniversalTime();
-                vm.Event.DateCreated = DateTime.UtcNow;
-                vm.Event.IsActive = true;
-                vm.Event.IsComplete = false;
-                vm.Event.Views = eventToEdit.Views;
-                vm.Event.ApplicationUserId = userId;
-                //location
-                vm.Location = addedEvent.Location;
-                vm.Location.IsActive = true;
-                vm.Location.DateCreated = DateTime.UtcNow;
+                var eventToEdit = _repo.Query<Event>().Where(e => e.Id == addedEvent.EventId).Include(e => e.Locations).FirstOrDefault();
+
+                eventToEdit.EventTitle = addedEvent.EventTitle;
+                eventToEdit.EventStartDate = addedEvent.EventStartDate.ToUniversalTime();
+                eventToEdit.EventEndDate = addedEvent.EventEndDate.ToUniversalTime();
+                eventToEdit.IsComplete = addedEvent.IsComplete;
+                eventToEdit.IsPrivate = addedEvent.IsPrivate;
+                eventToEdit.IsVolunteerRequired = addedEvent.IsVolunteerRequired;
+                eventToEdit.Views = eventToEdit.Views;
+                eventToEdit.ApplicationUserId = eventToEdit.ApplicationUserId;
+                eventToEdit.DateCreated = eventToEdit.DateCreated;
+                eventToEdit.IsActive = true;
+
+                //eventToEdit.Locations.Add(new Location
+                //{
+                //    NameOfLocation = addedEvent.LocationNameOfLocation,
+                //    Address = addedEvent.LocationAddress,
+                //    City = addedEvent.LocatinoCity,
+                //    State = addedEvent.LocationState,
+                //    Zip = addedEvent.LocationZip,
+                //    IsActive = true,
+                //    DateCreated = DateTime.UtcNow,
+                //});
 
                 _repo.SaveChanges();
-                vm.CanEdit = true;
-                vm.HasClaim = hasClaim;
-                _repo.SaveChanges();
             }
-            vm = convertDatesFromUtcToLocalTime(vm);
-            return vm;
         }
 
         /// <summary>
@@ -433,6 +454,7 @@ namespace SupportApp.Services
                 }
             }
             _repo.Update(singleEvent);
+            singleEvent = EventMarkUp(singleEvent);
             return singleEvent;
         }
 
@@ -486,11 +508,20 @@ namespace SupportApp.Services
             return sglEventVm;
         }
 
+        public Event convertDatesFromUtcToLocalTime(Event sglEventVm)
+        {
+            sglEventVm.EventStartDate = sglEventVm.EventStartDate.ToLocalTime();
+            sglEventVm.EventEndDate = sglEventVm.EventEndDate.ToLocalTime();
+            sglEventVm.DateCreated = sglEventVm.DateCreated.ToLocalTime();
+
+            return sglEventVm;
+        }
+
         public EventLocationViewModel convertDatesFromUtcToLocalTime(EventLocationViewModel sglEventVm)
         {
-            sglEventVm.Event.EventStartDate = sglEventVm.Event.EventStartDate.ToLocalTime();
-            sglEventVm.Event.EventEndDate = sglEventVm.Event.EventEndDate.ToLocalTime();
-            sglEventVm.Event.DateCreated = sglEventVm.Event.DateCreated.ToLocalTime();
+            sglEventVm.EventStartDate = sglEventVm.EventStartDate.ToLocalTime();
+            sglEventVm.EventEndDate = sglEventVm.EventEndDate.ToLocalTime();
+            sglEventVm.DateCreated = sglEventVm.DateCreated.ToLocalTime();
 
             return sglEventVm;
         }
@@ -536,12 +567,12 @@ namespace SupportApp.Services
 
         public EventLocationViewModel DisplayUserName(EventLocationViewModel sglEventVm)
         {
-            var userId = sglEventVm.Event.ApplicationUserId;
+            var userId = sglEventVm.ApplicationUserId;
             var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
             var userLastName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.LastName).FirstOrDefault();
-            sglEventVm.Event.ApplicationUserId = userFirstName + " " + userLastName;
+            sglEventVm.ApplicationUserId = userFirstName + " " + userLastName;
 
-            foreach (var comment in sglEventVm.Event.Comments)
+            foreach (var comment in sglEventVm.Comments)
             {
                 var commentWriterId = comment.ApplicationUserId;
                 var commentWriterFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == commentWriterId).Select(au => au.FirstName).FirstOrDefault();
@@ -552,12 +583,69 @@ namespace SupportApp.Services
         }
         #endregion
 
-        #region Methods to show Active/Inactive (deleted/active)
+        public Event EventMarkUp(Event sglEvent)
+        {
+            var userId = sglEvent.ApplicationUserId;
+            var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
+            var userLastName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.LastName).FirstOrDefault();
+            sglEvent.ApplicationUserId = userFirstName + " " + userLastName;
+            
+            foreach (var comment in sglEvent.Comments)
+            {
+                var commentWriterId = comment.ApplicationUserId;
+                var commentWriterFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == commentWriterId).Select(au => au.FirstName).FirstOrDefault();
+                comment.ApplicationUserId = commentWriterFirstName;
+                comment.DateCreated = comment.DateCreated.ToLocalTime();
+            }
 
-        #endregion
+            return sglEvent;
+        }
 
+        #region Methods to convert to string for is Private, is compelte,  Active/Inactive (deleted/active)
+        public string ConvertIsPrivateToYesOrNo(bool isPrivate)
+        {
+            string stringIsPrivate = "";
 
-        #region Methods to show Yes/No (is Private, is compelte)
+            if (isPrivate == true)
+            {
+                stringIsPrivate = "Private";
+            }
+            else
+            {
+                stringIsPrivate = "Public";
+            }
+            return stringIsPrivate;
+        }
+
+        public string ConvertIsCompleteToCompletedOrInProgress(bool isComplete)
+        {
+            string stringIsComplete = "";
+
+            if (isComplete == true)
+            {
+                stringIsComplete = "Completed";
+            }
+            else
+            {
+                stringIsComplete = "In Progress";
+            }
+            return stringIsComplete;
+        }
+
+        public string ConvertIsActiveToActiveOrInactive(bool isActive)
+        {
+            string stringIsActive = "";
+
+            if (isActive == true)
+            {
+                stringIsActive = "Active";
+            }
+            else
+            {
+                stringIsActive = "Inactive";
+            }
+            return stringIsActive;
+        }
 
         #endregion
     }

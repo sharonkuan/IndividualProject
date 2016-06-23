@@ -1,0 +1,45 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="modal-header">
+            <h2>Edit Event Address</h2>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul>
+                        <li class="error" ng-repeat="error in controller.validationErrors">{{error}}</li>
+                    </ul>
+                </div>
+            </div>
+           
+            <form novalidate name="eventLocationForm">
+                <div class="form-group">
+                    <label>Name of Location</label>
+                    <input type="text" name="nameOfLocation" class="form-control" ng-model="controller.eventLocation.nameOfLocation" placeholder="Name of the location" required />
+                    <span ng-show="eventLocationForm.nameOfLocation.$touched && eventLocationForm.nameOfLocation.$error.required" class="error">Event location is required.</span>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="address" class="form-control" ng-model="controller.eventLocation.address" placeholder="Location address" />
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" name="city" class="form-control" ng-model="controller.eventLocation.city" placeholder="Location city" required />
+                    <span ng-show="eventCreateForm.city.$touched && eventCreateForm.city.$error.required" class="error">Event city is required.</span>
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" name="state" class="form-control" ng-model="controller.eventLocation.state" placeholder="Location state, e.g. WA" />
+                </div>
+                <div class="form-group">
+                    <label>Zip</label>
+                    <input type="text" name="zip" class="form-control" ng-model="controller.eventLocation.zip" placeholder="Location zip" />
+                </div>
+            </form>
+            <div class="col-md-offset-8">
+                <input type="button" class="btn btn-success" ng-click="controller.saveLocation()" value="Save Change" ng-disabled="eventLocationForm.$invalid" />
+                <input type="button" ng-click="controller.close()" class="btn btn-primary" value="Close" />
+            </div>
+        </div>
+    </div>
+</div>

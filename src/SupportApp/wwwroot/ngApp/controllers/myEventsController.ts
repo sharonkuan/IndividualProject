@@ -13,14 +13,14 @@
             private $uibModal: ng.ui.bootstrap.IModalService) {
 
             this.getMyEvents();
-            debugger;
+            
         }
 
         getMyEvents() {
-            debugger;
+            
             this.eventServices.getUserEvents().then((data) => {
                 console.log(data);
-                debugger;
+                
                 this.events = data.events;
                 this.selectedEventLocation = "All";
                 this.canEdit = data.canEdit;
@@ -37,7 +37,7 @@
         }
 
         searchEventsByCity() {
-            debugger;
+            
             console.log(this.selectedEventLocation);
             this.eventServices.searchMyActiveEvents(this.selectedEventLocation).then((data) => {
                 this.events = data;
@@ -52,7 +52,7 @@
         }
 
         showDeleteDialog(eventId) {
-            //debugger;
+            //
             this.$uibModal.open({
                 templateUrl: '/ngApp/views/eventDeleteDialog.html',
                 controller: SupportApp.Controllers.EventDeleteDialogController,

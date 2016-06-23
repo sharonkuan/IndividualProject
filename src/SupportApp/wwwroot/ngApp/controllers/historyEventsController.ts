@@ -11,11 +11,11 @@
             private $uibModal: ng.ui.bootstrap.IModalService) {
 
             this.getHistoryEvents();
-            //debugger;
+            //
         }
 
         getHistoryEvents() {
-            //debugger;
+            //
             this.eventServices.getHistoryEvents().then((data) => {
                 this.events = data.events;
                 this.selectedEventLocation = "All";
@@ -25,11 +25,11 @@
 
         //searchActiveHistoryEventsByCity
         searchEventsByCity() {
-            debugger;
+            
             console.log(this.selectedEventLocation);
             this.eventServices.searchActiveHistoryEventsByCity(this.selectedEventLocation).then((data) => {
                 this.events = data;
-                //debugger;
+                //
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {

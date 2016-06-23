@@ -194,7 +194,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("Message");
+                    b.Property<string>("Message")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -270,7 +271,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .IsRequired();
 
                     b.Property<DateTime>("DateCreated");
 
@@ -278,7 +280,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("NameOfLocation");
+                    b.Property<string>("NameOfLocation")
+                        .IsRequired();
 
                     b.Property<string>("State");
 

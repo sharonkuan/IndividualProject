@@ -8,7 +8,7 @@ using SupportApp.Data;
 namespace SupportApp.data.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160621062807_initialTables")]
+    [Migration("20160622014236_initialTables")]
     partial class initialTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,7 +195,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("Message");
+                    b.Property<string>("Message")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -271,7 +272,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .IsRequired();
 
                     b.Property<DateTime>("DateCreated");
 
@@ -279,7 +281,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("NameOfLocation");
+                    b.Property<string>("NameOfLocation")
+                        .IsRequired();
 
                     b.Property<string>("State");
 

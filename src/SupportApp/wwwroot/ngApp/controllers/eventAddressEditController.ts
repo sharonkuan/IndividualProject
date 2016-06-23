@@ -2,33 +2,30 @@
 
     export class EventAddressEditController {
 
-        public eventAddressToEdit;
-        private eventId;
         public validationErrors;
+        public eventLocation;
 
 
-        constructor(private eventServices: SupportApp.Services.EventServices,
-            $stateParams: angular.ui.IStateParamsService,
-            private $state: angular.ui.IStateService) {
+        constructor(private locationIdFrom, private eventServices: SupportApp.Services.EventServices,
+            //$stateParams: angular.ui.IStateParamsService,
+            //private $state: angular.ui.IStateService,
+            private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance) {
 
-            this.eventId = $stateParams["id"];
-            this.getEvent();
+            this.getLocation();
         }
 
-        getEvent() {
-
-            this.eventServices.getUserEventDetails(this.eventId).then((data) => {
-                this.eventAddressToEdit = data.event;
-                this.eventAddressToEdit.eventStartDate = new Date(this.eventAddressToEdit.eventStartDate);
-                this.eventAddressToEdit.isPrivate = getSelection();
-                this.eventAddressToEdit.eventEndDate = new Date(this.eventAddressToEdit.eventEndDate);
+        getLocation() {
+            this.eventServices.getLocation(this.locationIdFrom).then((data) => {
+                this.eventLocation = data;
             });
         }
-        saveEvent() {
-            this.eventServices.saveEvent(this.eventAddressToEdit).then((data) => {
-                console.log("Saved data: " + data);
-                debugger;
-                this.$state.go("myEvents");
+
+        saveLocation() {
+            debugger;
+            this.eventServices.saveLocation(this.locationIdFrom, this.eventLocation).then((data) => {
+                this.getLocation();
+                this.close();
+                location.reload();
             }).catch((error) => {
                 let validationErrors = [];
                 for (let prop in error.data) {
@@ -39,8 +36,8 @@
             })
         }
 
-        cancel() {
-            this.$state.go("eventEdit");
+        close() {
+            this.$uibModalInstance.close();
         }
     }
 }

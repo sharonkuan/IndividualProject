@@ -19,6 +19,88 @@ namespace SupportApp.Services
             this._repo = repo;
         }
 
+        public Event SaveEditedUserEvent(string userId, bool hasClaim, int eventId, Event eventData)
+        {
+            var eventToEdit = _repo.Query<Event>().Where(e => e.Id == eventId).Include(e => e.Locations).Include(e => e.Comments).FirstOrDefault();
+
+            eventToEdit.EventType = eventData.EventType;
+            eventToEdit.EventTitle = eventData.EventTitle;
+            eventToEdit.Details = eventData.Details;
+
+
+            eventToEdit.EventStartDate = eventData.EventStartDate.ToUniversalTime();
+            eventToEdit.EventEndDate = eventData.EventEndDate.ToUniversalTime();
+            eventToEdit.IsComplete = eventData.IsComplete;
+            eventToEdit.IsPrivate = eventData.IsPrivate;
+            eventToEdit.IsVolunteerRequired = eventData.IsVolunteerRequired;
+            eventToEdit.PreferredNumberOfExpectedVolunteer = eventData.PreferredNumberOfExpectedVolunteer;
+            eventToEdit.UpVote = eventToEdit.UpVote;
+            eventToEdit.DownVote = eventToEdit.DownVote;
+            eventToEdit.Views = eventToEdit.Views;
+            eventToEdit.ApplicationUserId = eventToEdit.ApplicationUserId;
+            eventToEdit.DateCreated = eventToEdit.DateCreated;
+            eventToEdit.IsActive = eventToEdit.IsActive;
+
+            _repo.SaveChanges();
+
+            eventToEdit = EventMarkUp(eventToEdit);
+            return eventToEdit;
+        }
+
+        public Event SaveAddedLocation(int eventId, string userId, Location location)
+        {
+            var selectedEvent = _repo.Query<Event>().Where(e => e.Id == eventId).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
+
+            location.DateCreated = DateTime.UtcNow;
+            //location.CreatedBy = userId;
+            location.IsActive = true;
+            selectedEvent.Locations.Add(location);
+            _repo.SaveChanges();
+            selectedEvent = EventMarkUp(selectedEvent);
+            return selectedEvent;
+        }
+
+        public Location GetLocation(int locationId)
+        {
+            var selectedLocation = _repo.Query<Location>().Where(l => l.Id == locationId).FirstOrDefault();
+            return selectedLocation;
+        }
+
+        public Location SaveLocation(int locationId, string userId, Location location)
+        {
+            var selectedLocation = _repo.Query<Location>().Where(l => l.Id == locationId).FirstOrDefault();
+
+            selectedLocation.NameOfLocation = location.NameOfLocation;
+            selectedLocation.Address = location.Address;
+            selectedLocation.City = location.City;
+            selectedLocation.State = location.State;
+            selectedLocation.Zip = location.Zip;
+            selectedLocation.IsActive = true;
+            selectedLocation.DateCreated = selectedLocation.DateCreated;
+
+            _repo.SaveChanges();
+            return selectedLocation;
+        }
+
+        #region Markup methods
+        public Event EventMarkUp(Event sglEvent)
+        {
+            var userId = sglEvent.ApplicationUserId;
+            var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
+            var userLastName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.LastName).FirstOrDefault();
+            sglEvent.ApplicationUserId = userFirstName + " " + userLastName;
+
+            foreach (var comment in sglEvent.Comments)
+            {
+                var commentWriterId = comment.ApplicationUserId;
+                var commentWriterFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == commentWriterId).Select(au => au.FirstName).FirstOrDefault();
+                comment.ApplicationUserId = commentWriterFirstName;
+                comment.DateCreated = comment.DateCreated.ToLocalTime();
+            }
+
+            return sglEvent;
+        }
+
         public Event convertDatesFromUtcToLocalTime(Event sglEvent)
         {
             sglEvent.EventStartDate = sglEvent.EventStartDate.ToLocalTime();
@@ -43,38 +125,6 @@ namespace SupportApp.Services
 
             return sglEvent;
         }
-
-        public Event SaveEventLocation(int eventId, int locationId, Location location)
-        {
-            var selectedEvent = _repo.Query<Event>().Where(e => e.Id == eventId).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
-
-            if (locationId == 0)
-            {
-                location.DateCreated = DateTime.UtcNow;
-                location.IsActive = true;
-                selectedEvent.Locations.Add(location);
-            }
-            else
-            {
-                foreach (var place in selectedEvent.Locations)
-                {
-                    if (place.Id == locationId)
-                    {
-                        place.NameOfLocation = location.NameOfLocation;
-                        place.Address = location.Address;
-                        place.City = location.City;
-                        place.State = location.State;
-                        place.Zip = location.Zip;
-                        place.IsActive = true;
-                        break;
-                    }
-                }
-            }
-            _repo.SaveChanges();
-            selectedEvent = convertDatesFromUtcToLocalTime(selectedEvent);
-            selectedEvent = DisplayUserFirstName(selectedEvent);
-            return selectedEvent;
-        }
+        #endregion
     }
 }
-

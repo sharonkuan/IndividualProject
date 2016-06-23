@@ -88,26 +88,57 @@
                 }
             });
             this.eventCommentResources = $resource("/api/eventComment/:id");
-            this.eventLocationResources = $resource("/api/eventLocation/:id");
+            this.eventLocationResources = $resource("/api/eventLocation/:id", null, {
+                saveUserEventEdit: {
+                    method: 'POST',
+                    url: '/api/eventLocation/saveusereventedit/:id'
+                }, 
+                saveAddedEventLocation: {
+                    method: 'POST',
+                    url: '/api/eventLocation/saveaddedeventlocation/:id'
+                },
+                saveLocation: {
+                    method: 'POST',
+                    url: '/api/eventLocation/savelocation/:id'
+                }
+            });
         }
 
-        getActiveEvents() {
+        getLocation(locationId) {
+            return this.eventLocationResources.get({ id: locationId }).$promise;
+        }
+
+        //edits an existing event, NOT including the location
+        saveUserEventEdit(eventId, event) {
             debugger;
+            return this.eventLocationResources.saveUserEventEdit({ id: eventId }, event).$promise;
+        }
+
+        //save an event location
+        saveAddedEventLocation(eventId, locationToSave) {
+            return this.eventLocationResources.saveAddedEventLocation({ id: eventId }, locationToSave).$promise;
+        }
+
+        saveLocation(eventId, locationToSave) {
+            debugger;
+            return this.eventLocationResources.saveLocation({ id: eventId }, locationToSave).$promise;
+        }
+
+
+        getActiveEvents() {
             return this.eventsResources.getActiveEvents().$promise;
         }
 
         getHistoryEvents() {
-            debugger;
             return this.eventsResources.getHistoryEvents().$promise;
         }
-       
+
         getUserEvents() {
 
             return this.eventsResources.getUserEvents().$promise;
         }
 
         getUserHistoryEvents() {
-            debugger;
             return this.eventsResources.getUserHistoryEvents().$promise;
         }
 
@@ -127,12 +158,10 @@
         }
 
         getUserEventDetails(eventId) {
-            debugger;
             return this.eventsResources.getUserEventDetails({ id: eventId }).$promise;
         }
 
         getAdminEventDetails(eventId) {
-            debugger;
             return this.eventsResources.getAdminEventDetails({ id: eventId }).$promise;
         }
 
@@ -160,31 +189,22 @@
             return this.eventsResources.searchAllHistoryEvents({ city: city }).$promise;
         }
 
-        //save a single event comment
+        //save an event's comment
         saveEventComment(eventId, commentToSave) {
-            debugger;
             return this.eventCommentResources.save({ id: eventId }, commentToSave).$promise;
         }
 
         voteEvent(eventId, voteValue) {
-            debugger;
             return this.eventsResources.vote({ id: eventId }, voteValue).$promise;
         }
 
+        //save a new event and its single location
         saveEvent(event) {
-            debugger;
             return this.eventsResources.save(event).$promise;
         }
 
-        //save an event location
-        saveEventLocation(eventId, locationToSave) {
-            return this.eventLocationResources.save({ id: eventId }, locationToSave).$promise;
-        }
-
+       
         deleteEvent(eventId) {
-            debugger;
-            //this.eventCommentResources.remove({ id: eventId }).$promise;
-            //this.eventLocationResources.remove({ id: eventId }).$promise;
             return this.eventsResources.remove({ id: eventId }).$promise;
         }
     }

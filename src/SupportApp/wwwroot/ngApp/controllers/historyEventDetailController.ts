@@ -16,7 +16,7 @@
         }
 
         getHistoryEvent() {
-            //debugger;
+            //
             this.eventServices.getEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;

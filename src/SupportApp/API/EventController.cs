@@ -122,7 +122,7 @@ namespace SupportApp.API
             var events = _service.GetHistoryEvents();
             return Ok(events);
         }
-       
+
         // GET: api/event/getuserevents
         [HttpGet]
         [Route("getuserevents")]
@@ -213,12 +213,25 @@ namespace SupportApp.API
 
         // POST api/event
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody]EventLocationViewModel addedEvent)
         {
+            if (addedEvent.EventStartDate == new System.DateTime(0001, 01, 01))
+            {
+                ModelState.AddModelError("EventStartDate", "Event Start Date is required");
+            }
+            if (addedEvent.EventEndDate == new System.DateTime(0001, 01, 01))
+            {
+                ModelState.AddModelError("EventEndDate", "Event End Date is required");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var userId = _userManager.GetUserId(User);
             bool hasClaim = User.HasClaim("IsAdmin", "true");
             _service.SaveEvent(userId, hasClaim, addedEvent);
-            return Ok(addedEvent);
+            return Ok();
         }
 
         // DELETE api/event/5
@@ -237,6 +250,11 @@ namespace SupportApp.API
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]int voteType)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userId = _userManager.GetUserId(User);
             //voteType is thumbs up or down 1 = up, 0 = down
             var sglEvent = _service.UpdateVotes(userId, id, voteType);

@@ -22,16 +22,16 @@ namespace SupportApp.Data
             #region seed users and events
 
             // Ensure Stephen (IsAdmin)
-            var stephen = await userManager.FindByNameAsync("Stephen.Walther@CoderCamps.com");
+            var stephen = await userManager.FindByNameAsync("Steve@cc.com");
             if (stephen == null)
             {
                 // create user
                 stephen = new ApplicationUser
                 {
-                    UserName = "Stephen.Walther@CoderCamps.com",
-                    Email = "Stephen.Walther@CoderCamps.com",
+                    UserName = "Steve@cc.com",
+                    Email = "Steve@cc.com",
                     FirstName = "Stephen",
-                    LastName = "Walter",
+                    LastName = "Walther",
                     PrimaryPhone = "111-222-3333",
                     IsProvider = false,
                     WillingToVolunteer = true,
@@ -78,14 +78,14 @@ namespace SupportApp.Data
             //db.SaveChanges();
 
             // Ensure Sharon (IsAdmin)
-            var sharon = await userManager.FindByNameAsync("Sharon.Kuan@CoderCamps.com");
+            var sharon = await userManager.FindByNameAsync("Sharon@cc.com");
             if (sharon == null)
             {
                 // create user
                 sharon = new ApplicationUser
                 {
-                    UserName = "Sharon.Kuan@CoderCamps.com",
-                    Email = "Sharon.Kuan@CoderCamps.com",
+                    UserName = "Sharon@cc.com",
+                    Email = "Sharon@cc.com",
                     FirstName = "Sharon",
                     LastName = "Kuan",
                     PrimaryPhone = "888-888-8888",
@@ -205,14 +205,14 @@ namespace SupportApp.Data
             }
 
             // Ensure Mike (not IsAdmin)
-            var mike = await userManager.FindByNameAsync("Mike@CoderCamps.com");
+            var mike = await userManager.FindByNameAsync("Mike@cc.com");
             if (mike == null)
             {
                 // create user
                 mike = new ApplicationUser
                 {
-                    UserName = "Mike@CoderCamps.com",
-                    Email = "Mike@CoderCamps.com",
+                    UserName = "Mike@cc.com",
+                    Email = "Mike@cc.com",
                     FirstName = "Mike",
                     LastName = "Johnson",
                     PrimaryPhone = "222-333-4444",
@@ -255,14 +255,14 @@ namespace SupportApp.Data
             }
 
 
-            var tom = await userManager.FindByNameAsync("Tom@CoderCamps.com");
+            var tom = await userManager.FindByNameAsync("Tom@cc.com");
             if (tom == null)
             {
                 // create user
                 tom = new ApplicationUser
                 {
-                    UserName = "Tom@CoderCamps.com",
-                    Email = "Tom@CoderCamps.com",
+                    UserName = "Tom@cc.com",
+                    Email = "Tom@cc.com",
                     FirstName = "Tom",
                     LastName = "William",
                     PrimaryPhone = "444-555-6666",

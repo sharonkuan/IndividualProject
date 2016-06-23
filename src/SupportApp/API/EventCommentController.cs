@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SupportApp.Services;
 using SupportApp.ViewModels.Connection;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,13 +28,14 @@ namespace SupportApp.API
         }
 
         [HttpPost("{id}")]
+        [Authorize]
         public IActionResult Post(int id, [FromBody]Comment comment)
         {
             var addedCommentEvent = new Event();
             
             if (comment == null || String.IsNullOrWhiteSpace(comment.ToString()))
             {
-                ModelState.AddModelError("", "Comment is required.");
+                ModelState.AddModelError("Message", "Comment is required.");
             }
 
             if (!ModelState.IsValid)

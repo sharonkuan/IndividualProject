@@ -41,5 +41,12 @@
                 <td><font size="1">Added By: {{comment.applicationUserId}}</font></td>
             </tr>
         </table>
+        <div class="row">
+            <div class="col-md-6">
+                <ul>
+                    <li class="error" ng-repeat="err in controller.validationErrors">{{err}}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

@@ -196,7 +196,7 @@ namespace SupportApp.data.migrations
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EventId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    Message = table.Column<string>(nullable: true)
+                    Message = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,11 +240,11 @@ namespace SupportApp.data.migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EventId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    NameOfLocation = table.Column<string>(nullable: true),
+                    NameOfLocation = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: true),
                     Zip = table.Column<string>(nullable: true)
                 },

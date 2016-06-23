@@ -13,11 +13,11 @@
             private $uibModal: ng.ui.bootstrap.IModalService) {
 
             this.getAllEvents();
-            debugger;
+            //
         }
 
         getAllEvents() {
-            debugger;
+            //
             //put all events in viewmodel came back as object
             this.eventServices.getAllEvents().then((data) => {
                 this.events = data.events;
@@ -36,7 +36,7 @@
         }
 
         searchEventsByCity() {
-            debugger;
+            
             console.log(this.selectedEventLocation);
             this.eventServices.searchAllEvents(this.selectedEventLocation).then((data) => {
                 this.events = data;
@@ -52,7 +52,7 @@
 
 
         showDeleteDialog(eventId) {
-            //debugger;
+            //
             this.$uibModal.open({
                 templateUrl: '/ngApp/views/eventDeleteDialog.html',
                 controller: SupportApp.Controllers.EventDeleteDialogController,

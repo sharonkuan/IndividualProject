@@ -19,7 +19,7 @@
         }
 
         getEvent() {
-            debugger;
+            //
             this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
@@ -37,9 +37,8 @@
         //worked
         saveComment() {
             this.eventServices.saveEventComment(this.eventId, this.eventComment).then((data) => {
-                //console.log("data: " + data);
                 this.event = data;
-                debugger;
+                //
                 this.clearCommentForm();
             }).catch((err) => {
                 let validationErrors = [];
@@ -53,7 +52,7 @@
 
         voteEvent(voteType) {
             this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
-                debugger;
+                //
                 this.event = data;
             }).catch((err) => {
                 let validationErrors = [];
@@ -66,7 +65,7 @@
         }
 
         cancel() {
-            debugger;
+            //
             this.$state.go("adminEvents");
         }
 

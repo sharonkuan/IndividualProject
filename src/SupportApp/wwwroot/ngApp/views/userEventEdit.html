@@ -1,0 +1,112 @@
+﻿<div class="container row">
+    <div class="container col-md-12">
+        <h1>Edit Event</h1>
+        <a href="/myEvents"><strong><em>Back to My Events...</em></strong></a>
+        <div class="row">
+            <div class="col-md-6">
+                <ul>
+                    <li class="error" ng-repeat="err in controller.validationErrors">{{err}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form novalidate ng-submit="controller.saveUserEventEdit()" name="eventCreateForm">
+                <div class="form-group">
+                    <label>Event Type</label>
+                    <input type="text" name="eventType" class="form-control" ng-model="controller.eventToEdit.eventType" placeholder="Event type" required />
+                    <span ng-show="eventCreateForm.eventType.$touched && eventCreateForm.eventType.$error.required" class="error">Event type is required.</span>
+                </div>
+                <div class="form-group">
+                    <label>Event Title</label>
+                    <input type="text" name="eventTitle" class="form-control" ng-model="controller.eventToEdit.eventTitle" placeholder="Event title" required />
+                    <span ng-show="eventCreateForm.eventTitle.$touched && eventCreateForm.eventTitle.$error.required" class="error">Event Title is required</span>
+                </div>
+                <div class="form-group">
+                    <label>Details</label>
+                    <textarea name="details" class="form-control" rows="3" ng-model="controller.eventToEdit.details" placeholder="Enter event details"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Event Start Date Time, e.g. 01/31/2016 10:30 AM</label>
+                    <input type="datetime-local" name="eventStartDate" class="form-control" ng-model="controller.eventToEdit.eventStartDate" placeholder="Date format: 2016/01/31 10:30 AM" required />
+                    <span ng-show="eventCreateForm.eventStartDate.$touched && eventCreateForm.eventStartDate.$error.required" class="error">Event Start Date Time is required</span>
+                </div>
+                <div class="form-group">
+                    <label>End Date Time, e.g. 01/31/2016 02:30 PM</label>
+                    <br />
+                    <input type="datetime-local" name="eventEndDate" class="form-control" min="0" max="12" width=2 ng-model="controller.eventToEdit.eventEndDate" placeholder="Date format: 2016/01/31 02:30 PM" required />
+                    <span ng-show="eventCreateForm.eventEndDate.$touched && eventCreateForm.eventEndDate.$error.required" class="error">Event End Date and Time is required</span>
+                </div>
+                <div class="form-group">
+                    Is it a private event?
+                    <label>
+                        <input type="radio" name="isPrivate" id="isPrivate-yes"
+                               data-ng-model="controller.eventToEdit.isPrivate" data-ng-value="true" />
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="isPrivate" id="isPrivate-no"
+                               data-ng-model="controller.eventToEdit.isPrivate" data-ng-value="false" />
+                        No
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="isVolunteerRequired">Is volunteer required?:</label>
+                    <select name="isVolunteerRequired" class="form-control" data-ng-model="controller.eventToEdit.isVolunteerRequired" required>
+                        <option id="isVolunteerRequired-yes" data-ng-value="yes">Yes</option>
+                        <option id="isVolunteerRequired-no" data-ng-value="no">No</option>
+                        <option id="isVolunteerRequired-maybe" data-ng-value="maybe">Maybe</option>
+                    </select>
+                    <span ng-show="eventCreateForm.isVolunteerRequired.$touched && eventCreateForm.isVolunteerRequired.$error.required" class="error">Is volunteer required for this event is required</span>
+                </div>
+                <div class="form-group">
+                    <label>Number of preferred volunteers</label>
+                    <input type="number" name="preferredNumberOfExpectedVolunteer" min="0" max="20" ng-value="0" width="2" class="form-control" ng-model="controller.eventToEdit.preferredNumberOfExpectedVolunteer" placeholder="Preferred volunteers" />
+                </div>
+                <div class="form-group">
+                    Event Completed?
+                    <label>
+                        <input type="radio" name="isComplete" id="isComplete-yes"
+                               data-ng-value="true" data-ng-model="controller.eventToEdit.isComplete" />
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="isComplete" id="isComplete-no"
+                               data-ng-model="controller.eventToEdit.isComplete" data-ng-value="false" />
+                        No
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-block btn-success" value="Save Change" />
+                    <input type="button" ng-click="controller.cancel()" class="btn btn-block btn-primary" value="Cancel" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div ng-show="controller.userClaim.isAdmin=='true'">
+                <a href="/eventAddress/add"><strong><em>Create additional address for this event</em></strong></a>
+            </div>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="location in controller.eventToEdit.locations">
+                    <td>{{location.nameOfLocation}}</td>
+                    <td>{{location.address}}</td>
+                    <td>{{location.city}}</td>
+                    <td>{{location.state}}</td>
+                    <td>{{location.zip}}</td>
+                    <td>
+                        <a href="#" ng-click="controller.showDeleteDialog(location.id)">Edit</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

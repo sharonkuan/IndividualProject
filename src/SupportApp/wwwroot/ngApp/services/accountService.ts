@@ -12,7 +12,7 @@ namespace SupportApp.Services {
         }
 
         public getUserInfo() {
-            debugger;
+            
             var userInfo = this.$window.sessionStorage.getItem("claims");
             return JSON.parse(userInfo);
         }

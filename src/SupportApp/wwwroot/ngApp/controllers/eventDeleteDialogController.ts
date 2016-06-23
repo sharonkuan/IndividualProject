@@ -15,7 +15,7 @@
 
         getEvent() {
             this.eventToDelete = this.eventServices.getUserEventDetails(this.eventIdFrom).then((data) => {
-                debugger;
+                
                 this.eventToDelete = data.event;
                 this.canEdit = data.canEdit;
                 console.log(data);
@@ -30,9 +30,7 @@
         }
 
         deleteEvent() {
-            debugger;
             this.eventServices.deleteEvent(this.eventToDelete.id).then((data) => {
-                debugger;
                 this.eventToDelete = data.event;
                 this.close();
                 location.reload(true);
