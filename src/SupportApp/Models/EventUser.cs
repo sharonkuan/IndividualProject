@@ -12,6 +12,7 @@ namespace SupportApp.Models
         public Event Event { get; set; }
         public int EventId { get; set; }
         public ApplicationUser Member { get; set; }
-        public string MemberId { get; set; }  //application user is usually differnt and string
+        public string MemberId { get; set; }  
+
     }
 }

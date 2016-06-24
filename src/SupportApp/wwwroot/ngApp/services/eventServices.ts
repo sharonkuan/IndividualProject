@@ -85,9 +85,20 @@
                 getAdminEventDetails: {
                     method: 'GET',
                     url: '/api/event/getadmineventdetails/:id'
+                },
+                getVolunteerInfo: {
+                    method: 'GET',
+                    url: '/api/event/getvolunteerinfo/:eventId',
+                    isArray: true
                 }
             });
-            this.eventCommentResources = $resource("/api/eventComment/:id");
+            this.eventCommentResources = $resource("/api/eventComment/:id", null, {
+                signUpToVolunteer: {
+                    method: "PUT",
+                    url: "/api/eventComment/:id",
+                    isArray: false
+                }
+            });
             this.eventLocationResources = $resource("/api/eventLocation/:id", null, {
                 saveUserEventEdit: {
                     method: 'POST',
@@ -95,13 +106,22 @@
                 }, 
                 saveAddedEventLocation: {
                     method: 'POST',
-                    url: '/api/eventLocation/saveaddedeventlocation/:id'
+                    url: '/api/eventLocation/saveaddedeventlocation/:id'  //eventId
                 },
                 saveLocation: {
                     method: 'POST',
-                    url: '/api/eventLocation/savelocation/:id'
+                    url: '/api/eventLocation/savelocation/:id'  //locationId
                 }
             });
+        }
+
+        signUpToVolunteer(eventId, hasAdminApproved) {
+            return this.eventCommentResources.signUpToVolunteer({ id: eventId }, hasAdminApproved).$promise;
+        }
+
+        getVolunteerInfo(eventId) {
+            debugger;
+            return this.eventsResources.getVolunteerInfo({ eventId }).$promise;
         }
 
         getLocation(locationId) {
@@ -110,7 +130,6 @@
 
         //edits an existing event, NOT including the location
         saveUserEventEdit(eventId, event) {
-            debugger;
             return this.eventLocationResources.saveUserEventEdit({ id: eventId }, event).$promise;
         }
 

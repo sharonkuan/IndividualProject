@@ -211,6 +211,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<string>("ApplicationUserId");
 
+                    b.Property<bool>("ApprovedByAdmin");
+
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Details");
@@ -235,6 +237,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<string>("IsVolunteerRequired")
                         .IsRequired();
+
+                    b.Property<int>("NumberOfVolunteerRegistered");
 
                     b.Property<int>("PreferredNumberOfExpectedVolunteer");
 
@@ -273,6 +277,8 @@ namespace SupportApp.data.migrations
 
                     b.Property<string>("City")
                         .IsRequired();
+
+                    b.Property<string>("CreatedBy");
 
                     b.Property<DateTime>("DateCreated");
 

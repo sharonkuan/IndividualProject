@@ -49,6 +49,7 @@ namespace SupportApp.Data
                      IsPrivate = false,
                      IsVolunteerRequired = "Maybe",
                      PreferredNumberOfExpectedVolunteer = 2,
+                     NumberOfVolunteerRegistered = 1,
                      Locations = new List<Location> {
                         new Location {
                             NameOfLocation = "Member B home",
@@ -105,6 +106,7 @@ namespace SupportApp.Data
                      IsPrivate = false,
                      IsVolunteerRequired = "Yes",
                      PreferredNumberOfExpectedVolunteer = 8,
+                     NumberOfVolunteerRegistered = 2,
                      Locations = new List<Location> {
                        new Location {
                             NameOfLocation = "Nursing home 1",

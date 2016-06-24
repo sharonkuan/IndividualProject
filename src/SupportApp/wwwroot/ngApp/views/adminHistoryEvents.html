@@ -33,6 +33,8 @@
                         <th>Created By</th>
                         <th>Is Active</th>
                         <th>Is Completed</th>
+                        <th>Pref Vol</th>
+                        <th>Join Vol</th>
                         <th></th>
                     </tr>
                     <!-- does not filter by the category link -->
@@ -49,8 +51,10 @@
                         <td>{{event.applicationUserId}}</td>
                         <td>{{event.isActive}}</td>
                         <td>{{event.isComplete}}</td>
+                        <td>{{event.preferredNumberOfExpectedVolunteer}}</td>
+                        <td>{{event.numberOfVolunteerRegistered}}</td>
                         <td>
-                            <a href="/userEvent/edit/{{event.id}}">Edit</a>  |
+                            <a href="/userEvent/edit/{{event.id}}">Edit</a>
                             <a href="#" ng-click="controller.showDeleteDialog(event.id)">Delete</a>
                         </td>
                     </tr>

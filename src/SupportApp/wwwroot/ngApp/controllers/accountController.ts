@@ -18,16 +18,6 @@ namespace SupportApp.Controllers {
             return this.accountService.isLoggedIn();
         }
 
-        public ifMember() {
-            //
-            this.userName = this.accountService.getUserName();
-            if (this.userName != "" || this.userName != null) {
-                this.isUser = true;
-            }
-            console.log(this.isUser);
-            console.log(this.userName);
-        }
-
         public logout() {
             this.accountService.logout();
             this.$location.path('/');
@@ -43,9 +33,6 @@ namespace SupportApp.Controllers {
             this.getExternalLogins().then((results) => {
                 this.externalLogins = results;
             });
-            //
-            this.userClaim = this.accountService.getUserInfo();
-            this.ifMember();
         }
     }
 
@@ -58,7 +45,6 @@ namespace SupportApp.Controllers {
 
         public login() {
             this.accountService.login(this.loginUser).then(() => {
-                location.reload();
                 this.$location.path('/');
             }).catch((results) => {
                 this.validationMessages = results;

@@ -21,6 +21,12 @@ namespace SupportApp.Services
             this._repo = repo;
         }
 
+        public List<ApplicationUser> GetVolunteerInfo(int eventId)
+        {
+            List<ApplicationUser> eventList = _repo.Query<EventUser>().Where(eu => eu.EventId == eventId).Select(eu=> eu.Member).ToList();
+            return eventList;
+        }
+
         #region Home page Search by City - Active events and History events (isActive and isComplete only)
         //===============================   HOME PAGE  ================================================
         /// <summary>
@@ -346,6 +352,8 @@ namespace SupportApp.Services
                     IsVolunteerRequired = addedEvent.IsVolunteerRequired,
                     Views = 0,
                     ApplicationUserId = userId,
+                    NumberOfVolunteerRegistered = 0,
+                    ApprovedByAdmin = false,
                     DateCreated = DateTime.UtcNow,
                     IsActive = true
                 };
@@ -360,7 +368,8 @@ namespace SupportApp.Services
                     State = addedEvent.State,
                     Zip = addedEvent.Zip,
                     IsActive = true,
-                    DateCreated = DateTime.UtcNow
+                    DateCreated = DateTime.UtcNow,
+                    CreatedBy = userId
                 });
 
                 _repo.SaveChanges();
@@ -379,6 +388,8 @@ namespace SupportApp.Services
                 eventToEdit.ApplicationUserId = eventToEdit.ApplicationUserId;
                 eventToEdit.DateCreated = eventToEdit.DateCreated;
                 eventToEdit.IsActive = true;
+                eventToEdit.NumberOfVolunteerRegistered = eventToEdit.NumberOfVolunteerRegistered;
+                eventToEdit.ApprovedByAdmin = eventToEdit.ApprovedByAdmin;
 
                 //eventToEdit.Locations.Add(new Location
                 //{
@@ -589,7 +600,7 @@ namespace SupportApp.Services
             var userFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.FirstName).FirstOrDefault();
             var userLastName = _repo.Query<ApplicationUser>().Where(au => au.Id == userId).Select(au => au.LastName).FirstOrDefault();
             sglEvent.ApplicationUserId = userFirstName + " " + userLastName;
-            
+
             foreach (var comment in sglEvent.Comments)
             {
                 var commentWriterId = comment.ApplicationUserId;

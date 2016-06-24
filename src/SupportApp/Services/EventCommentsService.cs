@@ -20,6 +20,25 @@ namespace SupportApp.Services
             this._repo = repo;
         }
 
+        public void SignUpToVolunteer(string userId, int id, bool adminApproved)
+        {
+            var eventVolunteer = new EventUser();
+
+            var singleEvent = _repo.Query<Event>().Where(e => e.Id == id).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
+            
+            singleEvent.ApprovedByAdmin = adminApproved;
+            eventVolunteer.EventId = id;
+            eventVolunteer.MemberId = userId;
+            var ifAlreadyRegisteredVolunteer = _repo.Query<EventUser>().Where(eu => eu.EventId == id && eu.MemberId == userId).FirstOrDefault();
+            if (ifAlreadyRegisteredVolunteer == null)
+            {
+                singleEvent.NumberOfVolunteerRegistered++;
+                _repo.Add<EventUser>(eventVolunteer);
+                _repo.SaveChanges();
+            }
+        }
+
+
         public Event convertDatesFromUtcToLocalTime(Event sglEvent)
         {
             sglEvent.EventStartDate = sglEvent.EventStartDate.ToLocalTime();

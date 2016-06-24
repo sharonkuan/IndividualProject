@@ -207,6 +207,16 @@ namespace SupportApp.API
             var singleEvent = _service.GetUserEventDetails(userId, hasClaim, id);
             return Ok(singleEvent);
         }
+
+        // GET api/event/getvolunteerinfo/5
+        [HttpGet]
+        [Route("getvolunteerinfo/{eventId}")]
+        [Authorize(Policy = "AdminOnly")]
+        public IActionResult GetVolunteerInfo(int eventId)
+        {
+            List<ApplicationUser> volunteers = _service.GetVolunteerInfo(eventId);
+            return Ok(volunteers);
+        }
         #endregion
 
         #region------------POST, PUT, and DELETE--------------------
@@ -248,6 +258,7 @@ namespace SupportApp.API
 
         // PUT api/event/5
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult Put(int id, [FromBody]int voteType)
         {
             if (!ModelState.IsValid)
@@ -260,6 +271,22 @@ namespace SupportApp.API
             var sglEvent = _service.UpdateVotes(userId, id, voteType);
             return Ok(sglEvent);
         }
+
+        //// PUT api/event/vote/5
+        //[HttpPut]
+        //[Route("signuptovolunteer/{id}")]
+        //[Authorize]
+        //public IActionResult SignUpToVolunteer(int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var userId = _userManager.GetUserId(User);
+        //    _service.SignUpToVolunteer(userId, id);
+        //    return Ok();
+        //}
 
         #endregion
     }

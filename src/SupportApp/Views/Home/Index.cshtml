@@ -24,9 +24,9 @@
                     <li><img src="~/images/logo.png" width="50" height="50" class="img-rounded" /></li>
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
-                    <li><a href="/myEvents" ng-show="account.isUser==true">My Events</a></li>
-                    <li><a href="/adminEvents" ng-show="account.userClaim.isAdmin=='true'">Admin Events</a></li>
-                    <li><a href="/secret" ng-show="account.userClaim.isAdmin=='true'">Secret</a></li>
+                    <li><a href="/myEvents" ng-show="account.getUserName()">My Events</a></li>
+                    <li><a href="/adminEvents" ng-show="account.getClaim('isAdmin')">Admin Events</a></li>
+                    <li><a href="/secret" ng-show="account.getClaim('isAdmin')">Secret</a></li>
                     <li><a href="/login" ng-show="!account.isLoggedIn()">Login</a></li>
                     <li><a href="#" ng-click="account.logout()" ng-show="account.isLoggedIn()">Logout</a></li>
                 </ul>
@@ -36,7 +36,6 @@
             [{{account.getUserName()}}]
         </div>
     </div>
-    <hr />
     <div class="container">
         <ui-view></ui-view>
     </div>

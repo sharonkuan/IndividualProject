@@ -26,6 +26,6 @@ namespace SupportApp.Services
         void SaveEvent(string userId, bool hasClaim, EventLocationViewModel addedEvent);
         Event UpdateVotes(string userId, int id, int voteType);
         void DeleteEvent(string userId, bool hasClaim, int id);
-
+        List<ApplicationUser> GetVolunteerInfo(int eventId);
     }
 }

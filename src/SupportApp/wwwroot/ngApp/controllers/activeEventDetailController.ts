@@ -7,6 +7,7 @@
         public canEdit; //from server
         public validationErrors;
         private eventId;  //local extract
+        public confirmVolunteer;
 
 
         constructor(private eventServices: SupportApp.Services.EventServices,
@@ -23,7 +24,6 @@
             this.eventServices.getEventDetails(this.eventId).then((data) => {
                 this.event = data.event;
                 this.canEdit = data.canEdit;
-                //console.log(data);
             }).catch((err) => {
                 let validationErrors = [];
                 for (let prop in err.data) {
@@ -37,9 +37,7 @@
         //worked
         saveComment() {
             this.eventServices.saveEventComment(this.eventId, this.eventComment).then((data) => {
-                //console.log("data: " + data);
                 this.event = data;
-                //
                 this.clearCommentForm();
             }).catch((err) => {
                 let validationErrors = [];
@@ -53,7 +51,6 @@
 
         voteEvent(voteType) {
             this.eventServices.voteEvent(this.eventId, voteType).then((data) => {
-                //
                 this.event = data;
             }).catch((err) => {
                 let validationErrors = [];
@@ -62,6 +59,13 @@
                     validationErrors = validationErrors.concat(propErrors);
                 }
                 this.validationErrors = validationErrors;
+            });
+        }
+
+        signUpToVolunteer() {
+            debugger;
+            this.eventServices.signUpToVolunteer(this.eventId, false).then(() => {
+                this.confirmVolunteer = "Thank you for volunteering this event!";
             });
         }
 

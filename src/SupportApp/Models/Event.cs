@@ -28,6 +28,11 @@ namespace SupportApp.Models
         [Required(ErrorMessage = "Please confirm if volunteer is required")]
         public string IsVolunteerRequired { get; set; }  //if yes, ask preferred number of volunteer 
         public int PreferredNumberOfExpectedVolunteer { get; set; }
+
+        public int NumberOfVolunteerRegistered { get; set; }
+        public bool ApprovedByAdmin { get; set; }
+
+        //public bool AcceptedByMember { get; set; }  //optional if event is a request from elder member
         //public ICollection<MemberVolunteer> MemberVolunteers { get; set; }
 
         public int UpVote { get; set; }

@@ -10,23 +10,23 @@
 </fieldset>
 
 <fieldset>
-    <legend>Login Locally</legend>
     <ul>
         <li class="error" ng-repeat="error in controller.validationMessages">
             {{error}}
         </li>
     </ul>
-
-    <form ng-submit="controller.login()">
-        <div>
-            <label>Email:</label>
-            <input ng-model="controller.loginUser.email" />
-        </div>
-        <div>
-            <label>Password:</label>
-            <input ng-model="controller.loginUser.password" />
-        </div>
-        <input type="submit" value="Login" />
-        <a href="/register">Register</a>
-    </form>
+    <div class="container col-md-4">
+        <form ng-submit="controller.login()">
+            <div>
+                <label>Email:</label>
+                <input class="form-control" ng-model="controller.loginUser.email" />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input class="form-control" ng-model="controller.loginUser.password" />
+            </div>
+            <input type="submit" value="Login" class="btn btn-block btn-success" />
+            <a href="/register">Register</a>
+        </form>
+    </div>
 </fieldset>

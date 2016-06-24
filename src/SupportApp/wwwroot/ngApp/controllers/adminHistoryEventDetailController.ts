@@ -6,6 +6,7 @@
         private eventId;
         public canEdit;
         public validationErrors;
+        public volunteers;
 
 
         constructor(private eventServices: SupportApp.Services.EventServices,
@@ -14,6 +15,7 @@
 
             this.eventId = $stateParams["id"];
             this.getEvent();
+            this.getVolunteerInfo();
             this.initialize();
         }
 
@@ -25,6 +27,13 @@
                 console.log(data);
             }).catch(() => {
                 console.log("failed");
+            });
+        }
+
+        getVolunteerInfo() {
+            debugger;
+            this.eventServices.getVolunteerInfo(this.eventId).then((data) => {
+                this.volunteers = data;
             });
         }
 

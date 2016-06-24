@@ -19,7 +19,7 @@ namespace SupportApp.API
         public IEnumerable<string> Get()
         {
             var user = this.User;
-            return new string[] { "The Cake is a Lie!", "Darth Vader is Luke's Father." };
+            return new string[] { "Things happened for the best!", "We may not know that at the time it happened!", "We will always see the light at the end!" };
         }
 
 

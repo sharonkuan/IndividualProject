@@ -160,6 +160,7 @@ namespace SupportApp.data.migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
+                    ApprovedByAdmin = table.Column<bool>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Details = table.Column<string>(nullable: true),
                     DownVote = table.Column<int>(nullable: false),
@@ -171,6 +172,7 @@ namespace SupportApp.data.migrations
                     IsComplete = table.Column<bool>(nullable: false),
                     IsPrivate = table.Column<bool>(nullable: false),
                     IsVolunteerRequired = table.Column<string>(nullable: false),
+                    NumberOfVolunteerRegistered = table.Column<int>(nullable: false),
                     PreferredNumberOfExpectedVolunteer = table.Column<int>(nullable: false),
                     UpVote = table.Column<int>(nullable: false),
                     Views = table.Column<int>(nullable: false)
@@ -241,6 +243,7 @@ namespace SupportApp.data.migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     EventId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),

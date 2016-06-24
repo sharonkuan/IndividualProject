@@ -7,7 +7,7 @@
         private eventId;
         public canEdit;
         public validationErrors;
-
+        public volunteers;
 
         constructor(private eventServices: SupportApp.Services.EventServices,
             $stateParams: angular.ui.IStateParamsService,
@@ -15,6 +15,7 @@
 
             this.eventId = $stateParams["id"];
             this.getEvent();
+            this.getVolunteerInfo();
             this.initialize();
         }
 
@@ -61,6 +62,13 @@
                     validationErrors = validationErrors.concat(propErrors);
                 }
                 this.validationErrors = validationErrors;
+            });
+        }
+
+        getVolunteerInfo() {
+            debugger;
+            this.eventServices.getVolunteerInfo(this.eventId).then((data) => {
+                this.volunteers = data;
             });
         }
 

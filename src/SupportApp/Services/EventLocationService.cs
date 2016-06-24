@@ -26,14 +26,15 @@ namespace SupportApp.Services
             eventToEdit.EventType = eventData.EventType;
             eventToEdit.EventTitle = eventData.EventTitle;
             eventToEdit.Details = eventData.Details;
-
-
             eventToEdit.EventStartDate = eventData.EventStartDate.ToUniversalTime();
             eventToEdit.EventEndDate = eventData.EventEndDate.ToUniversalTime();
             eventToEdit.IsComplete = eventData.IsComplete;
             eventToEdit.IsPrivate = eventData.IsPrivate;
             eventToEdit.IsVolunteerRequired = eventData.IsVolunteerRequired;
             eventToEdit.PreferredNumberOfExpectedVolunteer = eventData.PreferredNumberOfExpectedVolunteer;
+
+            eventToEdit.NumberOfVolunteerRegistered = eventToEdit.NumberOfVolunteerRegistered;
+            eventToEdit.ApprovedByAdmin = eventToEdit.ApprovedByAdmin;
             eventToEdit.UpVote = eventToEdit.UpVote;
             eventToEdit.DownVote = eventToEdit.DownVote;
             eventToEdit.Views = eventToEdit.Views;
@@ -52,8 +53,9 @@ namespace SupportApp.Services
             var selectedEvent = _repo.Query<Event>().Where(e => e.Id == eventId).Include(e => e.Comments).Include(e => e.Locations).FirstOrDefault();
 
             location.DateCreated = DateTime.UtcNow;
-            //location.CreatedBy = userId;
+            location.CreatedBy = userId;
             location.IsActive = true;
+            
             selectedEvent.Locations.Add(location);
             _repo.SaveChanges();
             selectedEvent = EventMarkUp(selectedEvent);
@@ -77,6 +79,7 @@ namespace SupportApp.Services
             selectedLocation.Zip = location.Zip;
             selectedLocation.IsActive = true;
             selectedLocation.DateCreated = selectedLocation.DateCreated;
+            selectedLocation.CreatedBy = userId;
 
             _repo.SaveChanges();
             return selectedLocation;

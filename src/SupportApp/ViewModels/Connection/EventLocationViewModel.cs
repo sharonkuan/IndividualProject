@@ -27,6 +27,8 @@ namespace SupportApp.ViewModels.Connection
         [Required(ErrorMessage = "Please confirm if volunteer is required")]
         public string IsVolunteerRequired { get; set; } 
         public int PreferredNumberOfExpectedVolunteer { get; set; }
+        public int NumberOfVolunteerRegistered { get; set; }
+        public bool ApprovedByAdmin { get; set; }
         public int UpVote { get; set; }
         public int DownVote { get; set; }
         public int Views { get; set; }
@@ -44,6 +46,7 @@ namespace SupportApp.ViewModels.Connection
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+        public string CreatedBy { get; set; }
 
         public bool CanEdit { get; set; }
         public bool HasClaim { get; set; }

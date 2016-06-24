@@ -53,6 +53,28 @@ namespace SupportApp.API
             return Ok(addedCommentEvent);
         }
 
+        //// PUT api/values/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
+
+        // PUT api/event/5
+        [HttpPut("{id}")]
+        [Authorize]
+        public IActionResult Put(int id, [FromBody]bool adminApproved)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = _userManager.GetUserId(User);
+            
+            _service.SignUpToVolunteer(userId, id, adminApproved);
+            return Ok();
+        }
+
         //// DELETE api/values/5
         //[HttpDelete("{id}")]
         //public IActionResult Delete(int id)

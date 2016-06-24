@@ -16,6 +16,7 @@ namespace SupportApp.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
-        //public string CreatedBy { get; set; }
+
+        public string CreatedBy { get; set; }
     }
 }
