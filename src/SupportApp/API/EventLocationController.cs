@@ -76,6 +76,10 @@ namespace SupportApp.API
             {
                 ModelState.AddModelError("EventEndDate", "Event End Date is required");
             }
+            if (eventToEdit.EventEndDate < eventToEdit.EventStartDate)
+            {
+                ModelState.AddModelError("EventEndDate", "Event End Date has to be later than the start date");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -89,7 +93,7 @@ namespace SupportApp.API
         [HttpPost]
         [Route("savelocation/{id}")]
         [Authorize]
-        public IActionResult SaveLocation(int id, [FromBody]Location location)
+        public IActionResult SaveLocation(int id, [FromBody] Location location)
         {
             if (location == null || String.IsNullOrWhiteSpace(location.ToString()))
             {
@@ -102,7 +106,7 @@ namespace SupportApp.API
             }
 
             var userId = _userManager.GetUserId(User);
-
+         
             location = _service.SaveLocation(id, userId, location);
             return Ok(location);
         }

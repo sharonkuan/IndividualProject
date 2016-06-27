@@ -55,7 +55,7 @@ namespace SupportApp.Services
             location.DateCreated = DateTime.UtcNow;
             location.CreatedBy = userId;
             location.IsActive = true;
-            
+
             selectedEvent.Locations.Add(location);
             _repo.SaveChanges();
             selectedEvent = EventMarkUp(selectedEvent);
@@ -70,19 +70,18 @@ namespace SupportApp.Services
 
         public Location SaveLocation(int locationId, string userId, Location location)
         {
-            var selectedLocation = _repo.Query<Location>().Where(l => l.Id == locationId).FirstOrDefault();
-
-            selectedLocation.NameOfLocation = location.NameOfLocation;
-            selectedLocation.Address = location.Address;
-            selectedLocation.City = location.City;
-            selectedLocation.State = location.State;
-            selectedLocation.Zip = location.Zip;
-            selectedLocation.IsActive = true;
-            selectedLocation.DateCreated = selectedLocation.DateCreated;
-            selectedLocation.CreatedBy = userId;
-
+            var selectedEventLocation = _repo.Query<Location>().Where(el => el.Id == locationId).FirstOrDefault();
+            selectedEventLocation.NameOfLocation = location.NameOfLocation;
+            selectedEventLocation.Address = location.Address;
+            selectedEventLocation.City = location.City;
+            selectedEventLocation.State = location.State;
+            selectedEventLocation.Zip = location.Zip;
+            selectedEventLocation.IsActive = true;
+            selectedEventLocation.DateCreated = selectedEventLocation.DateCreated;
+            selectedEventLocation.CreatedBy = userId;
             _repo.SaveChanges();
-            return selectedLocation;
+
+            return selectedEventLocation;
         }
 
         #region Markup methods

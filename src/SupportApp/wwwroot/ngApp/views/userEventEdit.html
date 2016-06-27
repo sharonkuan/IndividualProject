@@ -103,7 +103,7 @@
                     <td>{{location.state}}</td>
                     <td>{{location.zip}}</td>
                     <td>
-                        <a href="#" ng-click="controller.showDeleteDialog(location.id)">Edit</a>
+                        <a href="#" ng-click="controller.showDeleteDialog(location.id, controller.eventToEdit.id)">Edit</a>
                     </td>
                 </tr>
             </table>

@@ -5,6 +5,7 @@
         private selectedEventLocation;
         public eventLocations;
         public validationErrors;
+        public search;
 
         constructor(private eventServices: SupportApp.Services.EventServices,
             private $uibModal: ng.ui.bootstrap.IModalService) {

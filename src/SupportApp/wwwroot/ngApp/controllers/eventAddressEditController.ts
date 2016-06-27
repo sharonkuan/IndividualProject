@@ -4,14 +4,21 @@
 
         public validationErrors;
         public eventLocation;
+        public eventToEdit;
 
 
-        constructor(private locationIdFrom, private eventServices: SupportApp.Services.EventServices,
+        constructor(private locationIdFrom, private eventIdFrom, private eventServices: SupportApp.Services.EventServices,
             //$stateParams: angular.ui.IStateParamsService,
-            //private $state: angular.ui.IStateService,
+            private $state: angular.ui.IStateService,
             private $uibModalInstance: ng.ui.bootstrap.IModalServiceInstance) {
 
             this.getLocation();
+        }
+
+        getEvent() {
+            this.eventServices.getEventDetails(this.eventIdFrom).then((data) => {
+                this.eventToEdit = data;
+            });
         }
 
         getLocation() {
@@ -23,9 +30,11 @@
         saveLocation() {
             debugger;
             this.eventServices.saveLocation(this.locationIdFrom, this.eventLocation).then((data) => {
-                this.getLocation();
+                this.eventLocation = data;
                 this.close();
-                location.reload();
+                //location.reload();
+                this.eventToEdit = this.getEvent();
+                this.$state.go("userEventEdit");
             }).catch((error) => {
                 let validationErrors = [];
                 for (let prop in error.data) {

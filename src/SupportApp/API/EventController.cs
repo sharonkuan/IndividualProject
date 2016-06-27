@@ -234,6 +234,10 @@ namespace SupportApp.API
             {
                 ModelState.AddModelError("EventEndDate", "Event End Date is required");
             }
+            if (addedEvent.EventEndDate < addedEvent.EventStartDate)
+            {
+                ModelState.AddModelError("EventEndDate", "Event End Date has to be later than the start date");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -138,9 +138,9 @@
             return this.eventLocationResources.saveAddedEventLocation({ id: eventId }, locationToSave).$promise;
         }
 
-        saveLocation(eventId, locationToSave) {
+        saveLocation(locationIdFrom, locationToSave) {
             debugger;
-            return this.eventLocationResources.saveLocation({ id: eventId }, locationToSave).$promise;
+            return this.eventLocationResources.saveLocation({ id: locationIdFrom }, locationToSave).$promise;
         }
 
 

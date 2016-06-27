@@ -17,6 +17,7 @@
                 <ul>
                     <li class="error" ng-repeat="error in controller.validationErrors">{{error}}</li>
                 </ul>
+                Search Event Title: <input ng-model="search"/>
             </div>
             <div class="col-md-2">
                 <label>Filter by: Event City</label><br />
@@ -37,8 +38,7 @@
                         <th>Hours</th>
                         <th>Locations</th>
                     </tr>
-                    <!-- does not filter by the category link -->
-                    <tr ng-repeat="event in controller.events">
+                    <tr ng-repeat="event in controller.events | filter: {eventTitle:search}">
                         <td>{{event.eventType}}</td>
                         <td><a href="/event/activeEventDetails/{{event.id}}">{{event.eventTitle}}</a></td>
                         <td>{{event.eventStartDate | date: "longDate"}}</td>

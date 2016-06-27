@@ -38,6 +38,8 @@
       "version": "1.0.0-preview1-final",
       "type": "build"
     }
+    //"Twilio": "4.7.2"
+    //"Sendgrid": "6.0.2"
   },
 
   "tools": {

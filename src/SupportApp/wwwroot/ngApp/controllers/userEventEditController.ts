@@ -32,7 +32,6 @@
             this.eventServices.saveUserEventEdit(this.eventId, this.eventToEdit).then((data) => {
                 this.eventToEdit = data;
                 console.log(data);
-                //this.$state.go("myEvents");
             }).catch((error) => {
                 let validationErrors = [];
                 for (let prop in error.data) {
@@ -47,14 +46,15 @@
             this.$state.go("myEvents");
         }
 
-        showDeleteDialog(locationId) {
+        showDeleteDialog(locationId, eventId) {
             debugger;
             this.$uibModal.open({
                 templateUrl: '/ngApp/views/eventAddressEditDialog.html',
                 controller: SupportApp.Controllers.EventAddressEditController,
                 controllerAs: 'controller',
                 resolve: {
-                    locationIdFrom: () => locationId  //this eventId is passed from the form
+                    locationIdFrom: () => locationId, 
+                    eventIdFrom: () => this.eventId
                 },
                 size: 'md'
             });
