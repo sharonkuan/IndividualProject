@@ -1,6 +1,6 @@
 namespace SupportApp {
 
-    angular.module('SupportApp', ['ui.router', 'ngResource', 'ui.bootstrap', 'angular.filter']).config((
+    angular.module('SupportApp', ['ui.router', 'ngResource', 'ui.bootstrap', 'angular.filter', 'angularMoment']).config((
         $stateProvider: ng.ui.IStateProvider,
         $urlRouterProvider: ng.ui.IUrlRouterProvider,
         $locationProvider: ng.ILocationProvider

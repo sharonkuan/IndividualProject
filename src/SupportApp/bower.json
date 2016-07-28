@@ -12,6 +12,11 @@
     "angular-animate": "1.x",
     "angular-touch": "1.x",
     "angular-ui-router": "0.x",
-    "bootswatch": "3.3.6"
+    "bootswatch": "3.3.6",
+    "angular-moment": "0.10.3",
+    "jquery-timeago": "1.5.2"
+  },
+  "resolutions": {
+    "angular": "1.5.8"
   }
 }

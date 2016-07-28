@@ -22,7 +22,7 @@
             this.eventServices.getUserEventDetails(this.eventId).then((data) => {
                 this.eventToEdit = data.event;
                 this.eventToEdit.eventStartDate = new Date(this.eventToEdit.eventStartDate);
-                this.eventToEdit.eventEndDate = new Date(this.eventToEdit.eventEndDate);
+                //this.eventToEdit.eventEndDate = new Date(this.eventToEdit.eventEndDate);
             });
         }
 

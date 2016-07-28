@@ -37,9 +37,11 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview1-final",
       "type": "build"
-    }
+    },
     //"Twilio": "4.7.2"
     //"Sendgrid": "6.0.2"
+    "SendGrid.NetCore": "1.0.0-rc2-00001",
+    "Moment.js": "2.14.3"
   },
 
   "tools": {

@@ -274,8 +274,16 @@ namespace SupportApp.Services
             vm.Event = eventSelected;
             eventSelected.Views++;
             _repo.SaveChanges();
-            vm = convertDatesFromUtcToLocalTime(vm);
-            vm = DisplayUserName(vm);
+            //vm = convertDatesFromUtcToLocalTime(vm);
+            //vm = DisplayUserName(vm);
+            //vm.Event = EventMarkUp(vm.Event);
+            foreach (var comment in vm.Event.Comments)
+            {
+                var commentWriterId = comment.ApplicationUserId;
+                var commentWriterFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == commentWriterId).Select(au => au.FirstName).FirstOrDefault();
+                comment.ApplicationUserId = commentWriterFirstName;
+                comment.DateCreated = comment.DateCreated.ToLocalTime();
+            }
             return vm;  //activeeventdetails
         }
 
@@ -515,6 +523,14 @@ namespace SupportApp.Services
             sglEventVm.Event.EventStartDate = sglEventVm.Event.EventStartDate.ToLocalTime();
             sglEventVm.Event.EventEndDate = sglEventVm.Event.EventEndDate.ToLocalTime();
             sglEventVm.Event.DateCreated = sglEventVm.Event.DateCreated.ToLocalTime();
+
+            foreach (var comment in sglEventVm.Event.Comments)
+            {
+                var commentWriterId = comment.ApplicationUserId;
+                var commentWriterFirstName = _repo.Query<ApplicationUser>().Where(au => au.Id == commentWriterId).Select(au => au.FirstName).FirstOrDefault();
+                comment.ApplicationUserId = commentWriterFirstName;
+                comment.DateCreated = comment.DateCreated.ToLocalTime();
+            }
 
             return sglEventVm;
         }

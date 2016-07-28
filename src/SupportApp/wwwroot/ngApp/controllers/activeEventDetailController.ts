@@ -12,7 +12,7 @@
 
         constructor(private eventServices: SupportApp.Services.EventServices,
             $stateParams: angular.ui.IStateParamsService,
-            private $state: angular.ui.IStateService) {
+            private $state: angular.ui.IStateService, private moment) {
 
             this.eventId = $stateParams["id"];
             this.getEvent();
@@ -20,9 +20,14 @@
         }
 
         getEvent() {
-            //
             this.eventServices.getEventDetails(this.eventId).then((data) => {
-                this.event = data.event;
+                let self = this;
+                self.event = data.event;
+                for (let comment of self.event.comments) {
+                    debugger;
+                    console.log(comment.applicationUserId);
+                    comment.dateCreated = this.moment(comment.dateCreated).fromNow();
+                }
                 this.canEdit = data.canEdit;
             }).catch((err) => {
                 let validationErrors = [];

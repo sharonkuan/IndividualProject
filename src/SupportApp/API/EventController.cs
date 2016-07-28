@@ -31,8 +31,8 @@ namespace SupportApp.API
         [Route("search/{city}")]
         public IActionResult GetSearch(string city)
         {
-            List<Event> events = new List<Event>();
-            events = _service.GetActiveEventsByCity(city);
+            //List<Event> events = new List<Event>();
+            var events = _service.GetActiveEventsByCity(city);
 
             return Ok(events);
         }
